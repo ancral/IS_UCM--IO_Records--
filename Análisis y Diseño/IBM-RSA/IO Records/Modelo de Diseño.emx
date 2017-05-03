@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Plataforma de modelado de Rational (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.uml.msl.model" version="7.0.0"><feature description="" name="com.ibm.xtools.ruml.feature" url="" version="7.0.0"/></signature>?>
+<uml:Package xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xmi:id="_8UUdACDZEeer_5bbyBksIQ" name="Modelo de Diseño">
+  <eAnnotations xmi:id="_8UUdASDZEeer_5bbyBksIQ" source="uml2.diagrams"/>
+  <packageImport xmi:id="_8UUdAyDZEeer_5bbyBksIQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_CwEYcCDaEeer_5bbyBksIQ" name="Presentación">
+    <eAnnotations xmi:id="_CwE_gCDaEeer_5bbyBksIQ" source="uml2.diagrams">
+      <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_So_Y8CDaEeer_5bbyBksIQ" type="Class" name="D. Clases - Presentación">
+        <element xsi:nil="true"/>
+      </contents>
+    </eAnnotations>
+    <packagedElement xmi:type="uml:Collaboration" xmi:id="_p7RzsCDaEeer_5bbyBksIQ" name="Collaboration1">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_p7SawCDaEeer_5bbyBksIQ" name="Interaction1">
+        <eAnnotations xmi:id="_p7To4CDaEeer_5bbyBksIQ" source="uml2.diagrams">
+          <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_p7To4SDaEeer_5bbyBksIQ" type="Sequence" element="_p7SawCDaEeer_5bbyBksIQ" name="D. Secuencia - Presentación" measurementUnit="Himetric">
+            <children xmi:type="umlnotation:UMLShape" xmi:id="_p7To4iDaEeer_5bbyBksIQ" element="_p7SawCDaEeer_5bbyBksIQ" fontName="Segoe UI" fontHeight="8" fillColor="16250871" transparency="0" lineColor="12632258" lineWidth="1" showStereotype="Label">
+              <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_p7To4yDaEeer_5bbyBksIQ" type="interaction_compartment"/>
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_p7To5CDaEeer_5bbyBksIQ" type="Name"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_p7To5SDaEeer_5bbyBksIQ" x="793" y="793"/>
+            </children>
+          </contents>
+        </eAnnotations>
+      </ownedBehavior>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_Eaoc0CDaEeer_5bbyBksIQ" name="Negocio">
+    <eAnnotations xmi:id="_EapD4CDaEeer_5bbyBksIQ" source="uml2.diagrams">
+      <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_SIhJICDaEeer_5bbyBksIQ" type="Class" name="D. Clases - Negocio">
+        <element xsi:nil="true"/>
+      </contents>
+    </eAnnotations>
+    <packagedElement xmi:type="uml:Collaboration" xmi:id="_oVceUCDaEeer_5bbyBksIQ" name="Collaboration1">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_oVdscCDaEeer_5bbyBksIQ" name="Interaction1">
+        <eAnnotations xmi:id="_oVe6kCDaEeer_5bbyBksIQ" source="uml2.diagrams">
+          <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_oVe6kSDaEeer_5bbyBksIQ" type="Sequence" element="_oVdscCDaEeer_5bbyBksIQ" name="D. Secuencia - Negocio" measurementUnit="Himetric">
+            <children xmi:type="umlnotation:UMLShape" xmi:id="_oVe6kiDaEeer_5bbyBksIQ" element="_oVdscCDaEeer_5bbyBksIQ" fontName="Segoe UI" fontHeight="8" fillColor="16250871" transparency="0" lineColor="12632258" lineWidth="1" showStereotype="Label">
+              <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_oVe6kyDaEeer_5bbyBksIQ" type="interaction_compartment"/>
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_oVe6lCDaEeer_5bbyBksIQ" type="Name"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oVe6lSDaEeer_5bbyBksIQ" x="793" y="793"/>
+            </children>
+          </contents>
+        </eAnnotations>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ax6M8C_lEeeWSqLkO1t24A" name="Class1"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_g2zuoC_lEeeWSqLkO1t24A" name="Interface1"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_icc2wC_lEeeWSqLkO1t24A" name="Class2" clientDependency="_jsVKQC_lEeeWSqLkO1t24A"/>
+    <packagedElement xmi:type="uml:Realization" xmi:id="_jsVKQC_lEeeWSqLkO1t24A" supplier="_g2zuoC_lEeeWSqLkO1t24A" client="_icc2wC_lEeeWSqLkO1t24A"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_HF9aoCDaEeer_5bbyBksIQ" name="Integración">
+    <eAnnotations xmi:id="_HF-BsCDaEeer_5bbyBksIQ" source="uml2.diagrams">
+      <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_RXjmQCDaEeer_5bbyBksIQ" type="Class" name="D. Clases - Integración">
+        <element xsi:nil="true"/>
+      </contents>
+    </eAnnotations>
+    <packagedElement xmi:type="uml:Collaboration" xmi:id="_k_Sa0CDaEeer_5bbyBksIQ" name="Collaboration1">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_k_dZ8CDaEeer_5bbyBksIQ" name="Interaction1">
+        <eAnnotations xmi:id="_lCWV4CDaEeer_5bbyBksIQ" source="uml2.diagrams">
+          <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_lCWV4SDaEeer_5bbyBksIQ" type="Sequence" element="_k_dZ8CDaEeer_5bbyBksIQ" name="D. Secuencia - Integración" measurementUnit="Himetric">
+            <children xmi:type="umlnotation:UMLShape" xmi:id="_lCWV4iDaEeer_5bbyBksIQ" element="_k_dZ8CDaEeer_5bbyBksIQ" fontName="Segoe UI" fontHeight="8" fillColor="16250871" transparency="0" lineColor="12632258" lineWidth="1" showStereotype="Label">
+              <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_lCWV4yDaEeer_5bbyBksIQ" type="interaction_compartment"/>
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_lCWV5CDaEeer_5bbyBksIQ" type="Name"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lCWV5SDaEeer_5bbyBksIQ" x="793" y="793"/>
+            </children>
+          </contents>
+        </eAnnotations>
+      </ownedBehavior>
+    </packagedElement>
+  </packagedElement>
+  <profileApplication xmi:id="_8UUdBCDZEeer_5bbyBksIQ">
+    <eAnnotations xmi:id="_8UUdBSDZEeer_5bbyBksIQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+  </profileApplication>
+  <profileApplication xmi:id="_8UUdBiDZEeer_5bbyBksIQ">
+    <eAnnotations xmi:id="_8UUdByDZEeer_5bbyBksIQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML2_MSL_PROFILES/Default.epx#_fNwoAAqoEd6-N_NOT9vsCA?Default/Default?"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML2_MSL_PROFILES/Default.epx#_a_S3wNWLEdiy4IqP8whjFA?Default?"/>
+  </profileApplication>
+  <profileApplication xmi:id="_8UUdCCDZEeer_5bbyBksIQ">
+    <eAnnotations xmi:id="_8UUdCSDZEeer_5bbyBksIQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML2_MSL_PROFILES/Deployment.epx#_4OVBUD0TEeKt-L0gyEptgQ?Deployment/Deployment?"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML2_MSL_PROFILES/Deployment.epx#_vjbuwOvHEdiDX5bji0iVSA?Deployment?"/>
+  </profileApplication>
+</uml:Package>
