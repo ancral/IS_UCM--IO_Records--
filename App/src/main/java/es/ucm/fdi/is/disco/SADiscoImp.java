@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SADiscoImp implements SADisco {
 
-	public void crearDisco() {
+	public void crearDisco(Disco disco) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -19,7 +19,7 @@ public class SADiscoImp implements SADisco {
 		
 	}
 
-	public void actualizarDisco() {
+	public void actualizarDisco(Disco antiguo, Disco nuevo) {
 		// TODO Auto-generated method stub
 		
 	}

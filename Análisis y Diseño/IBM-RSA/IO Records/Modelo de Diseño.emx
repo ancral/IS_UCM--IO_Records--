@@ -679,7 +679,7 @@
     <packagedElement xmi:type="uml:Dependency" xmi:id="_ynLOoDG2EeeoRuz5hUBxow" supplier="_yiCHcDDbEeeWrcKMfBl_qg" client="_mu7zIDGnEeeOeu86Xaunkw"/>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_zwzwMDG2EeeoRuz5hUBxow" supplier="_YIC54DG1EeeoRuz5hUBxow" client="_bDnXUDGuEeeOeu86Xaunkw"/>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_0oaGkDG2EeeoRuz5hUBxow" supplier="_JNKZgDG2EeeoRuz5hUBxow" client="_gcf1oDGwEeeOeu86Xaunkw"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_FaLaoDG3EeeoRuz5hUBxow" name="Usuario">
+    <packagedElement xmi:type="uml:Class" xmi:id="_FaLaoDG3EeeoRuz5hUBxow" name="Usuario" isAbstract="true">
       <ownedAttribute xmi:id="_JbeF0DG3EeeoRuz5hUBxow" name="clave" visibility="private"/>
       <ownedAttribute xmi:id="_Lbn_sDG3EeeoRuz5hUBxow" name="datosPersonales" visibility="private"/>
       <ownedOperation xmi:id="_SsxSEDG3EeeoRuz5hUBxow" name="getNombre"/>
