@@ -7,6 +7,8 @@ import es.ucm.fdi.is.venta.SAVenta;
 
 public abstract class FactoriaSA {
 	
+	/* Patrón Singleton en la creación de factorías abstractas */
+	
 	private static FactoriaSA factoria;
 	
 	
