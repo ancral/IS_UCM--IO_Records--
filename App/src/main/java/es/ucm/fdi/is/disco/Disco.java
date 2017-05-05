@@ -21,17 +21,17 @@ public class Disco {
 	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
 					Valoracion valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta) {
 	
-			this.titulo = titulo;
-			this.setAutor(autor);
-			this.setFechaSalida(fechaSalida);
-			this.setSello(sello);
-			this.setGenero(genero);
-			this.setDuracion(duracion);
-			this.setValoracion(valoracion);
-			this.setPrecioCompra(precioCompra);
-			this.setPrecioVenta(precioVenta);
-			this.setListaCanciones(listaCanciones);
-			this.setOferta(oferta);
+		this.titulo = titulo;
+		this.setAutor(autor);
+		this.setFechaSalida(fechaSalida);
+		this.setSello(sello);
+		this.setGenero(genero);
+		this.setDuracion(duracion);
+		this.setValoracion(valoracion);
+		this.setPrecioCompra(precioCompra);
+		this.setPrecioVenta(precioVenta);
+		this.setListaCanciones(listaCanciones);
+		this.setOferta(oferta);
 	}
 	
 	/* Constructora sin oferta */

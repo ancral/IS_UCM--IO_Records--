@@ -1,4 +1,4 @@
-package es.ucm.fdi.is.sa;
+package es.ucm.fdi.is.appservice;
 
 import es.ucm.fdi.is.disco.SADisco;
 import es.ucm.fdi.is.disco.SADiscoImp;
