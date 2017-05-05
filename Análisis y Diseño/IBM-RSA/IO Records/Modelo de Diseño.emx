@@ -465,6 +465,46 @@
           </children>
           <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_uieNoTG3EeeoRuz5hUBxow" points="[-1916, 53, -965, -14508]$[-1935, 53, -984, -14508]$[-1935, 13371, -984, -1190]"/>
         </edges>
+        <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hj7kgDHAEeeoRuz5hUBxow" element="_hjL9oDHAEeeoRuz5hUBxow" source="_yiDVkDDbEeeWrcKMfBl_qg" target="_C1NvEDGtEeeOeu86Xaunkw" fontName="Ubuntu" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj8LkDHAEeeoRuz5hUBxow" type="NameLabel">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_hj8yoDHAEeeoRuz5hUBxow" type="Stereotype"/>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_hj8yoTHAEeeoRuz5hUBxow" type="Name"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hj8LkTHAEeeoRuz5hUBxow" y="-186"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj9ZsDHAEeeoRuz5hUBxow" type="ToMultiplicityLabel" element="_hjkYIDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_hj-AwDHAEeeoRuz5hUBxow" type="ToMultiplicity"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj9ZsTHAEeeoRuz5hUBxow" y="396"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj-AwTHAEeeoRuz5hUBxow" type="ToRoleLabel" element="_hjkYIDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_hj-AwzHAEeeoRuz5hUBxow" type="ToRole"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj-AwjHAEeeoRuz5hUBxow" y="-397"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj-AxDHAEeeoRuz5hUBxow" type="FromMultiplicityLabel" element="_hjNLwDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_hj-n0DHAEeeoRuz5hUBxow" type="FromMultiplicity"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj-AxTHAEeeoRuz5hUBxow" y="396"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj-n0THAEeeoRuz5hUBxow" type="FromRoleLabel" element="_hjNLwDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_hj-n0zHAEeeoRuz5hUBxow" type="FromRole"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj-n0jHAEeeoRuz5hUBxow" y="-397"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj_O4DHAEeeoRuz5hUBxow" type="ToQualifierLabel" element="_hjkYIDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:SemanticListCompartment" xmi:id="_hj_O4jHAEeeoRuz5hUBxow" type="QualifierCompartment"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj_O4THAEeeoRuz5hUBxow" y="-186"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj_O4zHAEeeoRuz5hUBxow" type="FromQualifierLabel" element="_hjNLwDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:SemanticListCompartment" xmi:id="_hj_O5THAEeeoRuz5hUBxow" type="QualifierCompartment"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj_O5DHAEeeoRuz5hUBxow" y="-186"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj_18DHAEeeoRuz5hUBxow" type="ToConstraintLabel" element="_hjkYIDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:ListCompartment" xmi:id="_hj_18jHAEeeoRuz5hUBxow" type="ToConstraintCompartment"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj_18THAEeeoRuz5hUBxow" y="1058"/>
+          </children>
+          <children xmi:type="notation:DecorationNode" xmi:id="_hj_18zHAEeeoRuz5hUBxow" type="FromConstraintLabel" element="_hjNLwDHAEeeoRuz5hUBxow">
+            <children xmi:type="notation:ListCompartment" xmi:id="_hj_19THAEeeoRuz5hUBxow" type="FromConstraintCompartment"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_hj_19DHAEeeoRuz5hUBxow" y="1058"/>
+          </children>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hj7kgTHAEeeoRuz5hUBxow" points="[1930, -45, -20905, 884]$[21038, -45, -1797, 884]"/>
+        </edges>
       </contents>
     </eAnnotations>
     <packagedElement xmi:type="uml:Collaboration" xmi:id="_oVceUCDaEeer_5bbyBksIQ" name="Collaboration1">
@@ -491,6 +531,11 @@
       <ownedAttribute xmi:id="_HXU7UDDcEeeWrcKMfBl_qg" name="precioCompra" visibility="private"/>
       <ownedAttribute xmi:id="_IlZQ8DDcEeeWrcKMfBl_qg" name="precioVenta" visibility="private"/>
       <ownedAttribute xmi:id="_2UhS4DDhEeeWrcKMfBl_qg" name="listaCanciones" visibility="private"/>
+      <ownedAttribute xmi:id="_dIBZ4DHAEeeoRuz5hUBxow" name="oferta" visibility="private"/>
+      <ownedAttribute xmi:id="_hjNLwDHAEeeoRuz5hUBxow" name="ofertaDisco" visibility="private" type="_C0_FkDGtEeeOeu86Xaunkw" association="_hjL9oDHAEeeoRuz5hUBxow">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hjjKADHAEeeoRuz5hUBxow" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_hjii8DHAEeeoRuz5hUBxow" value="1"/>
+      </ownedAttribute>
       <ownedOperation xmi:id="_rvubQDDdEeeWrcKMfBl_qg" name="getTitulo"/>
       <ownedOperation xmi:id="_tcBoMDDhEeeWrcKMfBl_qg" name="getAutor"/>
       <ownedOperation xmi:id="_wkjfYDDhEeeWrcKMfBl_qg" name="getFechaSalida"/>
@@ -509,12 +554,14 @@
       <ownedOperation xmi:id="_Ii35oDGmEeeOeu86Xaunkw" name="generaSADisco" isAbstract="true"/>
       <ownedOperation xmi:id="_XLRMwDGuEeeOeu86Xaunkw" name="generaSAPedido" isAbstract="true"/>
       <ownedOperation xmi:id="_c2O5kDGwEeeOeu86Xaunkw" name="generaSAVenta" isAbstract="true"/>
+      <ownedOperation xmi:id="_JmiwkDG7EeeoRuz5hUBxow" name="generaSAUsuario" isAbstract="true"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_KQWvIDGmEeeOeu86Xaunkw" name="FactoriaSAImp" clientDependency="_0qadQDGsEeeOeu86Xaunkw _Il63gDGvEeeOeu86Xaunkw _fiic4DGyEeeOeu86Xaunkw _PxxA4DG0EeeOeu86Xaunkw">
       <generalization xmi:id="_M0p34DGmEeeOeu86Xaunkw" general="_A_BGoDGmEeeOeu86Xaunkw"/>
       <ownedOperation xmi:id="_NHIH8DGmEeeOeu86Xaunkw" name="generaSADisco"/>
       <ownedOperation xmi:id="_ZmZycDGuEeeOeu86Xaunkw" name="generaSAPedido"/>
       <ownedOperation xmi:id="_esJSUDGwEeeOeu86Xaunkw" name="generaSAVenta"/>
+      <ownedOperation xmi:id="_MIeh0DG7EeeoRuz5hUBxow" name="generaSAUsuario"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_mu7zIDGnEeeOeu86Xaunkw" name="SADisco" clientDependency="_WGl5IDGtEeeOeu86Xaunkw _ynLOoDG2EeeoRuz5hUBxow">
       <generalization xmi:id="_nfabkDGsEeeOeu86Xaunkw" general="_N8R1ADGrEeeOeu86Xaunkw"/>
@@ -549,6 +596,10 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_C0_FkDGtEeeOeu86Xaunkw" name="OfertaDisco">
       <ownedAttribute xmi:id="_HKSR4DGtEeeOeu86Xaunkw" name="descripcion" visibility="private"/>
       <ownedAttribute xmi:id="_H7fFUDGtEeeOeu86Xaunkw" name="porcentajeDescuento" visibility="private"/>
+      <ownedAttribute xmi:id="_hjkYIDHAEeeoRuz5hUBxow" name="disco" visibility="private" type="_yiCHcDDbEeeWrcKMfBl_qg" association="_hjL9oDHAEeeoRuz5hUBxow">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hjmNUDHAEeeoRuz5hUBxow" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_hjlmQDHAEeeoRuz5hUBxow" value="1"/>
+      </ownedAttribute>
       <ownedOperation xmi:id="_LMhYQDGtEeeOeu86Xaunkw" name="precioNuevo"/>
       <ownedOperation xmi:id="_iH69ADGtEeeOeu86Xaunkw" name="setDescripcion"/>
       <ownedOperation xmi:id="_izykgDGtEeeOeu86Xaunkw" name="getDescripcion"/>
@@ -651,6 +702,7 @@
       <ownedOperation xmi:id="_r0_6wDG3EeeoRuz5hUBxow" name="getAntiguedad"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_uiYHADG3EeeoRuz5hUBxow" supplier="_FaLaoDG3EeeoRuz5hUBxow" client="_SWSBgDGzEeeOeu86Xaunkw"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_hjL9oDHAEeeoRuz5hUBxow" memberEnd="_hjNLwDHAEeeoRuz5hUBxow _hjkYIDHAEeeoRuz5hUBxow"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_HF9aoCDaEeer_5bbyBksIQ" name="Integración">
     <eAnnotations xmi:id="_HF-BsCDaEeer_5bbyBksIQ" source="uml2.diagrams">
@@ -1034,12 +1086,14 @@
       <ownedOperation xmi:id="_irKGkDGlEeeOeu86Xaunkw" name="generaDAODisco" isAbstract="true"/>
       <ownedOperation xmi:id="_Wkvi0DGvEeeOeu86Xaunkw" name="generaDAOPedido" isAbstract="true"/>
       <ownedOperation xmi:id="_5ZRxYDGyEeeOeu86Xaunkw" name="generaDAOVenta" isAbstract="true"/>
+      <ownedOperation xmi:id="_N7taADG7EeeoRuz5hUBxow" name="generaDAOUsuario" isAbstract="true"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_tgX8oDGlEeeOeu86Xaunkw" name="FactoriaIntegracionImp" clientDependency="_h-6ZsDGnEeeOeu86Xaunkw _u-2hQDGvEeeOeu86Xaunkw _BGFFADGzEeeOeu86Xaunkw __BLjIDG0EeeOeu86Xaunkw">
       <generalization xmi:id="_wJjlYDGlEeeOeu86Xaunkw" general="_TYsCEDGlEeeOeu86Xaunkw"/>
       <ownedOperation xmi:id="_wdFlYDGlEeeOeu86Xaunkw" name="generaDAODisco"/>
       <ownedOperation xmi:id="_YFZdQDGvEeeOeu86Xaunkw" name="generaDAOPedido"/>
       <ownedOperation xmi:id="_4it80DGyEeeOeu86Xaunkw" name="generaDAOVenta"/>
+      <ownedOperation xmi:id="_PEC7EDG7EeeoRuz5hUBxow" name="generaDAOUsuario"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_ZjKK0DGmEeeOeu86Xaunkw" name="DAODisco" clientDependency="_2qTF0DG2EeeoRuz5hUBxow">
       <ownedOperation xmi:id="_b6jgADGmEeeOeu86Xaunkw" name="crearDisco"/>
