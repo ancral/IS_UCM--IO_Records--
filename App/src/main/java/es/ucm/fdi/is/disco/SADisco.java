@@ -2,7 +2,9 @@ package es.ucm.fdi.is.disco;
 
 import java.util.List;
 
-public interface SADisco {
+import es.ucm.fdi.is.mvc.TiendaObservable;
+
+public interface SADisco extends TiendaObservable {
 	
 	public void crearDisco(Disco disco);
 	public boolean existeDisco(Disco disco);

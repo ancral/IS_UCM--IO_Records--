@@ -3,6 +3,7 @@ package es.ucm.fdi.is.pedido;
 import java.util.List;
 
 import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class SAPedidoImp implements SAPedido {
@@ -33,6 +34,16 @@ public class SAPedidoImp implements SAPedido {
 	}
 
 	public void eliminar(Pedido pedido) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addObverser(TiendaObserver observer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeObserver(TiendaObserver observer) {
 		// TODO Auto-generated method stub
 		
 	}

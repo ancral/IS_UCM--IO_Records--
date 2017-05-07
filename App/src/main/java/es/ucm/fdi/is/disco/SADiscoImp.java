@@ -2,6 +2,8 @@ package es.ucm.fdi.is.disco;
 
 import java.util.List;
 
+import es.ucm.fdi.is.mvc.TiendaObserver;
+
 public class SADiscoImp implements SADisco {
 
 	public void crearDisco(Disco disco) {
@@ -37,6 +39,16 @@ public class SADiscoImp implements SADisco {
 	public List<Disco> leerTodos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void addObverser(TiendaObserver observer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeObserver(TiendaObserver observer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

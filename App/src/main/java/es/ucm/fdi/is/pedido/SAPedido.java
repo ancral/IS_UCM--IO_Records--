@@ -3,9 +3,10 @@ package es.ucm.fdi.is.pedido;
 import java.util.List;
 
 import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.mvc.TiendaObservable;
 import es.ucm.fdi.is.usuario.Usuario;
 
-public interface SAPedido {
+public interface SAPedido extends TiendaObservable {
 	
 	public void crearPedido(Pedido pedido);
 	public void devolverPedido(Pedido pedido);
