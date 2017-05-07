@@ -1,20 +1,25 @@
 package es.ucm.fdi.is.view;
 
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
-import es.ucm.fdi.is.mvc.Modelo;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.usuario.SAUsuario;
 
 public class LoginController {
 	
-	private Modelo modelo;
+	private SAUsuario modelo;
 	
-	public LoginController(Modelo modelo) {
+	public LoginController(SAUsuario modelo) {
 		this.modelo = modelo;
 	}
 	
-	public void iniciarSesion(String usuario, String clave) {
+	public void iniciarSesion(String usuario, char[] clave) {
+		StringBuilder claveString = new StringBuilder();
+		
+		for (char c : clave)
+			claveString.append(c);
+		
 		try {
-			modelo.iniciarSesion(usuario, clave);
+			modelo.iniciarSesion(usuario, claveString.toString());
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}

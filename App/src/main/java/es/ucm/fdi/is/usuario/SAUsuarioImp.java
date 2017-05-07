@@ -1,8 +1,26 @@
 package es.ucm.fdi.is.usuario;
 
+import java.util.ArrayList;
+
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SAUsuarioImp implements SAUsuario {
+	
+	private ArrayList<TiendaObserver> observadores;
+	private DAOUsuario dao;
+	
+	public SAUsuarioImp() {
+		this.observadores = new ArrayList<TiendaObserver>();
+		this.dao = new DAOUsuarioImp();
+	}
+	
+	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
+		if (this.dao.comprobarLogin(usuario, clave))
+			System.out.println("Login correcto");
+		else
+			System.out.println("Login incorrecto");
+	}
 
 	public void darseAlta(Usuario usuario) {
 		// TODO Auto-generated method stub
@@ -20,13 +38,16 @@ public class SAUsuarioImp implements SAUsuario {
 	}
 
 	public void addObverser(TiendaObserver observer) {
-		// TODO Auto-generated method stub
-		
+		this.observadores.add(observer);
 	}
 
 	public void removeObserver(TiendaObserver observer) {
-		// TODO Auto-generated method stub
-		
+		this.observadores.remove(observer);
+	}
+	
+	public void notifyAll(String mensaje) {
+		for (TiendaObserver o : observadores)
+			o.notify(mensaje);
 	}
 
 }

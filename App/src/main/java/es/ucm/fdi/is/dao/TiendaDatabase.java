@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class TiendaDatabase {
 	private static Connection conexion = null;
-	private static Statement statement = null; 
+	private static Statement statement = null;
 	
 	private TiendaDatabase() { }
 	

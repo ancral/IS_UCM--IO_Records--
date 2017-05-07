@@ -69,7 +69,7 @@ public class LoginView extends JFrame implements TiendaObserver {
 	private class AccederListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			control.iniciarSesion(usuario.getText(), clave.getPassword().toString());
+			control.iniciarSesion(usuario.getText(), clave.getPassword());
 		}
 		
 	}
