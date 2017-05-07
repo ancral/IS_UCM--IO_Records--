@@ -19,7 +19,7 @@ public class TiendaDatabase {
 			try {
 				Class.forName("org.sqlite.JDBC");
 	            // parámetros de la base de datos
-	            String url = "jdbc:sqlite:david.db";
+	            String url = "jdbc:sqlite:usuarios.db";
 	            // creación de la conexión con la base de datos
 	            conexion = DriverManager.getConnection(url);
 	            
