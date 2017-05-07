@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
@@ -34,16 +35,21 @@ public class LoginView extends JFrame implements TiendaObserver {
 		main.add(logotipo);
 		logotipo.add(new JLabel(new ImageIcon(Utilidades.loadImage("logo.png"))));
 		
-		// Formulario de acceso
+		JPanel recuadro = new JPanel();
+		recuadro.setLayout(new BoxLayout(recuadro, BoxLayout.Y_AXIS));
+		recuadro.setBorder(new TitledBorder("Inicio de Sesión"));
+		main.add(recuadro);
+		
+		// Mensaje
 		JPanel info = new JPanel();
-		main.add(info);
+		recuadro.add(info);
 		JLabel texto = new JLabel("Bienvenido a la tienda. Por favor, identifíquese para continuar");
 		texto.setFont(texto.getFont().deriveFont(new Float(16)));
 		info.add(texto);
 		
 		// Formulario de acceso
 		JPanel formulario = new JPanel();
-		main.add(formulario);
+		recuadro.add(formulario);
 		formulario.add(new JLabel("Usuario: "));
 		this.usuario = new JTextField(15);
 		formulario.add(usuario);
@@ -61,6 +67,7 @@ public class LoginView extends JFrame implements TiendaObserver {
 		acceder.add(botonAcceder);
 		
 		this.pack();
+		this.setLocationRelativeTo(null); // centra la ventana
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -75,7 +82,7 @@ public class LoginView extends JFrame implements TiendaObserver {
 	}
 
 	public void notify(String mensaje) {
-		System.out.println(mensaje);		
+		JOptionPane.showMessageDialog(this, mensaje, "Información",  JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

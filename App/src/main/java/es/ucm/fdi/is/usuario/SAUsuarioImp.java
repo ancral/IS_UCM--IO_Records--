@@ -17,9 +17,9 @@ public class SAUsuarioImp implements SAUsuario {
 	
 	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
 		if (this.dao.comprobarLogin(usuario, clave))
-			System.out.println("Login correcto");
+			this.notifyAll("Ha iniciado sesión correctamente");
 		else
-			System.out.println("Login incorrecto");
+			this.notifyAll("No se ha podido iniciar sesión");
 	}
 
 	public void darseAlta(Usuario usuario) {
