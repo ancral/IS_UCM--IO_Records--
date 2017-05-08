@@ -6,4 +6,7 @@
 ### >Terminar DAO's
 ### >Crear tablas
 ### >Catch de excepciones SQLException
+
+## Preguntas
+### Tabla listaCanciones --> listaCanciones(titulo,autor,cancion) o listaCanciones(titulo,cancion)
 >>>>>>> b87d7c34b95c32860074ac218008b163224c97f9
