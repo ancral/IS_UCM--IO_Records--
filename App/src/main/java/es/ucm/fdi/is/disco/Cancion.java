@@ -23,4 +23,8 @@ public class Cancion {
 		return this.duracion;
 	}
 
+	public String toString()
+	{
+		return titulo;
+	}
 }
