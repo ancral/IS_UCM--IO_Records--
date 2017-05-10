@@ -12,14 +12,11 @@ public class LoginController {
 		this.modelo = modelo;
 	}
 	
-	public void iniciarSesion(String usuario, char[] clave) {
-		StringBuilder claveString = new StringBuilder();
-		
-		for (char c : clave)
-			claveString.append(c);
+	public void iniciarSesion(String usuario, char[] clave) {		
+		String claveString = new String(clave);
 		
 		try {
-			modelo.iniciarSesion(usuario, claveString.toString());
+			modelo.iniciarSesion(usuario, claveString);
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}
