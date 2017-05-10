@@ -1,0 +1,7 @@
+* usuario(NIF,...)
+** cliente(NIFCliente,...)
+** empleado(NIFEmpleado,...)
+*** disco(Titulo,...)
+**** ListaCanciones(Titulo,cancion)
+**** pedido(idPedido, NIFCliente, tituloDisco,...)
+***** venta(idVenta, Fecha, idPedido, NIFEmpleado,...)
