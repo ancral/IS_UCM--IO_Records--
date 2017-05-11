@@ -155,14 +155,16 @@ public class DAODiscoImp implements DAODisco {
 		return discos;
 	}
 
+	
+	//FALTA OPTIMIZARLO (usar funcion borrarDisco)
 	public void actualizarDisco(Disco antiguo, Disco nuevo) throws TiendaDatabaseException {
 		try {
             
 			PreparedStatement actualizar = TiendaDatabase.getConexion()
                 .prepareStatement("UPDATE Disco SET Titulo = ?"
-							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
-							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
-							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "
+							+ "AND Autor = ?, Fecha = ?, Sello = ? AND "
+							+ "Genero = ? , Duracion = ? , Valoracion = ? "
+							+ ", PrecioCompra = ? , PrecioVenta = ? , "
 							+ "Oferta = ? WHERE Titulo = ?"
 							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
 							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
@@ -180,7 +182,7 @@ public class DAODiscoImp implements DAODisco {
 			actualizar.setString(4, nuevo.getSello());
 			actualizar.setString(5, nuevo.getGenero().toString());
 			actualizar.setInt(6, nuevo.getDuracion());
-			actulizar.setString(7, nuevo.getValoracion().toString());
+			actualizar.setString(7, nuevo.getValoracion().toString());
 			actualizar.setFloat(8, nuevo.getPrecioCompra());
 			actualizar.setFloat(9, nuevo.getPrecioVenta());
 			actualizar.setInt(10, nuevo.getOferta().getPorcentaje());
@@ -211,8 +213,9 @@ public class DAODiscoImp implements DAODisco {
         }
 	}
 
-	public void borrarDisco(Disco disco) {
-		
+	public void borrarDisco(Disco disco)throws TiendaDatabaseException {
+		try
+        { 
         PreparedStatement borrar = TiendaDatabase.getConexion()
                 .prepareStatement("DELETE FROM Disco WHERE Titulo = ?"
 							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
@@ -223,16 +226,32 @@ public class DAODiscoImp implements DAODisco {
 							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
 							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "
                                   + "Oferta = ?");
+        
+        borrar.setString(1, disco.getTitulo());
+        borrar.setString(2, disco.getAutor());
+		borrar.setDate(3, (Date) disco.getFechaSalida());
+		borrar.setString(4, disco.getSello());
+		borrar.setString(5, disco.getGenero().toString());
+		borrar.setInt(6, disco.getDuracion());
+		borrar.setString(7, disco.getValoracion().toString());
+		borrar.setFloat(8, disco.getPrecioCompra());
+		borrar.setFloat(9, disco.getPrecioVenta());
+		borrar.setInt(10, disco.getOferta().getPorcentaje());
+		
         borrar.executeQuery();
+        } catch (SQLException e) {
+            throw new TiendaDatabaseException(e.getMessage());
+        }
 	}
 
-	public List<Disco> leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException {
+	@SuppressWarnings("null")
+	public List<Disco> leerPorGenero(GeneroDisco g) throws TiendaDatabaseException {
 
         List<Disco> discos = null;
         try
         { 
         PreparedStatement generos = TiendaDatabase.getConexion()
-            .prepareStatement("SELECT * FROM Disco WHERE Genero = "+genero.toString());
+            .prepareStatement("SELECT * FROM Disco WHERE Genero = "+g.toString());
 
         ResultSet res = generos.executeQuery();
 
@@ -245,7 +264,7 @@ public class DAODiscoImp implements DAODisco {
 				
 				sqlCanciones.setString(1,res.getString(1));
 				
-				ResultSet resCanciones = sql.executeQuery();
+				ResultSet resCanciones = sqlCanciones.executeQuery();
 				
 				//Creando la lista de canciones
 				while(resCanciones.next())
@@ -291,7 +310,7 @@ public class DAODiscoImp implements DAODisco {
         try{
         
         PreparedStatement existe = TiendaDatabase.getConexion().
-                .prepareStatement("SELECT * FROM Disco WHERE Titulo = ?"
+                prepareStatement("SELECT * FROM Disco WHERE Titulo = ?"
 							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
 							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
 							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "

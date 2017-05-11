@@ -8,11 +8,13 @@ public class Pedido {
 	
 	private String identificador;
 	private List<Disco> discos;
+	private String idCliente;
 	private TipoRecogida recogida;
 	
-	public Pedido(String identificador, List<Disco> discos, TipoRecogida recogida) {
+	public Pedido(String identificador, List<Disco> discos, String idCliente, TipoRecogida recogida) {
 		this.identificador = identificador;
 		this.discos = discos;
+		this.idCliente = idCliente;
 		this.recogida = recogida;
 	}
 	
@@ -22,6 +24,11 @@ public class Pedido {
 	
 	public List<Disco> getDiscos() {
 		return this.discos;
+	}
+	
+	public String getCliente()
+	{
+		return idCliente;
 	}
 	
 	public TipoRecogida getTipoRecogida() {
