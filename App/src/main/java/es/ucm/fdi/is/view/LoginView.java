@@ -7,16 +7,27 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class LoginView extends JFrame implements TiendaObserver {
 	
 	private static final long serialVersionUID = 147811163718718526L;
+	
+	private static LoginView loginView = null;
+	
 	private JTextField usuario;
 	private JPasswordField clave;
 	private LoginController control;
+	
+	public static LoginView getLoginView(LoginController control) {
+		if (loginView == null)
+			loginView = new LoginView(control);
+		
+		return loginView;
+	}
 
-	public LoginView(LoginController control) {
+	private LoginView(LoginController control) {
 		super("I/O Records > Control de accesos");
 		
 		this.control = control;
@@ -70,7 +81,7 @@ public class LoginView extends JFrame implements TiendaObserver {
 		this.setLocationRelativeTo(null); // centra la ventana
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	
 	private class AccederListener implements ActionListener {
@@ -81,8 +92,8 @@ public class LoginView extends JFrame implements TiendaObserver {
 		
 	}
 
-	public void notify(String mensaje) {
-		JOptionPane.showMessageDialog(this, mensaje, "Información",  JOptionPane.INFORMATION_MESSAGE);
+	public void notify(Notificacion notificacion) {
+		JOptionPane.showMessageDialog(this, notificacion.getMensaje(), "Información",  JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

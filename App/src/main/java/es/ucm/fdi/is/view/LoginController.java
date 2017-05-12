@@ -6,10 +6,20 @@ import es.ucm.fdi.is.usuario.SAUsuario;
 
 public class LoginController {
 	
+	private static LoginController loginController = null;
+	
 	private SAUsuario modelo;
 	
-	public LoginController(SAUsuario modelo) {
+	
+	private LoginController(SAUsuario modelo) {
 		this.modelo = modelo;
+	}
+	
+	public static LoginController getLoginController(SAUsuario modelo) {
+		if (loginController == null)
+			loginController = new LoginController(modelo);
+		
+		return loginController;
 	}
 	
 	public void iniciarSesion(String usuario, char[] clave) {		

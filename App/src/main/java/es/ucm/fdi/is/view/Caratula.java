@@ -4,10 +4,15 @@ import java.awt.Color;
 
 import javax.swing.*;
 
+import es.ucm.fdi.is.disco.Valoracion;
+
 public class Caratula extends JLabel {
 
 	private static final long serialVersionUID = -2527744143645528102L;
 	private String titulo;
+	private String autor;
+	private Float precio;
+	private Valoracion valoracion;
 	
 	public Caratula(String titulo) {
 		this("caratulas/cover.jpg", titulo);

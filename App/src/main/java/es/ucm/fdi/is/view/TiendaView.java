@@ -2,23 +2,47 @@ package es.ucm.fdi.is.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import es.ucm.fdi.is.disco.GeneroDisco;
+import es.ucm.fdi.is.mvc.Notificacion;
+import es.ucm.fdi.is.mvc.TiendaObserver;
 
-public class TiendaView extends JFrame {
+public class TiendaView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = 5963169495489228054L;
 	
-	public TiendaView() {
+	/* Patrón Singleton en la vistas */
+	private static TiendaView tiendaView = null;
+	
+	private LoginController loginController;
+	private JLabel usuario;
+	
+	/* Constructor invisible */
+	private TiendaView(LoginController control) {
 		super("I/O Records > Catálogo");
+		this.loginController = control;
+		control.addObserver(this);
 		initGUI();
+	}
+	
+	/* Devuelve la única instancia del objeto */
+	public static TiendaView getTiendaView(LoginController control) {
+		if (tiendaView == null)
+			tiendaView = new TiendaView(control);
+		
+		return tiendaView;
 	}
 	
 	public void initGUI() {
@@ -38,9 +62,27 @@ public class TiendaView extends JFrame {
 		JMenu ayuda = new JMenu("Ayuda");
 		ayuda.setForeground(Color.WHITE);
 		
-		ayuda.add(new JMenuItem("Acerca I/O Records"));
+		JMenuItem acerca = new JMenuItem("Acerca I/O Records");
+		acerca.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				AcercaTienda acercaDialog = new AcercaTienda();
+				acercaDialog.setVisible(true);
+			}
+			
+		});
+		ayuda.add(acerca);
 		ayuda.addSeparator();
-		ayuda.add(new JMenuItem("Salir"));
+		
+		JMenuItem salir = new JMenuItem("Salir");
+		salir.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+			
+		});
+		ayuda.add(salir);
 		
 		menuBar.add(ayuda);
 		this.setJMenuBar(menuBar);
@@ -53,138 +95,41 @@ public class TiendaView extends JFrame {
 		/* ------------------------------------------------
 		 * CATÁLOGO DE DISCOS
 		 * ------------------------------------------------ */
-		JPanel catalogo = new JPanel();
-		catalogo.setBackground(new Color(190, 190, 242));
-		JScrollPane sp = new JScrollPane(catalogo);
-		sp.setPreferredSize(new Dimension(670, 440));
-		sp.getVerticalScrollBar().setUnitIncrement(16); // aumenta la velocidad de barra de scroll
-		main.add(sp, BorderLayout.WEST);
-		
-		final int filas = 5;
-		final int columnas = 3;
-		GridLayout catalogoLayout = new GridLayout(filas, columnas, 5, 5);
-		catalogo.setLayout(catalogoLayout);
-		
-		for (int i = 0; i < filas; i++) {
-			for (int j = 0; j < columnas; j++) {
-				catalogo.add(new Caratula("Disco (" + Integer.toString(i) + ", " + Integer.toString(j) + ")"));
-			}
-		}
-		
+		main.add(new CatalogoDiscos(), BorderLayout.WEST);
 		
 		/* ------------------------------------------------
-		 * LISTA DE CATEGORÍAS
+		 * BARRA LATERAL > GÉNEROS MUSICALES E INFO
 		 * ------------------------------------------------ */
-		JPanel panelDcho = new JPanel(); // panel principal que contiene todos los demás
-		BoxLayout panelDchoLay = new BoxLayout(panelDcho, BoxLayout.Y_AXIS);
-		panelDcho.setLayout(panelDchoLay);
-		panelDcho.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		panelDcho.setBackground(new Color(76, 79, 127));
-		
-		// TÍTULO > GÉNEROS MUSICALES
-		// ------------------------------------------
-		JPanel tituloC = new JPanel(); // metemos el título dentro de un panel
-		tituloC.setBackground(null);
-		JLabel tituloCat = new JLabel("Géneros musicales");
-		tituloCat.setFont(new Font("sans-serif", Font.BOLD, 20));
-		tituloCat.setForeground(Color.WHITE);
-		tituloCat.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, Color.WHITE));
-		tituloC.add(tituloCat);
-		main.add(panelDcho, BorderLayout.EAST);
-		panelDcho.add(tituloC);
-
-
-		// ICONO Y SELECTOR DE GÉNEROS MUSICALES
-		// ------------------------------------------
-		JPanel comboIcon = new JPanel();
-		TitledBorder catBorder = new TitledBorder("Filtrar catálogo");
-		catBorder.setTitleColor(Color.WHITE);
-		comboIcon.setBorder(catBorder);
-		FlowLayout comboLyt = new FlowLayout();
-		comboIcon.setLayout(comboLyt);
-		comboIcon.setBackground(null);
-		
-		// COMBO-BOX DE GÉNEROS MUSICALES	
-		// ------------------------------------------
-		comboIcon.add(new JLabel(Utilidades.createImage("iconos/categorias.png", 50, 50)));
-		JComboBox<GeneroDisco> menuCat = new JComboBox<GeneroDisco>(GeneroDisco.values());
-		comboIcon.add(menuCat);
-		panelDcho.add(comboIcon);
-		
-		// TÍTULO > INFORMACIÓN DEL DISCO
-		// ------------------------------------------
-		JPanel info = new JPanel();
-		info.setBackground(null);
-		panelDcho.add(info);
-		JLabel tituloInfo = new JLabel("Información");
-		tituloInfo.setFont(new Font("sans-serif", Font.BOLD, 20));
-		tituloInfo.setForeground(Color.WHITE);
-		tituloInfo.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, Color.WHITE));
-		info.add(tituloInfo);
-		
-		// INFORMACIÓN DEL DISCO
-		// ------------------------------------------
-		JPanel infoPanel = new JPanel();
-		infoPanel.setBackground(null);
-		BoxLayout infoLayout = new BoxLayout(infoPanel, BoxLayout.Y_AXIS);
-		infoPanel.setLayout(infoLayout);
-		TitledBorder infoBorder = new TitledBorder("Acerca del disco");
-		infoBorder.setTitleColor(Color.WHITE);
-		infoPanel.setBorder(infoBorder);
-		
-		FlowLayout tituloLy = new FlowLayout();
-		FlowLayout autorLy = new FlowLayout();
-		FlowLayout precioLy = new FlowLayout();
-		FlowLayout valoracionLy = new FlowLayout();
-		
-		JPanel titulo = new JPanel();
-		titulo.setBackground(null);
-		
-		JPanel autor = new JPanel();
-		autor.setBackground(null);
-		JPanel precio = new JPanel();
-		precio.setBackground(null);
-		JPanel valoracion = new JPanel();
-		valoracion.setBackground(null);
-		
-		titulo.setLayout(tituloLy);
-		autor.setLayout(autorLy);
-		precio.setLayout(precioLy);
-		valoracion.setLayout(valoracionLy);
-		
-		titulo.add(new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32)));
-		JLabel tituloLb = new JLabel("Nombre del disco");
-		tituloLb.setForeground(Color.WHITE);
-		titulo.add(tituloLb);
-		
-		autor.add(new JLabel(Utilidades.createImage("iconos/disc-author.png", 32, 32)));
-		JLabel autorLb = new JLabel("Autor del disco");
-		autorLb.setForeground(Color.WHITE);
-		autor.add(autorLb);
-		
-		valoracion.add(new JLabel(Utilidades.createImage("iconos/valoracion.png", 32, 32)));
-		JLabel valoracionLb = new JLabel("Valoracion X/5");
-		valoracionLb.setForeground(Color.WHITE);
-		valoracion.add(valoracionLb);
-		
-		precio.add(new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32)));
-		JLabel precioLb = new JLabel("Precio de venta");
-		precioLb.setForeground(Color.WHITE);
-		precio.add(precioLb);
-		
-		infoPanel.add(titulo);
-		infoPanel.add(autor);
-		infoPanel.add(precio);
-		infoPanel.add(valoracion);
-		
-		panelDcho.add(infoPanel);
-		
+		main.add(new BarraLateral(), BorderLayout.EAST);
 		
 		this.pack();
 		this.setResizable(false);
 		this.setLocationRelativeTo(null); // centra la ventana
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	public void notify(final Notificacion notificacion) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				handleEvent(notificacion); // it updates the visual components
+			}
+		});
+	}
+
+	public void handleEvent(Notificacion notificacion) {
+		switch (notificacion) {
+		
+		case SESION_INICIADA:
+			this.usuario.setIcon(Utilidades.createImage("iconos/user-ok.png", 48, 48));
+			break;
+		case ERROR_SESION:
+			this.usuario.setIcon(Utilidades.createImage("iconos/user.png", 48, 48));
+			break;
+		default:
+			break;
+			
+		}
 	}
 	
 	private class BarraSuperior extends JToolBar {
@@ -258,10 +203,216 @@ public class TiendaView extends JFrame {
 			// ------------------------------------------
 			toolBarPanel.add(sep3);
 			toolBarPanel.add(Box.createHorizontalStrut(5)); // espacio en blanco
-			JLabel usuario = new JLabel(Utilidades.createImage("iconos/user.png", 48, 48));
+			usuario = new JLabel(Utilidades.createImage("iconos/user.png", 48, 48));
+			usuario.setToolTipText("Iniciar sesión");
+						
+			usuario.addMouseListener(new MouseListener() {
+
+				public void mouseClicked(MouseEvent e) {
+					LoginView.getLoginView(TiendaView.this.loginController).setVisible(true);
+				}
+
+				public void mousePressed(MouseEvent e) {	}
+
+				public void mouseReleased(MouseEvent e) {}
+
+				public void mouseEntered(MouseEvent e) {}
+
+				public void mouseExited(MouseEvent e) {}
+				
+			});
+			
 			toolBarPanel.add(usuario);
 		}
 		
 	}
+	
+	private class CatalogoDiscos extends JScrollPane {
+		
+		private static final long serialVersionUID = 3809398699373783819L;
+
+		public CatalogoDiscos() {
+			
+			JPanel catalogo = new JPanel();
+			catalogo.setBackground(new Color(190, 190, 242));
+			this.setViewportView(catalogo);
+			this.setPreferredSize(new Dimension(670, 440));
+			this.getVerticalScrollBar().setUnitIncrement(16); // aumenta la velocidad de barra de scroll
+			
+			final int filas = 5;
+			final int columnas = 3;
+			GridLayout catalogoLayout = new GridLayout(filas, columnas, 5, 5);
+			catalogo.setLayout(catalogoLayout);
+			
+			for (int i = 0; i < filas; i++) {
+				for (int j = 0; j < columnas; j++) {
+					catalogo.add(new Caratula("Disco (" + Integer.toString(i) + ", " + Integer.toString(j) + ")"));
+				}
+			}
+		}
+	}
+	
+	private class BarraLateral extends JPanel {
+		
+		private static final long serialVersionUID = -7227943628939157168L;
+
+		public BarraLateral() {
+			/* ------------------------------------------------
+			 * LISTA DE CATEGORÍAS
+			 * ------------------------------------------------ */
+			BoxLayout panelDchoLay = new BoxLayout(this, BoxLayout.Y_AXIS);
+			this.setLayout(panelDchoLay);
+			this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			this.setBackground(new Color(76, 79, 127));
+			
+			// TÍTULO > GÉNEROS MUSICALES
+			// ------------------------------------------
+			JPanel tituloC = new JPanel(); // metemos el título dentro de un panel
+			tituloC.setBackground(null);
+			JLabel tituloCat = new JLabel("Géneros musicales");
+			tituloCat.setFont(new Font("sans-serif", Font.BOLD, 20));
+			tituloCat.setForeground(Color.WHITE);
+			tituloCat.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, Color.WHITE));
+			tituloC.add(tituloCat);
+			// main.add(panelDcho, BorderLayout.EAST);
+			this.add(tituloC);
+
+
+			// ICONO Y SELECTOR DE GÉNEROS MUSICALES
+			// ------------------------------------------
+			JPanel comboIcon = new JPanel();
+			TitledBorder catBorder = new TitledBorder("Filtrar catálogo");
+			catBorder.setTitleColor(Color.WHITE);
+			comboIcon.setBorder(catBorder);
+			FlowLayout comboLyt = new FlowLayout();
+			comboIcon.setLayout(comboLyt);
+			comboIcon.setBackground(null);
+			
+			// COMBO-BOX DE GÉNEROS MUSICALES	
+			// ------------------------------------------
+			comboIcon.add(new JLabel(Utilidades.createImage("iconos/categorias.png", 50, 50)));
+			JComboBox<GeneroDisco> menuCat = new JComboBox<GeneroDisco>(GeneroDisco.values());
+			comboIcon.add(menuCat);
+			this.add(comboIcon);
+			
+			// TÍTULO > INFORMACIÓN DEL DISCO
+			// ------------------------------------------
+			JPanel info = new JPanel();
+			info.setBackground(null);
+			this.add(info);
+			JLabel tituloInfo = new JLabel("Información");
+			tituloInfo.setFont(new Font("sans-serif", Font.BOLD, 20));
+			tituloInfo.setForeground(Color.WHITE);
+			tituloInfo.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, Color.WHITE));
+			info.add(tituloInfo);
+			
+			// INFORMACIÓN DEL DISCO
+			// ------------------------------------------
+			JPanel infoPanel = new JPanel();
+			infoPanel.setBackground(null);
+			BoxLayout infoLayout = new BoxLayout(infoPanel, BoxLayout.Y_AXIS);
+			infoPanel.setLayout(infoLayout);
+			TitledBorder infoBorder = new TitledBorder("Acerca del disco");
+			infoBorder.setTitleColor(Color.WHITE);
+			infoPanel.setBorder(infoBorder);
+			
+			FlowLayout tituloLy = new FlowLayout();
+			FlowLayout autorLy = new FlowLayout();
+			FlowLayout precioLy = new FlowLayout();
+			FlowLayout valoracionLy = new FlowLayout();
+			
+			JPanel titulo = new JPanel();
+			titulo.setBackground(null);
+			
+			JPanel autor = new JPanel();
+			autor.setBackground(null);
+			JPanel precio = new JPanel();
+			precio.setBackground(null);
+			JPanel valoracion = new JPanel();
+			valoracion.setBackground(null);
+			
+			titulo.setLayout(tituloLy);
+			autor.setLayout(autorLy);
+			precio.setLayout(precioLy);
+			valoracion.setLayout(valoracionLy);
+			
+			titulo.add(new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32)));
+			JLabel tituloLb = new JLabel("Nombre del disco");
+			tituloLb.setForeground(Color.WHITE);
+			titulo.add(tituloLb);
+			
+			autor.add(new JLabel(Utilidades.createImage("iconos/disc-author.png", 32, 32)));
+			JLabel autorLb = new JLabel("Autor del disco");
+			autorLb.setForeground(Color.WHITE);
+			autor.add(autorLb);
+			
+			valoracion.add(new JLabel(Utilidades.createImage("iconos/valoracion.png", 32, 32)));
+			JLabel valoracionLb = new JLabel("Valoracion X/5");
+			valoracionLb.setForeground(Color.WHITE);
+			valoracion.add(valoracionLb);
+			
+			precio.add(new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32)));
+			JLabel precioLb = new JLabel("Precio de venta");
+			precioLb.setForeground(Color.WHITE);
+			precio.add(precioLb);
+			
+			infoPanel.add(titulo);
+			infoPanel.add(autor);
+			infoPanel.add(precio);
+			infoPanel.add(valoracion);
+			
+			this.add(infoPanel);
+		}
+		
+	}
+	
+	private class AcercaTienda extends JDialog {
+		
+		private static final long serialVersionUID = -5345963891956226804L;
+		private String about1 = "Esta es una aplicación programada en Java para la asignatura de Ingeniería del Software.";
+		private String about2 = "Desarrollada utilizando una arquitectura multicapa y los patrones MVC,";
+		private String about3 =  "Factoría abstracta, Singleton, DAO, Servicio de aplicación, Transfer y Observer.";
+		private String about4 = "Utiliza la base de datos relacional SQLite";
+		private String credits = "Desarrollada por David Arroyo, Ignacio Cepeda, Ángel Cruz, Hao Hao He y Carla Peñarrieta";
+		
+		public AcercaTienda() {
+			super(TiendaView.this, "Acerca de I/O Records", true);
+			
+			JPanel panel = new JPanel();
+			
+			panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+			this.setContentPane(panel);
+			
+			addLabel(about1);
+			addLabel(about2);
+			addLabel(about3);
+			addLabel(about4);
+			
+			// Add UCM logo centered
+			JLabel ucm = new JLabel(new ImageIcon(Utilidades.loadImage("ucm.png")));
+			ucm.setAlignmentX(Component.CENTER_ALIGNMENT);
+			this.add(ucm);
+			
+			addLabel(credits);
+			
+			this.pack();
+			this.setResizable(false);
+			this.setLocationRelativeTo(null); // To center the dialog
+		}
+		
+		/**
+		 * Add a centered JLabel to the panel
+		 * 
+		 * @param text The JLabel's text
+		 */
+		private void addLabel(String text) {
+			JLabel label = new JLabel(text);
+			label.setAlignmentX(Component.CENTER_ALIGNMENT);
+			this.add(label);
+		}
+	}
+	
 
 }

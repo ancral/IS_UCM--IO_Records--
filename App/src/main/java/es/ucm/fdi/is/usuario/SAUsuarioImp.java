@@ -3,6 +3,7 @@ package es.ucm.fdi.is.usuario;
 import java.util.ArrayList;
 
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SAUsuarioImp implements SAUsuario {
@@ -17,9 +18,9 @@ public class SAUsuarioImp implements SAUsuario {
 	
 	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
 		if (this.dao.comprobarLogin(usuario, clave))
-			this.notifyAll("Ha iniciado sesión correctamente");
+			this.notifyAll(Notificacion.SESION_INICIADA);
 		else
-			this.notifyAll("No se ha podido iniciar sesión");
+			this.notifyAll(Notificacion.ERROR_SESION);
 	}
 
 	public void darseAlta(Usuario usuario) {
@@ -45,9 +46,9 @@ public class SAUsuarioImp implements SAUsuario {
 		this.observadores.remove(observer);
 	}
 	
-	public void notifyAll(String mensaje) {
+	public void notifyAll(Notificacion notificacion) {
 		for (TiendaObserver o : observadores)
-			o.notify(mensaje);
+			o.notify(notificacion);
 	}
 
 }
