@@ -122,6 +122,64 @@ public class TiendaView extends JFrame {
 		tituloInfo.setBorder(BorderFactory.createMatteBorder(5, 0, 5, 0, Color.WHITE));
 		info.add(tituloInfo);
 		
+		// INFORMACIÓN DEL DISCO
+		// ------------------------------------------
+		JPanel infoPanel = new JPanel();
+		infoPanel.setBackground(null);
+		BoxLayout infoLayout = new BoxLayout(infoPanel, BoxLayout.Y_AXIS);
+		infoPanel.setLayout(infoLayout);
+		TitledBorder infoBorder = new TitledBorder("Acerca del disco");
+		infoBorder.setTitleColor(Color.WHITE);
+		infoPanel.setBorder(infoBorder);
+		
+		FlowLayout tituloLy = new FlowLayout();
+		FlowLayout autorLy = new FlowLayout();
+		FlowLayout precioLy = new FlowLayout();
+		FlowLayout valoracionLy = new FlowLayout();
+		
+		JPanel titulo = new JPanel();
+		titulo.setBackground(null);
+		
+		JPanel autor = new JPanel();
+		autor.setBackground(null);
+		JPanel precio = new JPanel();
+		precio.setBackground(null);
+		JPanel valoracion = new JPanel();
+		valoracion.setBackground(null);
+		
+		titulo.setLayout(tituloLy);
+		autor.setLayout(autorLy);
+		precio.setLayout(precioLy);
+		valoracion.setLayout(valoracionLy);
+		
+		titulo.add(new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32)));
+		JLabel tituloLb = new JLabel("Nombre del disco");
+		tituloLb.setForeground(Color.WHITE);
+		titulo.add(tituloLb);
+		
+		autor.add(new JLabel(Utilidades.createImage("iconos/disc-author.png", 32, 32)));
+		JLabel autorLb = new JLabel("Autor del disco");
+		autorLb.setForeground(Color.WHITE);
+		autor.add(autorLb);
+		
+		valoracion.add(new JLabel(Utilidades.createImage("iconos/valoracion.png", 32, 32)));
+		JLabel valoracionLb = new JLabel("Valoracion X/5");
+		valoracionLb.setForeground(Color.WHITE);
+		valoracion.add(valoracionLb);
+		
+		precio.add(new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32)));
+		JLabel precioLb = new JLabel("Precio de venta");
+		precioLb.setForeground(Color.WHITE);
+		precio.add(precioLb);
+		
+		infoPanel.add(titulo);
+		infoPanel.add(autor);
+		infoPanel.add(precio);
+		infoPanel.add(valoracion);
+		
+		panelDcho.add(infoPanel);
+		
+		
 		this.pack();
 		this.setResizable(false);
 		this.setLocationRelativeTo(null); // centra la ventana
