@@ -214,7 +214,26 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			
 			for (int i = 0; i < filas; i++) {
 				for (int j = 0; j < columnas; j++) {
-					catalogo.add(new Caratula("Disco (" + Integer.toString(i) + ", " + Integer.toString(j) + ")"));
+					Caratula car = new Caratula("Disco (" + Integer.toString(i) + ", " + Integer.toString(j) + ")");
+					car.addMouseListener(new MouseListener() {
+
+						public void mouseClicked(MouseEvent e) {
+							TiendaView.this.setVisible(false);
+							// hacemos visible la información del disco
+							DiscoView.getDiscoView(TiendaView.this).setVisible(true); 
+						}
+
+						public void mousePressed(MouseEvent e) {}
+
+						public void mouseReleased(MouseEvent e) {}
+
+						public void mouseEntered(MouseEvent e) {}
+
+						public void mouseExited(MouseEvent e) {}
+						
+					});
+					
+					catalogo.add(car);
 				}
 			}
 		}

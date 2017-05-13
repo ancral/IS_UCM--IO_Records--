@@ -18,8 +18,8 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			public void run() {
-				// TiendaView.getTiendaView(LoginController.getLoginController(FactoriaSA.getFactoria().generaSAUsuario()));
-				DiscoView.getDiscoView();
+				TiendaView.getTiendaView(LoginController.getLoginController(FactoriaSA.getFactoria().generaSAUsuario()));
+				// DiscoView.getDiscoView();
 			}
 		});
 	}

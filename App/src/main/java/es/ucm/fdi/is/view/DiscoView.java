@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -17,15 +19,22 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	private static final long serialVersionUID = -5306391966978836217L;
 	
 	private static DiscoView discoView = null;
+	
+	/**
+	 * Referencia a la vista del catálogo para poder hacerlo visible al
+	 * accionar el botón de regresar
+	 */
+	private TiendaView tiendaView;
 
-	private DiscoView() {
+	private DiscoView(TiendaView view) {
 		super("I/O Records > Ventana de disco");
+		this.tiendaView = view;
 		initGUI();
 	}
 	
-	public static DiscoView getDiscoView() {
+	public static DiscoView getDiscoView(TiendaView view) {
 		if (discoView == null)
-			discoView = new DiscoView();
+			discoView = new DiscoView(view);
 		
 		return discoView;
 	}
@@ -46,11 +55,47 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		
 		// BOTÓN PARA REGRESAR AL CATÁLOGO
 		// ----------------------------------------------
-		JPanel regresarP = new JPanel(new BorderLayout());
-		regresarP.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
+		JPanel botones = new JPanel();
+		BorderLayout botonesLy = new BorderLayout();
+		botones.setLayout(botonesLy);
+		botones.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
+		
+		JPanel botonesLine = new JPanel();
+		FlowLayout botonesLineLy = new FlowLayout();
+		botonesLine.setLayout(botonesLineLy);
+		
 		JButton regresar = new JButton("Volver al catálogo", Utilidades.createImage("iconos/volver.png", 32, 32));
-		regresarP.add(regresar, BorderLayout.WEST);
-		main.add(regresarP);
+		regresar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				DiscoView.this.setVisible(false); // ocultamos esta vista
+				DiscoView.this.tiendaView.setVisible(true); // hacemos visible el catálogo
+			}
+			
+		});
+		botonesLine.add(regresar);
+		
+		// BOTÓN PARA MODIFICAR DISCO
+		// ----------------------------------------------
+		JButton modificar = new JButton(Utilidades.createImage("iconos/modificar.png", 32, 32));
+		modificar.setToolTipText("Modificar disco del catálogo");
+		botonesLine.add(modificar);
+		
+		// BOTÓN PARA DESCATALOGAR DISCO
+		// ----------------------------------------------
+		JButton descatalogar = new JButton(Utilidades.createImage("iconos/borrar.png", 32, 32));
+		descatalogar.setToolTipText("Descatalogar disco del catálogo");
+		botonesLine.add(descatalogar);
+		
+		// BOTÓN PARA PONER OFERTA
+		// ----------------------------------------------
+		JButton oferta = new JButton(Utilidades.createImage("iconos/oferta.png", 32, 32));
+		oferta.setToolTipText("Establecer una oferta en el disco");
+		botonesLine.add(oferta);
+		
+		botones.add(botonesLine, BorderLayout.WEST);
+		main.add(botones);
+		
 		
 		JPanel contenedor = new JPanel();
 		BorderLayout contenedorLy = new BorderLayout();
@@ -105,7 +150,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// Autor del disco
 		JPanel autorPanel = new JPanel(leftAlignment);
 		autorPanel.setBackground(new Color(76, 79, 127));
-		JLabel autorIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 18, 18));
+		JLabel autorIcon = new JLabel(Utilidades.createImage("iconos/disc-author.png", 18, 18));
 		autorPanel.add(autorIcon);
 		JLabel autorDisco = new JLabel("Autor del disco");
 		autorDisco.setForeground(Color.WHITE);
@@ -116,7 +161,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// Género del disco
 		JPanel generoPanel = new JPanel(leftAlignment);
 		generoPanel.setBackground(new Color(76, 79, 127));
-		JLabel generoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 18, 18));
+		JLabel generoIcon = new JLabel(Utilidades.createImage("iconos/categorias.png", 18, 18));
 		generoPanel.add(generoIcon);
 		JLabel generoDisco = new JLabel("Género del disco");
 		generoDisco.setForeground(Color.WHITE);
@@ -127,7 +172,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// Género del disco
 		JPanel valoracionPanel = new JPanel(leftAlignment);
 		valoracionPanel.setBackground(new Color(76, 79, 127));
-		JLabel valoracionIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 18, 18));
+		JLabel valoracionIcon = new JLabel(Utilidades.createImage("iconos/valoracion.png", 18, 18));
 		valoracionPanel.add(valoracionIcon);
 		JLabel valoracionDisco = new JLabel("Valoración del disco");
 		valoracionDisco.setForeground(Color.WHITE);
@@ -158,7 +203,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// Precio del disco
 		JPanel precioPanel = new JPanel(leftAlignment);
 		precioPanel.setBackground(new Color(76, 79, 127));
-		JLabel precioIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
+		JLabel precioIcon = new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32));
 		precioPanel.add(precioIcon);
 		JLabel precioDisco = new JLabel("Precio del disco");
 		precioDisco.setForeground(Color.WHITE);
