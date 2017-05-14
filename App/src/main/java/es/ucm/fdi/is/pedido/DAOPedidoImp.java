@@ -1,6 +1,6 @@
 package es.ucm.fdi.is.pedido;
 
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +9,9 @@ import java.util.List;
 import es.ucm.fdi.is.disco.DAODiscoImp;
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
-import es.ucm.fdi.is.disco.Cancion;
+
 import es.ucm.fdi.is.disco.DAODisco;
 import es.ucm.fdi.is.disco.Disco;
-import es.ucm.fdi.is.disco.GeneroDisco;
-import es.ucm.fdi.is.disco.OfertaDisco;
-import es.ucm.fdi.is.disco.Valoracion;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class DAOPedidoImp implements DAOPedido {
@@ -32,21 +29,14 @@ public class DAOPedidoImp implements DAOPedido {
 
 			sql.executeQuery();
 		} catch (SQLException e) {
-
+			throw new TiendaDatabaseException(e.getMessage());
 		}
 	}
 
 	public void eliminarPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
 			PreparedStatement borrar = TiendaDatabase.getConexion().prepareStatement(
-					"DELETE FROM Pedido WHERE idPedido = ?" + "AND NIFCliente = ? AND tituloDisco = ? AND Tipo = ?");
-
-			for (Disco disco : pedido.getDiscos()) {
-				borrar.setString(1, pedido.getId());
-				borrar.setString(2, pedido.getCliente());
-				borrar.setString(3, disco.toString());
-				borrar.setString(4, pedido.getTipoRecogida().toString());
-			}
+					"DELETE FROM Pedido WHERE idPedido = ?");
 
 			borrar.executeQuery();
 		} catch (SQLException e) {
@@ -113,7 +103,8 @@ public class DAOPedidoImp implements DAOPedido {
 
 	public void addProductoPedido(Disco disco, Pedido pedido) throws TiendaDatabaseException {
 		try {
-			PreparedStatement producto = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido (?,?,?,?)");
+			PreparedStatement producto = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO Pedido (?,?,?,?)");
 
 			producto.setString(1, pedido.getId());
 			producto.setString(2, pedido.getCliente());
@@ -131,17 +122,18 @@ public class DAOPedidoImp implements DAOPedido {
 
 		try {
 			PreparedStatement actualizar = TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE Pedido SET idPedido = ?" + ",NIFCliente = ? ,tituloDisco = ? ,Tipo = ?"
-							+ "	WHERE idPedido = ? AND");
-
-			this.eliminarPedido(antiguo);
+					.prepareStatement("UPDATE Pedido SET idPedido = ?" + ",NIFCliente = ? "
+							+ ",tituloDisco = ? ,Tipo = ?"
+							+ "	WHERE idPedido = ?");
 
 			for (Disco disco : nuevo.getDiscos()) {
 				actualizar.setString(1, nuevo.getId());
 				actualizar.setString(2, nuevo.getCliente());
 				actualizar.setString(3, disco.toString());
 				actualizar.setString(4, nuevo.getTipoRecogida().toString());
-
+				
+				actualizar.setString(5, antiguo.getId());
+				
 				actualizar.executeQuery();
 			}
 		} catch (SQLException e) {

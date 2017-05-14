@@ -165,11 +165,7 @@ public class DAODiscoImp implements DAODisco {
 							+ "AND Autor = ?, Fecha = ?, Sello = ? AND "
 							+ "Genero = ? , Duracion = ? , Valoracion = ? "
 							+ ", PrecioCompra = ? , PrecioVenta = ? , "
-							+ "Oferta = ? WHERE Titulo = ?"
-							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
-							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
-							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "
-                                  + "Oferta = ?");
+							+ "Oferta = ? WHERE Titulo = ?");
             PreparedStatement actualizarCanciones = TiendaDatabase.getConexion()
                 .prepareStatement("UPDATE ListaCanciones SET Titulo = ?, Cancion = ?"
                     +" WHERE Titulo = ?");
@@ -187,21 +183,13 @@ public class DAODiscoImp implements DAODisco {
 			actualizar.setFloat(9, nuevo.getPrecioVenta());
 			actualizar.setInt(10, nuevo.getOferta().getPorcentaje());
 			actualizar.setString(11, antiguo.getTitulo());
-			actualizar.setString(12, antiguo.getAutor());
-			actualizar.setDate(13, (Date) antiguo.getFechaSalida());
-			actualizar.setString(14, antiguo.getSello());
-			actualizar.setString(15, antiguo.getGenero().toString());
-			actualizar.setInt(16, antiguo.getDuracion());
-			actualizar.setString(17, antiguo.getValoracion().toString());
-			actualizar.setFloat(18, antiguo.getPrecioCompra());
-			actualizar.setFloat(19, antiguo.getPrecioVenta());
-			actualizar.setInt(20, antiguo.getOferta().getPorcentaje());
+			
 
 
             for (Cancion c : nuevo.getListaCanciones()) {
 				actualizarCanciones.setString(1, nuevo.getTitulo());
-				actualizarCanciones.setString(3, c.toString());
-                actualizarCanciones.setString(4, antiguo.getTitulo());
+				actualizarCanciones.setString(2, c.toString());
+                actualizarCanciones.setString(3, antiguo.getTitulo());
 			}
 
             
@@ -217,28 +205,12 @@ public class DAODiscoImp implements DAODisco {
 		try
         { 
         PreparedStatement borrar = TiendaDatabase.getConexion()
-                .prepareStatement("DELETE FROM Disco WHERE Titulo = ?"
-							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
-							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
-							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "
-							+ "Oferta = ? WHERE Titulo = ?"
-							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
-							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
-							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "
-                                  + "Oferta = ?");
+                .prepareStatement("DELETE FROM Disco WHERE Titulo = ?");
         
         borrar.setString(1, disco.getTitulo());
-        borrar.setString(2, disco.getAutor());
-		borrar.setDate(3, (Date) disco.getFechaSalida());
-		borrar.setString(4, disco.getSello());
-		borrar.setString(5, disco.getGenero().toString());
-		borrar.setInt(6, disco.getDuracion());
-		borrar.setString(7, disco.getValoracion().toString());
-		borrar.setFloat(8, disco.getPrecioCompra());
-		borrar.setFloat(9, disco.getPrecioVenta());
-		borrar.setInt(10, disco.getOferta().getPorcentaje());
 		
         borrar.executeQuery();
+        
         } catch (SQLException e) {
             throw new TiendaDatabaseException(e.getMessage());
         }
@@ -307,18 +279,14 @@ public class DAODiscoImp implements DAODisco {
 	public boolean existeDisco(Disco disco) throws TiendaDatabaseException{
 
         boolean existir = false;
+        
         try{
         
         PreparedStatement existe = TiendaDatabase.getConexion().
-                prepareStatement("SELECT * FROM Disco WHERE Titulo = ?"
-							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
-							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
-							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "
-							+ "Oferta = ? WHERE Titulo = ?"
-							+ "AND Autor = ? AND Fecha = ? AND Sello = ? AND "
-							+ "Genero = ? AND Duracion = ? AND Valoracion = ? "
-							+ "AND PrecioCompra = ? AND PrecioVenta = ? AND "
-                                  + "Oferta = ?");
+                prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
+        
+        existe.setString(1, disco.getTitulo());
+        
         ResultSet res = existe.executeQuery();
         
         existir = res.first();

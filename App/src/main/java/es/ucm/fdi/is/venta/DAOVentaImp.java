@@ -1,27 +1,91 @@
 package es.ucm.fdi.is.venta;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+
+import es.ucm.fdi.is.dao.TiendaDatabase;
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.usuario.Empleado;
 
 public class DAOVentaImp implements DAOVenta {
 
-	public void crearVenta(Venta venta) {
-		// TODO Auto-generated method stub
+	public void crearVenta(Venta venta) throws TiendaDatabaseException {
+		try {
+			PreparedStatement crearVenta = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO Venta (?,?,?,?,?)");
+			
+			crearVenta.setString(1, venta.getId());
+			crearVenta.setDate(2, venta.getFecha());
+			crearVenta.setString(3, venta.getIdPedido());
+			crearVenta.setString(4, venta.getEmpleado().getNif());
+			crearVenta.setFloat(5, venta.calcularPrecio());
+			
+			crearVenta.executeQuery();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
 		
 	}
 
-	public void actualizarVenta(Venta antigua, Venta nueva) {
-		// TODO Auto-generated method stub
-		
+	public void actualizarVenta(Venta antigua, Venta nueva) throws TiendaDatabaseException {
+		try {
+			PreparedStatement actualizarVenta = TiendaDatabase.getConexion()
+					.prepareStatement("UPDATE Venta SET idVenta = ?"
+							+ " ,Fecha = ? ,idPedido = ? ,NIFEmpleado = ? ,"
+							+ "PrecioTotal = ? WHERE idVenta = ?");
+			
+			actualizarVenta.setString(1, nueva.getId());
+			actualizarVenta.setDate(2, nueva.getFecha());
+			actualizarVenta.setString(3, nueva.getIdPedido());
+			actualizarVenta.setString(4, nueva.getEmpleado().getNif());
+			actualizarVenta.setFloat(5, nueva.calcularPrecio());
+			
+			actualizarVenta.setString(6, antigua.getId());
+			
+			actualizarVenta.executeQuery();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
 	}
 
-	public void borrarVenta(Venta venta) {
-		// TODO Auto-generated method stub
-		
+	public void borrarVenta(Venta venta) throws TiendaDatabaseException {
+		try {
+			PreparedStatement borrarVenta = TiendaDatabase.getConexion()
+					.prepareStatement("DELETE FROM Venta WHERE idVenta = ?");
+			
+			borrarVenta.setString(1, venta.getId());
+			
+			borrarVenta.executeQuery();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
 	}
 
-	public List<Venta> verVentas() {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("null")
+	public List<Venta> verVentas() throws TiendaDatabaseException {
+		List<Venta> verVentas = null;
+		
+		try {
+			PreparedStatement verVenta = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Venta");
+
+			
+			ResultSet res = verVenta.executeQuery();
+			
+			while(res.next()){
+				verVentas.add(new Venta(res.getString(1), new Empleado(res.getString(4)),
+						res.getFloat(5), res.getString(3), res.getDate(2)));	
+			}
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+		return verVentas;
 	}
 
 }

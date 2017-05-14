@@ -1,6 +1,6 @@
 package es.ucm.fdi.is.usuario;
 
-import java.util.Date;
+import java.sql.Date;
 
 public abstract class Usuario {
 	
@@ -9,6 +9,11 @@ public abstract class Usuario {
 	private String nombre;
 	private String direccion;
 	private Date fechaNacimiento;
+	
+	public Usuario(String nif)
+	{
+		this.nif = nif;
+	}
 	
 	public Usuario(String nif, String clave, String nombre, String direccion, Date fechaNacimiento) {
 		this.nif = nif;
