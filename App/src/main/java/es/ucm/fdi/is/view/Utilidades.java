@@ -22,5 +22,10 @@ public class Utilidades {
 		URL imgUrl = Utilidades.class.getClassLoader().getResource(path);
 		return new ImageIcon(Toolkit.getDefaultToolkit().createImage(imgUrl).getScaledInstance(width, height, Image.SCALE_SMOOTH));
 	}
+	
+	public static ImageIcon createImage(String path) {
+		URL imgUrl = Utilidades.class.getClassLoader().getResource(path);
+		return new ImageIcon(Toolkit.getDefaultToolkit().createImage(imgUrl));
+	}
 
 }
