@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -25,6 +27,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	
 	private LoginController loginController;
 	private JLabel usuario;
+	private JLabel pieInfo;
 	
 	/* Constructor invisible */
 	private TiendaView(LoginController control) {
@@ -70,6 +73,15 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		 * ------------------------------------------------ */
 		main.add(new BarraLateral(), BorderLayout.EAST);
 		
+		JPanel pie = new JPanel(new BorderLayout());
+		pie.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		pie.setBackground(Color.BLACK);
+		pieInfo = new JLabel("Pon el cursor encima de un disco para ver su nombre");
+		pieInfo.setForeground(Color.WHITE);
+		pie.add(pieInfo, BorderLayout.WEST);
+		
+		main.add(pie, BorderLayout.SOUTH);
+		
 		this.pack();
 		this.setResizable(false);
 		this.setLocationRelativeTo(null); // centra la ventana
@@ -103,7 +115,8 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	private class BarraSuperior extends JToolBar {
 		
 		private static final long serialVersionUID = 5141185337233797115L;
-
+		
+		
 		public BarraSuperior() {
 			this.setFloatable(false);
 			this.setBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, new Color(56, 56, 56)));
@@ -135,6 +148,15 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			JButton op2 = new JButton("Pedidos", Utilidades.createImage("iconos/pedidos.png", 25, 25));
 			op2.setToolTipText("Ver pedidos");
 			JButton op3 = new JButton("Carrito", Utilidades.createImage("iconos/compra.png", 25, 25));
+			
+			op3.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					CarritoView.getCarritoView(TiendaView.this).setVisible(true);
+				}
+				
+			});
+			
 			op3.setToolTipText("Discos añadidos al carrito");
 			
 			toolBarPanel.add(op1);
@@ -214,7 +236,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			
 			for (int i = 0; i < filas; i++) {
 				for (int j = 0; j < columnas; j++) {
-					Caratula car = new Caratula("Disco (" + Integer.toString(i) + ", " + Integer.toString(j) + ")");
+					final Caratula car = new Caratula("Disco (" + Integer.toString(i) + ", " + Integer.toString(j) + ")");
 					car.addMouseListener(new MouseListener() {
 
 						public void mouseClicked(MouseEvent e) {
@@ -227,7 +249,10 @@ public class TiendaView extends JFrame implements TiendaObserver {
 
 						public void mouseReleased(MouseEvent e) {}
 
-						public void mouseEntered(MouseEvent e) {}
+						public void mouseEntered(MouseEvent e) {
+							// Mostramos el titulo de un disco cuando el curso se posa encima
+							TiendaView.this.pieInfo.setText(car.getTitulo());
+						}
 
 						public void mouseExited(MouseEvent e) {}
 						
@@ -236,6 +261,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 					catalogo.add(car);
 				}
 			}
+			
 		}
 	}
 	

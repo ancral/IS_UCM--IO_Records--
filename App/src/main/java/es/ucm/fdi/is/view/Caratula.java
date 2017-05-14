@@ -16,7 +16,7 @@ public class Caratula extends JLabel {
 	
 	public Caratula(String titulo) {
 		this("caratulas/cover.jpg", titulo);
-		this.setToolTipText(this.titulo);
+		// this.setToolTipText(this.titulo);
 	}
 	
 	public Caratula(String imagenPath, String titulo) {
@@ -24,6 +24,10 @@ public class Caratula extends JLabel {
 		this.titulo = titulo;
 		
 		this.setBorder(BorderFactory.createMatteBorder(2, 2, 4, 2, Color.GRAY));
+	}
+	
+	public String getTitulo() {
+		return this.titulo;
 	}
 
 }
