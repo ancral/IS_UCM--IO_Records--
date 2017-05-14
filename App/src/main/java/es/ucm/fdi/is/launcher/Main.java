@@ -5,7 +5,6 @@ import javax.swing.SwingUtilities;
 import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
-import es.ucm.fdi.is.view.DiscoView;
 import es.ucm.fdi.is.view.LoginController;
 import es.ucm.fdi.is.view.TiendaView;
 
@@ -19,7 +18,6 @@ public class Main {
 
 			public void run() {
 				TiendaView.getTiendaView(LoginController.getLoginController(FactoriaSA.getFactoria().generaSAUsuario()));
-				// DiscoView.getDiscoView();
 			}
 		});
 	}

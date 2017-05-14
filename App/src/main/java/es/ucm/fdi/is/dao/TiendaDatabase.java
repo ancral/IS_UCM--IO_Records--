@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class TiendaDatabase {
 	private static Connection conexion = null;
 	private static Statement statement = null;
@@ -19,7 +20,7 @@ public class TiendaDatabase {
 			try {
 				Class.forName("org.sqlite.JDBC");
 	            // parámetros de la base de datos
-	            String url = "jdbc:sqlite:usuarios.db";
+	            String url = "jdbc:sqlite::resource:databases/usuarios.db";
 	            // creación de la conexión con la base de datos
 	            conexion = DriverManager.getConnection(url);
 	            

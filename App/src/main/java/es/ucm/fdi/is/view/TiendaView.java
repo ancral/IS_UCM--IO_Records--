@@ -130,12 +130,12 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			
 			// BOTONES
 			// ------------------------------------------
-			JButton op1 = new JButton("Menú#1");
-			op1.setToolTipText("Texto del botón 1");
-			JButton op2 = new JButton("Menú#2");
-			op2.setToolTipText("Texto del botón 2");
-			JButton op3 = new JButton("Menú#3");
-			op3.setToolTipText("Texto del botón 3");
+			JButton op1 = new JButton("Panel", Utilidades.createImage("iconos/admin.png", 25, 25));
+			op1.setToolTipText("Panel de administración del catálogo");
+			JButton op2 = new JButton("Pedidos", Utilidades.createImage("iconos/pedidos.png", 25, 25));
+			op2.setToolTipText("Ver pedidos");
+			JButton op3 = new JButton("Carrito", Utilidades.createImage("iconos/compra.png", 25, 25));
+			op3.setToolTipText("Discos añadidos al carrito");
 			
 			toolBarPanel.add(op1);
 			toolBarPanel.add(op2);
@@ -249,7 +249,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			 * ------------------------------------------------ */
 			BoxLayout panelDchoLay = new BoxLayout(this, BoxLayout.Y_AXIS);
 			this.setLayout(panelDchoLay);
-			this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
 			this.setBackground(new Color(76, 79, 127));
 			
 			// TÍTULO > GÉNEROS MUSICALES

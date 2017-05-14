@@ -45,7 +45,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		JPanel main = new JPanel();
 		BoxLayout mainLayout = new BoxLayout(main, BoxLayout.Y_AXIS);
 		main.setLayout(mainLayout);
-		main.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+		main.setBorder(BorderFactory.createEmptyBorder(10, 30, 30, 30));
 		this.setContentPane(main);
 		
 		/* ------------------------------------------------
@@ -91,6 +91,19 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// ----------------------------------------------
 		JButton oferta = new JButton(Utilidades.createImage("iconos/oferta.png", 32, 32));
 		oferta.setToolTipText("Establecer una oferta en el disco");
+		
+		oferta.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				String ofertaIn = 
+						JOptionPane.showInputDialog(DiscoView.this, 
+								"Introduce la oferta para este disco", "Añadir oferta a disco",
+								JOptionPane.QUESTION_MESSAGE);
+				System.out.println(ofertaIn); // TODO: test
+			}
+			
+		});
+		
 		botonesLine.add(oferta);
 		
 		botones.add(botonesLine, BorderLayout.WEST);
@@ -105,6 +118,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// ----------------------------------------------
 		JPanel disco = new JPanel();
 		disco.setBackground(new Color(76, 79, 127));
+		disco.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		FlowLayout discoLayout = new FlowLayout();
 		disco.setLayout(discoLayout);
 		
@@ -113,7 +127,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		caratulaP.setBackground(new Color(76, 79, 127));
 		BoxLayout caratulaPLay = new BoxLayout(caratulaP, BoxLayout.Y_AXIS);
 		caratulaP.setLayout(caratulaPLay);		
-		JLabel caratula = new JLabel(Utilidades.createImage("caratulas/cover.jpg", 230, 230));
+		JLabel caratula = new JLabel(Utilidades.createImage("caratulas/cover.jpg", 250, 250));
 		caratulaP.add(caratula);
 		
 		JPanel comprarPanel = new JPanel();
@@ -121,7 +135,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		BoxLayout comprarPanelLy = new BoxLayout(comprarPanel, BoxLayout.Y_AXIS);
 		comprarPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 		comprarPanel.setLayout(comprarPanelLy);
-		comprarPanel.add(new JButton("Añadir al carro", Utilidades.createImage("iconos/compra.png", 32, 32)));
+		comprarPanel.add(new JButton("Añadir al carrito", Utilidades.createImage("iconos/compra.png", 32, 32)));
 		caratulaP.add(comprarPanel);
 		disco.add(caratulaP);
 		
@@ -221,13 +235,13 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// LISTA DE CANCIONES DEL DISCO
 		// ----------------------------------------------
 		JPanel listaPanel = new JPanel();
-		GridLayout listaPanelLy = new GridLayout(5, 1, 0, 0);
+		GridLayout listaPanelLy = new GridLayout(6, 2, 0, 0);
 		listaPanel.setLayout(listaPanelLy);
 		
 		TitledBorder listaBorder = new TitledBorder("Lista de canciones (duración)");
 		listaPanel.setBorder(listaBorder);
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 12; i++) {
 			JPanel cancion = new JPanel();
 			FlowLayout cancionLy = new FlowLayout();
 			cancionLy.setAlignment(FlowLayout.LEFT);

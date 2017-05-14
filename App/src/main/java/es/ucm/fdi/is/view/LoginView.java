@@ -88,6 +88,7 @@ public class LoginView extends JFrame implements TiendaObserver {
 
 		public void actionPerformed(ActionEvent e) {
 			control.iniciarSesion(usuario.getText(), clave.getPassword());
+			LoginView.this.setVisible(false);
 		}
 		
 	}
