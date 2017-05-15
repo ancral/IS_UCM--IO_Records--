@@ -23,6 +23,11 @@ public class OfertaDisco {
 		return this.descripcion;
 	}
 	
+	public int getPorcentaje()
+	{
+		return this.porcentajeDescuento;
+	}
+	
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
@@ -30,5 +35,5 @@ public class OfertaDisco {
 	public void setDescuento(int descuento) {
 		this.porcentajeDescuento = descuento;
 	}
-
+	
 }
