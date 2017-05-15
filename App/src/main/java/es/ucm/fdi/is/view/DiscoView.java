@@ -157,21 +157,23 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		private static final long serialVersionUID = 7708121068748511959L;
 
 		public DiscoInfo() {
-			this.setBackground(new Color(76, 79, 127));
+			Color color = new Color(76, 79, 127);
+			
+			this.setBackground(color);
 			this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			FlowLayout discoLayout = new FlowLayout();
 			this.setLayout(discoLayout);
 			
 			// Carátula
 			JPanel caratulaP = new JPanel();
-			caratulaP.setBackground(new Color(76, 79, 127));
+			caratulaP.setBackground(color);
 			BoxLayout caratulaPLay = new BoxLayout(caratulaP, BoxLayout.Y_AXIS);
 			caratulaP.setLayout(caratulaPLay);		
 			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/cover.jpg", 250, 250));
 			caratulaP.add(caratula);
 			
 			JPanel comprarPanel = new JPanel();
-			comprarPanel.setBackground(new Color(76, 79, 127));
+			comprarPanel.setBackground(color);
 			BoxLayout comprarPanelLy = new BoxLayout(comprarPanel, BoxLayout.Y_AXIS);
 			comprarPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 			comprarPanel.setLayout(comprarPanelLy);
@@ -185,13 +187,13 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			// Título y más información
 			JPanel discoInfo = new JPanel();
-			discoInfo.setBackground(new Color(76, 79, 127));
+			discoInfo.setBackground(color);
 			BoxLayout discoInfoLayout = new BoxLayout(discoInfo, BoxLayout.Y_AXIS);
 			discoInfo.setLayout(discoInfoLayout);		
 			
 			// Título del disco
 			JPanel nombreDiscoPanel = new JPanel(leftAlignment);
-			nombreDiscoPanel.setBackground(new Color(76, 79, 127));
+			nombreDiscoPanel.setBackground(color);
 			JLabel nombreDiscoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
 			nombreDiscoPanel.add(nombreDiscoIcon);
 			JLabel nombreDisco = new JLabel("Nombre del disco");
@@ -203,7 +205,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			// Autor del disco
 			JPanel autorPanel = new JPanel(leftAlignment);
-			autorPanel.setBackground(new Color(76, 79, 127));
+			autorPanel.setBackground(color);
 			JLabel autorIcon = new JLabel(Utilidades.createImage("iconos/disc-author.png", 18, 18));
 			autorPanel.add(autorIcon);
 			JLabel autorDisco = new JLabel("Autor del disco");
@@ -214,7 +216,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			// Género del disco
 			JPanel generoPanel = new JPanel(leftAlignment);
-			generoPanel.setBackground(new Color(76, 79, 127));
+			generoPanel.setBackground(color);
 			JLabel generoIcon = new JLabel(Utilidades.createImage("iconos/categorias.png", 18, 18));
 			generoPanel.add(generoIcon);
 			JLabel generoDisco = new JLabel("Género del disco");
@@ -225,7 +227,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			// Género del disco
 			JPanel valoracionPanel = new JPanel(leftAlignment);
-			valoracionPanel.setBackground(new Color(76, 79, 127));
+			valoracionPanel.setBackground(color);
 			JLabel valoracionIcon = new JLabel(Utilidades.createImage("iconos/valoracion.png", 18, 18));
 			valoracionPanel.add(valoracionIcon);
 			JLabel valoracionDisco = new JLabel("Valoración del disco");
@@ -236,7 +238,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			// Sello del disco
 			JPanel selloPanel = new JPanel(leftAlignment);
-			selloPanel.setBackground(new Color(76, 79, 127));
+			selloPanel.setBackground(color);
 			JLabel selloDisco = new JLabel("Discográfica del disco");
 			selloDisco.setForeground(Color.WHITE);
 			selloPanel.add(selloDisco);
@@ -245,7 +247,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			// Fecha de salida del disco
 			JPanel fechaPanel = new JPanel(leftAlignment);
-			fechaPanel.setBackground(new Color(76, 79, 127));
+			fechaPanel.setBackground(color);
 			JLabel fechaDisco = new JLabel("Fecha de salida del disco");
 			fechaDisco.setForeground(Color.WHITE);
 			fechaPanel.add(fechaDisco);
@@ -256,7 +258,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 					
 			// Precio del disco
 			JPanel precioPanel = new JPanel(leftAlignment);
-			precioPanel.setBackground(new Color(76, 79, 127));
+			precioPanel.setBackground(color);
 			JLabel precioIcon = new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32));
 			precioPanel.add(precioIcon);
 			JLabel precioDisco = new JLabel("Precio del disco");
