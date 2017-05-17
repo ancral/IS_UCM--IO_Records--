@@ -10,14 +10,16 @@ import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.pedido.Pedido;
+import tray.notification.TrayNotification;
 
 public class DAOUsuarioImp implements DAOUsuario {
 
 	public boolean comprobarLogin(String usuario, String clave) throws TiendaDatabaseException {
 		boolean ok = false;
-
+		
+		
 		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
+			PreparedStatement sql = TiendaDatabase.getConexionLogin()
 					.prepareStatement("SELECT * FROM usuarios WHERE nombre = ? AND clave = ?");
 
 			sql.setString(1, usuario);

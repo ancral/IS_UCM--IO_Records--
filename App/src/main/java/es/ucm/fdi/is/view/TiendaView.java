@@ -17,6 +17,13 @@ import javax.swing.border.TitledBorder;
 import es.ucm.fdi.is.disco.GeneroDisco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.util.Duration;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
+
 
 public class TiendaView extends JFrame implements TiendaObserver {
 
@@ -97,14 +104,36 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		});
 	}
 
-	public void handleEvent(Notificacion notificacion) {
+	public void handleEvent(final Notificacion notificacion) {
+		new JFXPanel();
+		
 		switch (notificacion) {
 		
 		case SESION_INICIADA:
 			this.usuario.setIcon(Utilidades.createImage("iconos/user-ok.png", 48, 48));
+			
+			Platform.runLater(() -> {
+				TrayNotification tray = new TrayNotification();
+				tray.setTitle("BIENVENIDO");
+				tray.setMessage(notificacion.getMensaje());
+				tray.setNotificationType(NotificationType.SUCCESS);
+				tray.setAnimationType(AnimationType.FADE);
+	            tray.showAndDismiss(Duration.millis(1500));
+			});
+			
 			break;
 		case ERROR_SESION:
 			this.usuario.setIcon(Utilidades.createImage("iconos/user.png", 48, 48));
+			
+			Platform.runLater(() -> {
+				TrayNotification tray = new TrayNotification();
+				tray.setTitle("¡ERROR!");
+				tray.setMessage(notificacion.getMensaje());
+				tray.setNotificationType(NotificationType.ERROR);
+				tray.setAnimationType(AnimationType.POPUP);
+	            tray.showAndWait();
+			});
+			
 			break;
 		default:
 			break;
