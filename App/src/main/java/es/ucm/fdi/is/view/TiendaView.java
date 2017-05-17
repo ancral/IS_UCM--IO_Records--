@@ -15,10 +15,12 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import es.ucm.fdi.is.disco.GeneroDisco;
+import es.ucm.fdi.is.launcher.Main;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
@@ -113,12 +115,17 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			this.usuario.setIcon(Utilidades.createImage("iconos/user-ok.png", 48, 48));
 			
 			Platform.runLater(() -> {
+				
 				TrayNotification tray = new TrayNotification();
 				tray.setTitle("BIENVENIDO");
 				tray.setMessage(notificacion.getMensaje());
 				tray.setNotificationType(NotificationType.SUCCESS);
 				tray.setAnimationType(AnimationType.FADE);
 	            tray.showAndDismiss(Duration.millis(1500));
+	            
+	            AudioClip audio = new AudioClip(Utilidades.class
+	            		.getClassLoader().getResource("audio/Notify.wav").toString());
+	            audio.play();
 			});
 			
 			break;
@@ -126,12 +133,17 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			this.usuario.setIcon(Utilidades.createImage("iconos/user.png", 48, 48));
 			
 			Platform.runLater(() -> {
+				
 				TrayNotification tray = new TrayNotification();
 				tray.setTitle("¡ERROR!");
 				tray.setMessage(notificacion.getMensaje());
 				tray.setNotificationType(NotificationType.ERROR);
 				tray.setAnimationType(AnimationType.POPUP);
 	            tray.showAndWait();
+	            
+	            AudioClip audio = new AudioClip(Utilidades.class
+	            		.getClassLoader().getResource("audio/sad.wav").toString());
+	            audio.play();
 			});
 			
 			break;

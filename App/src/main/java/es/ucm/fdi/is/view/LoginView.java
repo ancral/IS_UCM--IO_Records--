@@ -7,8 +7,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import com.jfoenix.controls.JFXButton;
+
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import javafx.scene.control.Button;
 
 public class LoginView extends JFrame implements TiendaObserver {
 	
@@ -72,6 +75,7 @@ public class LoginView extends JFrame implements TiendaObserver {
 		// Botón acceder
 		JPanel acceder = new JPanel();
 		main.add(acceder);
+		
 		JButton botonAcceder = new JButton("Acceder a la tienda");
 		botonAcceder.addActionListener(new AccederListener());
 		
