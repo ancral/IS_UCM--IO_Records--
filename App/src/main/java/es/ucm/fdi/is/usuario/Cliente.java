@@ -12,7 +12,7 @@ public class Cliente extends Usuario {
 	}
 	
 	public Cliente(String nif, String clave, String nombre, String direccion, Date fechaNacimiento, TipoCliente tipo) {
-		super(nif, clave, nombre, direccion, fechaNacimiento);
+		super(nif, clave, nombre, direccion, fechaNacimiento, TipoUsuario.CLIENTE);
 		this.tipo = tipo;
 	}
 	

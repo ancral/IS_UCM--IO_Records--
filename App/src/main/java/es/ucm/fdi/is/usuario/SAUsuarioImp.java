@@ -2,6 +2,7 @@ package es.ucm.fdi.is.usuario;
 
 import java.util.ArrayList;
 
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
@@ -13,7 +14,7 @@ public class SAUsuarioImp implements SAUsuario {
 	
 	public SAUsuarioImp() {
 		this.observadores = new ArrayList<TiendaObserver>();
-		this.dao = new DAOUsuarioImp();
+		this.dao = FactoriaIntegracion.getFactoria().generaDAOUsuario();
 	}
 	
 	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
@@ -24,8 +25,7 @@ public class SAUsuarioImp implements SAUsuario {
 	}
 
 	public void darseAlta(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
+		//dao.crearUsuario(usuario, null, null);
 	}
 
 	public void darseBaja(Usuario usuario) {

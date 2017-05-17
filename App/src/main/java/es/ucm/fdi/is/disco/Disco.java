@@ -51,6 +51,20 @@ public class Disco {
 		this.setOferta(null);
 	}
 	
+	public Disco(Disco antiguo, OfertaDisco oferta)
+	{
+		this.setTitulo(antiguo.getTitulo());
+		this.setAutor(antiguo.getAutor());
+		this.setFechaSalida(antiguo.getFechaSalida());
+		this.setSello(antiguo.getSello());
+		this.setGenero(antiguo.getGenero());
+		this.setDuracion(antiguo.getDuracion());
+		this.setValoracion(antiguo.getValoracion());
+		this.setPrecioCompra(antiguo.getPrecioCompra());
+		this.setPrecioVenta(antiguo.getPrecioVenta());
+		this.setListaCanciones(antiguo.getListaCanciones());
+		this.setOferta(oferta);
+	}
 	
 	public String getTitulo() {
 		return titulo;
