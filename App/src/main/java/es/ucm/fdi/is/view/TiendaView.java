@@ -173,8 +173,26 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			// BOTONES
 			// ------------------------------------------
 			JButton op1 = new JButton("Panel", Utilidades.createImage("iconos/admin.png", 25, 25));
+			
+			op1.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					PanelView.getPanelView(TiendaView.this).setVisible(true);
+				}
+				
+			});
+			
 			op1.setToolTipText("Panel de administración del catálogo");
 			JButton op2 = new JButton("Pedidos", Utilidades.createImage("iconos/pedidos.png", 25, 25));
+			
+			op2.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					PedidosView.getPedidosView(TiendaView.this).setVisible(true);
+				}
+				
+			});
+			
 			op2.setToolTipText("Ver pedidos");
 			JButton op3 = new JButton("Carrito", Utilidades.createImage("iconos/compra.png", 25, 25));
 			

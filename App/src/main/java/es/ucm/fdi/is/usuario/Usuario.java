@@ -9,18 +9,20 @@ public abstract class Usuario {
 	private String nombre;
 	private String direccion;
 	private Date fechaNacimiento;
+	private TipoUsuario tipo;
 	
 	public Usuario(String nif)
 	{
 		this.nif = nif;
 	}
 	
-	public Usuario(String nif, String clave, String nombre, String direccion, Date fechaNacimiento) {
+	public Usuario(String nif, String clave, String nombre, String direccion, Date fechaNacimiento, TipoUsuario tipo) {
 		this.nif = nif;
 		this.clave = clave;
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.fechaNacimiento = fechaNacimiento;
+		this.tipo = (this.tipo != null) ? TipoUsuario.CLIENTE_EMPLEADO : tipo;
 	}
 	
 	public String getNif() {
@@ -42,5 +44,8 @@ public abstract class Usuario {
 	public Date getFechaNacimiento() {
 		return this.fechaNacimiento;
 	}
-
+	
+	public TipoUsuario getTipo() {
+		return this.tipo;
+	}
 }

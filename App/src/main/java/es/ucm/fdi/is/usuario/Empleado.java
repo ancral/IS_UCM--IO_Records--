@@ -17,7 +17,7 @@ public class Empleado extends Usuario {
 	public Empleado(String nif, String clave, String nombre, String direccion, Date fechaNacimiento,
 					 RangoEmpleado rango, String cargo, Float salario, Date antiguedad) {
 		
-		super(nif, clave, nombre, direccion, fechaNacimiento);
+		super(nif, clave, nombre, direccion, fechaNacimiento, TipoUsuario.EMPLEADO);
 		this.rango = rango;
 		this.salario = salario;
 		this.antiguedad = antiguedad;

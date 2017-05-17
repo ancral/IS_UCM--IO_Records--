@@ -1,51 +1,55 @@
 package es.ucm.fdi.is.pedido;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class SAPedidoImp implements SAPedido {
 
-	public void crearPedido(Pedido pedido) {
-		// TODO Auto-generated method stub
-		
+	private DAOPedido dao;
+	private ArrayList<TiendaObserver> observers;
+	
+	public SAPedidoImp()
+	{
+		this.dao = FactoriaIntegracion.getFactoria().generaDAOPedido();
+		this.observers = new ArrayList<TiendaObserver>();
+	}
+	
+	public void crearPedido(Pedido pedido) throws TiendaDatabaseException {
+		dao.crearPedido(pedido);
 	}
 
-	public void devolverPedido(Pedido pedido) {
-		// TODO Auto-generated method stub
-		
+	public void devolverPedido(Pedido pedido) throws TiendaDatabaseException {
+		dao.eliminarPedido(pedido);
 	}
 
-	public List<Pedido> verPedidosUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException {
+		return dao.verPedidosUsuario(usuario);
 	}
 
-	public void addProducto(Pedido pedido, Disco disco) {
-		// TODO Auto-generated method stub
-		
+	public void addProducto(Pedido pedido, Disco disco) throws TiendaDatabaseException {
+		dao.addProductoPedido(disco, pedido);
 	}
 
-	public void modificarPedido(Pedido antiguo, Pedido nuevo) {
-		// TODO Auto-generated method stub
-		
+	public void modificarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException  {
+		dao.actualizarPedido(antiguo, nuevo);
 	}
 
-	public void eliminar(Pedido pedido) {
-		// TODO Auto-generated method stub
-		
+	public void eliminar(Pedido pedido) throws TiendaDatabaseException  {
+		dao.eliminarPedido(pedido);
 	}
 
 	public void addObverser(TiendaObserver observer) {
-		// TODO Auto-generated method stub
-		
+		observers.add(observer);
 	}
 
 	public void removeObserver(TiendaObserver observer) {
-		// TODO Auto-generated method stub
-		
+		observers.remove(observer);
 	}
 
 }
