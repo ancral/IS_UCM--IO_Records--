@@ -17,7 +17,7 @@ public class DAOUsuarioImp implements DAOUsuario {
 		boolean ok = false;
 
 		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
+			PreparedStatement sql = TiendaDatabase.getConexionLogin()
 					.prepareStatement("SELECT * FROM usuarios WHERE nombre = ? AND clave = ?");
 
 			sql.setString(1, usuario);
