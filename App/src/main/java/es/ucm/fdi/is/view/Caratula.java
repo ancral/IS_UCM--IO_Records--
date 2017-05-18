@@ -29,5 +29,16 @@ public class Caratula extends JLabel {
 	public String getTitulo() {
 		return this.titulo;
 	}
-
+	
+	public String getAutor(){
+		return this.autor;
+	}
+	
+	public Float getPrecio() {
+		return this.precio;
+	}
+	
+	public Valoracion getValoracion() {
+		return this.valoracion;
+	}
 }

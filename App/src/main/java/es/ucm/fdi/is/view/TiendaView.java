@@ -15,7 +15,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import es.ucm.fdi.is.disco.GeneroDisco;
-import es.ucm.fdi.is.launcher.Main;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import javafx.application.Platform;
@@ -27,6 +26,7 @@ import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
 
+@SuppressWarnings("restriction")
 public class TiendaView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = 5963169495489228054L;

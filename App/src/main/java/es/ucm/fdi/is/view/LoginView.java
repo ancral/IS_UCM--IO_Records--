@@ -7,11 +7,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import com.jfoenix.controls.JFXButton;
-
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
-import javafx.scene.control.Button;
 
 public class LoginView extends JFrame implements TiendaObserver {
 	

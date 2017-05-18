@@ -1,16 +1,11 @@
 package es.ucm.fdi.is.usuario;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
-import es.ucm.fdi.is.disco.Disco;
-import es.ucm.fdi.is.pedido.Pedido;
-import tray.notification.TrayNotification;
 
 public class DAOUsuarioImp implements DAOUsuario {
 

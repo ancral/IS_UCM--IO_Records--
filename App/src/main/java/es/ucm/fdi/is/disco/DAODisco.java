@@ -1,6 +1,5 @@
 package es.ucm.fdi.is.disco;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
