@@ -8,7 +8,8 @@ import java.sql.Statement;
 
 
 public class TiendaDatabase {
-	private static Connection conexion = null;
+	private static Connection login = null;
+	private static Connection tienda = null;
 	private static Statement statement = null;
 
 	private TiendaDatabase() {
@@ -16,16 +17,16 @@ public class TiendaDatabase {
 
 	public static Connection getConexionLogin() throws TiendaDatabaseException {
 
-		if (conexion == null) {
+		if (login == null) {
 
 			try {
 				Class.forName("org.sqlite.JDBC");
 	            // parámetros de la base de datos
 	            String url = "jdbc:sqlite::resource:databases/usuarios.db";
 	            // creación de la conexión con la base de datos
-	            conexion = DriverManager.getConnection(url);
+	            login = DriverManager.getConnection(url);
 	            
-	            System.out.println("Connection to SQLite has been established.");
+	            System.out.println("La conexión con la base de datos de USUARIOS ha sido establecida.");
 	            
 
 			} catch (ClassNotFoundException e1) {
@@ -35,35 +36,38 @@ public class TiendaDatabase {
 			}
 		}
 
-		return conexion;
+		return login;
 	}
 
 	public static Connection getConexion() throws TiendaDatabaseException {
-		Connection conexion;
+		
+		if (tienda == null) {
 
-			try {
+		try {
 				Class.forName("org.sqlite.JDBC");
 				
-				conexion = DriverManager.getConnection("jdbc:sqlite:databases/compras.db");
+				tienda = DriverManager.getConnection("jdbc:sqlite::resource:databases/compras.db");
 
-				System.out.println("Connection to SQLite has been established.");
+				System.out.println("La conexión con la base de datos de TIENDA ha sido establecida.");
 
 			} catch (ClassNotFoundException e1) {
 				throw new TiendaDatabaseException("No se ha encontrado la librería de SQLite");
 			} catch (SQLException e2) {
 				throw new TiendaDatabaseException("Ha sido imposible conectar con la base de datos");
 			}
+		}
 
-		return conexion;
+		return tienda;
 	}
 
 	public static void iniciar() throws TiendaDatabaseException {
 		getConexionLogin();
+		getConexion();
 
 		if (statement == null) {
 
 			try {
-				statement = conexion.createStatement();
+				statement = tienda.createStatement();
 				statement.setQueryTimeout(30); // set timeout to 30 sec.
 			} catch (SQLException e) {
 				throw new TiendaDatabaseException(e.getMessage());
@@ -73,9 +77,9 @@ public class TiendaDatabase {
 	}
 
 	public static void cerrar() throws TiendaDatabaseException {
-		if (conexion != null) {
+		if (login != null) {
 			try {
-				conexion.close();
+				login.close();
 			} catch (SQLException e) {
 				throw new TiendaDatabaseException(e.getMessage());
 			}

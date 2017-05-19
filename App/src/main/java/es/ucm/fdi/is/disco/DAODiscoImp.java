@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.is.dao.TiendaDatabase;
@@ -60,7 +61,7 @@ public class DAODiscoImp implements DAODisco {
 			//Creando la lista de canciones
 			while(resCanciones.next())
 			{
-				canciones.add(new Cancion(resCanciones.getString(0)));
+				canciones.add(new Cancion(resCanciones.getString(1)));
 			}
 			
 			//Busqueda del genero del disco
@@ -97,7 +98,7 @@ public class DAODiscoImp implements DAODisco {
 
 	@SuppressWarnings("null")
 	public List<Disco> leerTodos() throws TiendaDatabaseException {
-		List<Disco> discos = null;
+		List<Disco> discos = new ArrayList<Disco>();
 		try {
 			PreparedStatement sql = TiendaDatabase.getConexion()
 					.prepareStatement("SELECT * FROM Disco");
@@ -109,21 +110,19 @@ public class DAODiscoImp implements DAODisco {
 			//Leer todos los discos de la tabla
 			while(res.next())
 			{
-				List<Cancion> canciones = null;
+				List<Cancion> canciones = new ArrayList<Cancion>();
 				
 				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-						.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
+						.prepareStatement("SELECT * FROM ListaCanciones");
 				
-				sqlCanciones.setString(1,res.getString(1));
 				
-				ResultSet resCanciones = sql.executeQuery();
+				ResultSet resCanciones = sqlCanciones.executeQuery();
 				
 				//Creando la lista de canciones
 				while(resCanciones.next())
 				{
-					canciones.add(new Cancion(resCanciones.getString(0)));
+					canciones.add(new Cancion(resCanciones.getString(2)));
 				}
-				
 				//Busqueda del genero del disco
 				GeneroDisco genero = null;
 				for(GeneroDisco e : GeneroDisco.values())
@@ -241,7 +240,7 @@ public class DAODiscoImp implements DAODisco {
 				//Creando la lista de canciones
 				while(resCanciones.next())
 				{
-					canciones.add(new Cancion(resCanciones.getString(0)));
+					canciones.add(new Cancion(resCanciones.getString(1)));
 				}
 				
 				//Busqueda del genero del disco
