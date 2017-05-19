@@ -24,6 +24,10 @@ public class CatalogoDiscos extends JScrollPane {
 	private TiendaView tienda;
 	private JPanel catalogo;
 	
+	private int tamanyoCatalogo;
+	private static int VACIO = 0;
+	private int filas;
+	
 	public static CatalogoDiscos getCatalogoDiscos(TiendaView tienda) {
 		if (catalogoDiscos == null)
 			catalogoDiscos = new CatalogoDiscos(tienda);
@@ -35,11 +39,12 @@ public class CatalogoDiscos extends JScrollPane {
 		this.tienda = tienda;
 		
 		catalogo = new JPanel();
+		tamanyoCatalogo = 0;
+		
 		catalogo.setBackground(new Color(190, 190, 242));
 		this.setViewportView(catalogo);
-		this.setPreferredSize(new Dimension(670, 440));
+		this.setPreferredSize(new Dimension(750, 440));
 		this.getVerticalScrollBar().setUnitIncrement(16); // aumenta la velocidad de barra de scroll
-		
 		
 		
 		ArrayList<Disco> discos = new ArrayList<Disco>();
@@ -50,25 +55,51 @@ public class CatalogoDiscos extends JScrollPane {
 			e.printStackTrace();
 		}
 		
-		int columnas = discos.size() < 3 ? 1 : 3;
-		int filas = discos.size() < 3 ? 1 : discos.size() / columnas;
-		GridLayout catalogoLayout = new GridLayout(filas, columnas, 5, 5);
-		catalogo.setLayout(catalogoLayout);
+		int columnas = 3;
+		filas = columnas-discos.size();
 		
 		actualizar(discos);
 		
 	}
 	
 	public void actualizar(ArrayList<Disco> discos) {
-		int columnas = discos.size() < 3 ? 1 : 3;
-		int filas = discos.size() < 3 ? 1 : discos.size() / columnas;
+		
+		//Si tenemos discos en el catalogo, tenemos que borrarlo, para poder actualizarlo
+		if(tamanyoCatalogo!=VACIO) borrar();
+		
+		anyadir(discos);
+	}
+	
+	private void borrar()
+	{
+		tamanyoCatalogo = 0;
+		catalogo.removeAll();
+		catalogo.repaint();
+		catalogo.revalidate();
+	}
+	
+	private void anyadir(ArrayList<Disco> discos)
+	{
+		
+		//Calculamos el ajuste del layout y a su vez el reajuste del tamaño de las caratulas
+		int columnas = (discos.size() < 3) ? 2 : (discos.size()%3==0) ? (discos.size() / 3) 
+				: (discos.size() / 3)+1;
+		
+		int filas = (columnas < 3) ? 1 :(discos.size()%3==0) ? (discos.size() / columnas) 
+				: (discos.size() / columnas)+1;
+		
+		GridLayout catalogoLayout = new GridLayout(filas, columnas, 5, 5);
+		catalogo.setLayout(catalogoLayout);
+		
 		Iterator<Disco> discosIt = discos.iterator();
 		
-		for (int i = 0; i < filas; i++) {
-			for (int j = 0; j < columnas; j++) {
+		//Tenemos que poner (&& discosIt.hasNext()), para que ponga la fila restante que faltase
+		for (int i = 0; i < filas && discosIt.hasNext(); i++) {
+			for (int j = 0; j < columnas && discosIt.hasNext(); j++) {
+				
 				Disco disco = discosIt.next();
 				
-				final Caratula car = new Caratula(disco);
+				final Caratula car = new Caratula(disco, filas, columnas);
 				car.addMouseListener(new MouseListener() {
 
 					public void mouseClicked(MouseEvent e) {
@@ -91,8 +122,10 @@ public class CatalogoDiscos extends JScrollPane {
 					
 				});
 				
+				tamanyoCatalogo++;
 				catalogo.add(car);
 			}
 		}
 	}
+	
 }

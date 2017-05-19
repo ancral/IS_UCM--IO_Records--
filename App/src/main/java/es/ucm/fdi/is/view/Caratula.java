@@ -11,8 +11,10 @@ public class Caratula extends JLabel {
 	private static final long serialVersionUID = -2527744143645528102L;
 	private Disco disco;
 	
-	public Caratula(Disco disco) {
-		super(Utilidades.createImage("caratulas/" + disco.getTitulo() + ".jpg", 210, 210));
+	public Caratula(Disco disco, int columnas, int filas) {
+		super(Utilidades.createImage("caratulas/" + disco.getTitulo() + ".jpg", 710/filas,
+				440/columnas));
+
 		this.disco = disco;
 		
 		this.setBorder(BorderFactory.createMatteBorder(2, 2, 4, 2, Color.GRAY));

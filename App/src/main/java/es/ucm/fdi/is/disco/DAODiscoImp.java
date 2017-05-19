@@ -215,23 +215,25 @@ public class DAODiscoImp implements DAODisco {
         }
 	}
 
-	@SuppressWarnings("null")
 	public List<Disco> leerPorGenero(GeneroDisco g) throws TiendaDatabaseException {
 
-        List<Disco> discos = null;
+        List<Disco> discos = new ArrayList<Disco>();
+
         try
         { 
+        	
         PreparedStatement generos = TiendaDatabase.getConexion()
-            .prepareStatement("SELECT * FROM Disco WHERE Genero = "+g.toString());
-
+            .prepareStatement("SELECT * FROM Disco WHERE Disco.Genero = '"+g.toString()+"'");
+        
         ResultSet res = generos.executeQuery();
-
+        
+        
         while(res.next())
         {
-           List<Cancion> canciones = null;
+           List<Cancion> canciones = new ArrayList<Cancion>();
 				
 				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-						.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
+						.prepareStatement("SELECT * FROM ListaCanciones WHERE Titulo = ?");
 				
 				sqlCanciones.setString(1,res.getString(1));
 				
@@ -240,7 +242,7 @@ public class DAODiscoImp implements DAODisco {
 				//Creando la lista de canciones
 				while(resCanciones.next())
 				{
-					canciones.add(new Cancion(resCanciones.getString(1)));
+					canciones.add(new Cancion(resCanciones.getString(2)));
 				}
 				
 				//Busqueda del genero del disco

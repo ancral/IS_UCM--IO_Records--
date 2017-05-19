@@ -66,6 +66,11 @@ public class Disco {
 		this.setOferta(oferta);
 	}
 	
+	public Disco(String titulo)
+	{
+		this.setTitulo(titulo);
+	}
+	
 	public String getTitulo() {
 		return titulo;
 	}

@@ -3,10 +3,15 @@ package es.ucm.fdi.is.view;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
 
@@ -21,14 +26,14 @@ public class BarraLateral extends JPanel {
 	private JLabel valoracionLb;
 	private JLabel precioLb;
 	
-	public static BarraLateral getBarraLateral() {
+	public static BarraLateral getBarraLateral(CatalogoDiscos catalogo) {
 		if (barraLateral == null)
-			barraLateral = new BarraLateral();
+			barraLateral = new BarraLateral(catalogo);
 		
 		return barraLateral;
 	}
 
-	private BarraLateral() {
+	private BarraLateral(CatalogoDiscos catalogo) {
 		/* ------------------------------------------------
 		 * LISTA DE CATEGORÍAS
 		 * ------------------------------------------------ */
@@ -64,6 +69,36 @@ public class BarraLateral extends JPanel {
 		// ------------------------------------------
 		comboIcon.add(new JLabel(Utilidades.createImage("iconos/categorias.png", 50, 50)));
 		JComboBox<GeneroDisco> menuCat = new JComboBox<GeneroDisco>(GeneroDisco.values());
+		menuCat.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				GeneroDisco generoEncontrado = null;
+				
+				//Buscamos el genero que queremos 
+				for(GeneroDisco genero : GeneroDisco.values())
+				{
+					if(menuCat.getSelectedItem().toString()
+							.equalsIgnoreCase(genero.toString()))
+					{
+						generoEncontrado = genero;
+					}
+				}
+				
+				ArrayList<Disco> discosPorGenero = new ArrayList<Disco>();
+				try {
+					//Hacemos una busqueda en la BD de los discos con ese genero
+					discosPorGenero.addAll(FactoriaIntegracion.getFactoria()
+							.generaDAODisco().leerPorGenero(generoEncontrado));
+				} catch (TiendaDatabaseException e1) {
+					e1.printStackTrace();
+				}
+				
+				//Actualizamos el catalogo con esos discos
+				catalogo.actualizar(discosPorGenero);
+			}
+		});
 		comboIcon.add(menuCat);
 		this.add(comboIcon);
 		
