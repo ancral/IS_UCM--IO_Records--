@@ -282,55 +282,6 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			
 			toolBarPanel.add(usuario);
 		}
-		
-	}
-	
-	private class CatalogoDiscos extends JScrollPane {
-		
-		private static final long serialVersionUID = 3809398699373783819L;
-
-		public CatalogoDiscos() {
-			
-			JPanel catalogo = new JPanel();
-			catalogo.setBackground(new Color(190, 190, 242));
-			this.setViewportView(catalogo);
-			this.setPreferredSize(new Dimension(670, 440));
-			this.getVerticalScrollBar().setUnitIncrement(16); // aumenta la velocidad de barra de scroll
-			
-			final int filas = 5;
-			final int columnas = 3;
-			GridLayout catalogoLayout = new GridLayout(filas, columnas, 5, 5);
-			catalogo.setLayout(catalogoLayout);
-			
-			for (int i = 0; i < filas; i++) {
-				for (int j = 0; j < columnas; j++) {
-					final Caratula car = new Caratula("Disco (" + Integer.toString(i) + ", " + Integer.toString(j) + ")");
-					car.addMouseListener(new MouseListener() {
-
-						public void mouseClicked(MouseEvent e) {
-							TiendaView.this.setVisible(false);
-							// hacemos visible la información del disco
-							DiscoView.getDiscoView(TiendaView.this).setVisible(true); 
-						}
-
-						public void mousePressed(MouseEvent e) {}
-
-						public void mouseReleased(MouseEvent e) {}
-
-						public void mouseEntered(MouseEvent e) {
-							// Mostramos el titulo de un disco cuando el curso se posa encima
-							TiendaView.this.pieInfo.setText(car.getTitulo());
-						}
-
-						public void mouseExited(MouseEvent e) {}
-						
-					});
-					
-					catalogo.add(car);
-				}
-			}
-			
-		}
 	}
 	
 	private class BarraLateral extends JPanel {
