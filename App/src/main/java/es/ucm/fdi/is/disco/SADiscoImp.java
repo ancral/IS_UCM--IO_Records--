@@ -5,21 +5,28 @@ import java.util.List;
 
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SADiscoImp implements SADisco {
 
 	private DAODisco dao;
-	private ArrayList<TiendaObserver> observers;
+	private ArrayList<TiendaObserver> observadores;
 	
 	public SADiscoImp()
 	{
 		this.dao = FactoriaIntegracion.getFactoria().generaDAODisco();
-		this.observers = new ArrayList<TiendaObserver>();
+		this.observadores = new ArrayList<TiendaObserver>();
 	}
 	
-	public void crearDisco(Disco disco) throws TiendaDatabaseException{
-		dao.crearDisco(disco);
+	public void crearDisco(Disco disco) throws TiendaDatabaseException {
+		if (!dao.existeDisco(disco)) {
+			dao.crearDisco(disco);
+			notifyAll(Notificacion.DISCO_CREADO);
+		}
+		else {
+			notifyAll(Notificacion.DISCO_CREADO_EXISTE);
+		}
 	}
 
 	public boolean existeDisco(Disco disco) throws TiendaDatabaseException {
@@ -49,11 +56,17 @@ public class SADiscoImp implements SADisco {
 	}
 
 	public void addObverser(TiendaObserver observer) {
-		observers.add(observer);
+		observadores.add(observer);
 	}
 
 	public void removeObserver(TiendaObserver observer) {
-		observers.remove(observer);
+		observadores.remove(observer);
+	}
+
+	@Override
+	public void notifyAll(Notificacion notificacion) {
+		for (TiendaObserver o : observadores)
+			o.notify(notificacion);
 	}
 
 }

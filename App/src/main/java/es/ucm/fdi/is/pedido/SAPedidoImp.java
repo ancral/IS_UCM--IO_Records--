@@ -6,6 +6,7 @@ import java.util.List;
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.usuario.Usuario;
 
@@ -50,6 +51,12 @@ public class SAPedidoImp implements SAPedido {
 
 	public void removeObserver(TiendaObserver observer) {
 		observers.remove(observer);
+	}
+
+	@Override
+	public void notifyAll(Notificacion notificacion) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

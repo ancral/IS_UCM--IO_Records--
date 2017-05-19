@@ -1,25 +1,33 @@
 package es.ucm.fdi.is.venta;
 
+import java.util.ArrayList;
+
+import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SAVentaImp implements SAVenta {
+	
+	private DAOVenta dao;
+	private ArrayList<TiendaObserver> observers;
 
 	public void generarFactura(Venta venta) {
-		// TODO Auto-generated method stub
-		
+		// TODO: Implementar
 	}
 
 	public void verBeneficio(Venta venta) {
-		// TODO Auto-generated method stub
-		
+		// TODO: Implementar
 	}
 
 	public void addObverser(TiendaObserver observer) {
-		// TODO Auto-generated method stub
-		
+		observers.add(observer);
 	}
 
 	public void removeObserver(TiendaObserver observer) {
+		observers.add(observer);
+	}
+
+	@Override
+	public void notifyAll(Notificacion notificacion) {
 		// TODO Auto-generated method stub
 		
 	}
