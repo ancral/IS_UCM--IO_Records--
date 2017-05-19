@@ -95,7 +95,8 @@ public class LoginView extends JFrame implements TiendaObserver {
 	}
 
 	public void notify(Notificacion notificacion) {
-		JOptionPane.showMessageDialog(this, notificacion.getMensaje(), "Información",  JOptionPane.INFORMATION_MESSAGE);
+		/* Notificación antigua */
+		// JOptionPane.showMessageDialog(this, notificacion.getMensaje(), "Información",  JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

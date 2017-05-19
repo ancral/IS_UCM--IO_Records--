@@ -114,36 +114,44 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		case SESION_INICIADA:
 			this.usuario.setIcon(Utilidades.createImage("iconos/user-ok.png", 48, 48));
 			
-			Platform.runLater(() -> {
+			Platform.runLater(new Runnable() {
+
+				@Override
+				public void run() {
+					TrayNotification tray = new TrayNotification();
+					tray.setTitle("BIENVENIDO");
+					tray.setMessage(notificacion.getMensaje());
+					tray.setNotificationType(NotificationType.SUCCESS);
+					tray.setAnimationType(AnimationType.FADE);
+		            tray.showAndDismiss(Duration.millis(1500));
+		            
+		            AudioClip audio = new AudioClip(Utilidades.class
+		            		.getClassLoader().getResource("audio/Notify.wav").toString());
+		            audio.play();	  
+				}
 				
-				TrayNotification tray = new TrayNotification();
-				tray.setTitle("BIENVENIDO");
-				tray.setMessage(notificacion.getMensaje());
-				tray.setNotificationType(NotificationType.SUCCESS);
-				tray.setAnimationType(AnimationType.FADE);
-	            tray.showAndDismiss(Duration.millis(1500));
-	            
-	            AudioClip audio = new AudioClip(Utilidades.class
-	            		.getClassLoader().getResource("audio/Notify.wav").toString());
-	            audio.play();
 			});
 			
 			break;
 		case ERROR_SESION:
 			this.usuario.setIcon(Utilidades.createImage("iconos/user.png", 48, 48));
 			
-			Platform.runLater(() -> {
+			Platform.runLater(new Runnable() {
+
+				@Override
+				public void run() {
+					TrayNotification tray = new TrayNotification();
+					tray.setTitle("¡ERROR!");
+					tray.setMessage(notificacion.getMensaje());
+					tray.setNotificationType(NotificationType.ERROR);
+					tray.setAnimationType(AnimationType.POPUP);
+		            tray.showAndWait();
+		            
+		            AudioClip audio = new AudioClip(Utilidades.class
+		            		.getClassLoader().getResource("audio/sad.wav").toString());
+		            audio.play();
+				}
 				
-				TrayNotification tray = new TrayNotification();
-				tray.setTitle("¡ERROR!");
-				tray.setMessage(notificacion.getMensaje());
-				tray.setNotificationType(NotificationType.ERROR);
-				tray.setAnimationType(AnimationType.POPUP);
-	            tray.showAndWait();
-	            
-	            AudioClip audio = new AudioClip(Utilidades.class
-	            		.getClassLoader().getResource("audio/sad.wav").toString());
-	            audio.play();
 			});
 			
 			break;
@@ -221,6 +229,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			toolBarPanel.add(op1);
 			toolBarPanel.add(op2);
 			toolBarPanel.add(op3);
+		
 			
 			// SEPARADOR
 			// ------------------------------------------

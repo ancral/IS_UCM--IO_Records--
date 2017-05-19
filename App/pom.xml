@@ -10,6 +10,16 @@
   		<artifactId>sqlite-jdbc</artifactId>
   		<version>3.7.2</version>
   	</dependency>
+  	<dependency>
+  		<groupId>com.jfoenix</groupId>
+  		<artifactId>jfoenix</artifactId>
+  		<version>1.4.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.github.plushaze.traynotification</groupId>
+  		<artifactId>TrayNotification</artifactId>
+  		<version>0.3</version>
+  	</dependency>
   </dependencies>
   
   <build>

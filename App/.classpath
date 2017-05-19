@@ -27,7 +27,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="src/main/resources/tray/TrayTester.jar"/>
-	<classpathentry kind="lib" path="src/main/resources/JFoenix/jfoenix.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
