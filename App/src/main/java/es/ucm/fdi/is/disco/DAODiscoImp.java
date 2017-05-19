@@ -42,11 +42,10 @@ public class DAODiscoImp implements DAODisco {
 		}
 	}
 
-	@SuppressWarnings("null")
 	public Disco leerDisco(String titulo) throws TiendaDatabaseException {
 		Disco disco = null;
 		try {
-			List<Cancion> canciones = null;
+			List<Cancion> canciones = new ArrayList<Cancion>();
 		PreparedStatement sql = TiendaDatabase.getConexion()
 				.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
 		PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
@@ -89,6 +88,8 @@ public class DAODiscoImp implements DAODisco {
 					Float.valueOf(res.getFloat(8)), Float.valueOf(res.getFloat(9)),canciones,
 					new OfertaDisco(res.getInt(10)));
 			
+			res.close();
+			resCanciones.close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}

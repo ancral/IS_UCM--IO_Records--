@@ -8,10 +8,17 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.disco.Cancion;
+import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
 import es.ucm.fdi.is.disco.Valoracion;
 import es.ucm.fdi.is.mvc.Notificacion;
@@ -28,18 +35,17 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	 * accionar el botón de regresar
 	 */
 	private TiendaView tiendaView;
-
-	private DiscoView(TiendaView view) {
+	private Disco disco;
+	
+	private DiscoView(TiendaView view, Disco disco) {
 		super("I/O Records > Ventana de disco");
 		this.tiendaView = view;
+		this.disco = disco;
 		initGUI();
 	}
 	
-	public static DiscoView getDiscoView(TiendaView view) {
-		if (discoView == null)
-			discoView = new DiscoView(view);
-		
-		return discoView;
+	public static DiscoView getDiscoView(TiendaView view,Disco disco) {
+		return discoView = new DiscoView(view,disco);
 	}
 	
 	private void initGUI() {
@@ -128,14 +134,14 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		
 		// INFORMACIÓN DEL DISCO SELECCIONADO
 		// ----------------------------------------------
-		contenedor.add(new DiscoInfo(), BorderLayout.NORTH);
+		contenedor.add(new DiscoInfo(disco), BorderLayout.NORTH);
 		
 		contenedor.add(Box.createVerticalStrut(20), BorderLayout.CENTER); // espacio en blanco
 		
 		
 		// LISTA DE CANCIONES DEL DISCO
 		// ----------------------------------------------
-		contenedor.add(new ListaCanciones(), BorderLayout.SOUTH);
+		contenedor.add(new ListaCanciones(disco), BorderLayout.SOUTH);
 		
 		
 		main.add(contenedor);
@@ -156,7 +162,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		
 		private static final long serialVersionUID = 7708121068748511959L;
 
-		public DiscoInfo() {
+		public DiscoInfo(Disco disco) {
 			Color color = new Color(76, 79, 127);
 			
 			this.setBackground(color);
@@ -169,7 +175,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			caratulaP.setBackground(color);
 			BoxLayout caratulaPLay = new BoxLayout(caratulaP, BoxLayout.Y_AXIS);
 			caratulaP.setLayout(caratulaPLay);		
-			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/cover.jpg", 250, 250));
+			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/"+disco.getTitulo()+".jpg", 250, 250));
 			caratulaP.add(caratula);
 			
 			JPanel comprarPanel = new JPanel();
@@ -196,7 +202,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			nombreDiscoPanel.setBackground(color);
 			JLabel nombreDiscoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
 			nombreDiscoPanel.add(nombreDiscoIcon);
-			JLabel nombreDisco = new JLabel("Nombre del disco");
+			JLabel nombreDisco = new JLabel(disco.getTitulo());
 			nombreDisco.setForeground(Color.WHITE);
 			nombreDisco.setFont(new Font("sans", Font.BOLD, 35));
 			nombreDiscoPanel.add(nombreDisco);
@@ -208,7 +214,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			autorPanel.setBackground(color);
 			JLabel autorIcon = new JLabel(Utilidades.createImage("iconos/disc-author.png", 18, 18));
 			autorPanel.add(autorIcon);
-			JLabel autorDisco = new JLabel("Autor del disco");
+			JLabel autorDisco = new JLabel(disco.getAutor());
 			autorDisco.setForeground(Color.WHITE);
 			autorPanel.add(autorDisco);
 			
@@ -219,7 +225,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			generoPanel.setBackground(color);
 			JLabel generoIcon = new JLabel(Utilidades.createImage("iconos/categorias.png", 18, 18));
 			generoPanel.add(generoIcon);
-			JLabel generoDisco = new JLabel("Género del disco");
+			JLabel generoDisco = new JLabel(disco.getGenero().toString());
 			generoDisco.setForeground(Color.WHITE);
 			generoPanel.add(generoDisco);
 			
@@ -230,7 +236,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			valoracionPanel.setBackground(color);
 			JLabel valoracionIcon = new JLabel(Utilidades.createImage("iconos/valoracion.png", 18, 18));
 			valoracionPanel.add(valoracionIcon);
-			JLabel valoracionDisco = new JLabel("Valoración del disco");
+			JLabel valoracionDisco = new JLabel("ARREGLAR VALORACIONES");
 			valoracionDisco.setForeground(Color.WHITE);
 			valoracionPanel.add(valoracionDisco);
 			
@@ -239,7 +245,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			// Sello del disco
 			JPanel selloPanel = new JPanel(leftAlignment);
 			selloPanel.setBackground(color);
-			JLabel selloDisco = new JLabel("Discográfica del disco");
+			JLabel selloDisco = new JLabel(disco.getSello());
 			selloDisco.setForeground(Color.WHITE);
 			selloPanel.add(selloDisco);
 			
@@ -248,7 +254,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			// Fecha de salida del disco
 			JPanel fechaPanel = new JPanel(leftAlignment);
 			fechaPanel.setBackground(color);
-			JLabel fechaDisco = new JLabel("Fecha de salida del disco");
+			JLabel fechaDisco = new JLabel(disco.getFechaSalida().toString());
 			fechaDisco.setForeground(Color.WHITE);
 			fechaPanel.add(fechaDisco);
 			
@@ -261,7 +267,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			precioPanel.setBackground(color);
 			JLabel precioIcon = new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32));
 			precioPanel.add(precioIcon);
-			JLabel precioDisco = new JLabel("Precio del disco");
+			JLabel precioDisco = new JLabel(disco.getPrecioVenta().toString());
 			precioDisco.setForeground(Color.WHITE);
 			precioDisco.setFont(new Font("sans", Font.BOLD, 15));
 			precioPanel.add(precioDisco);
@@ -277,21 +283,35 @@ public class DiscoView extends JFrame implements TiendaObserver {
 
 		private static final long serialVersionUID = -3657305710338484372L;
 
-		public ListaCanciones() {
+		public ListaCanciones(Disco disco) {
 			GridLayout listaPanelLy = new GridLayout(6, 2, 0, 0);
 			this.setLayout(listaPanelLy);
 			
 			TitledBorder listaBorder = new TitledBorder("Lista de canciones (duración)");
 			this.setBorder(listaBorder);
 			
-			for (int i = 0; i < 12; i++) {
+			
+			Disco encontrado;
+			try {
+				encontrado = FactoriaIntegracion.getFactoria()
+						.generaDAODisco().leerDisco(disco.getTitulo());
+			
+			
+			List<Cancion> canciones = encontrado.getListaCanciones();
+			Iterator<Cancion> it = canciones.iterator();
+			
+			while(it.hasNext()){
 				JPanel cancion = new JPanel();
 				FlowLayout cancionLy = new FlowLayout();
 				cancionLy.setAlignment(FlowLayout.LEFT);
 				cancion.setLayout(cancionLy);
 				cancion.add(new JLabel(Utilidades.createImage("iconos/play.png", 10, 10)));
-				cancion.add(new JLabel(i + ". Título de la canción"));
+				cancion.add(new JLabel(it.next().toString()));
 				this.add(cancion);
+			}
+			} catch (TiendaDatabaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

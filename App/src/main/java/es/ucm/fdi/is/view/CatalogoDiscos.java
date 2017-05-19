@@ -14,6 +14,13 @@ import javax.swing.JScrollPane;
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.AudioClip;
+import javafx.util.Duration;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 public class CatalogoDiscos extends JScrollPane {
 
@@ -26,7 +33,6 @@ public class CatalogoDiscos extends JScrollPane {
 	
 	private int tamanyoCatalogo;
 	private static int VACIO = 0;
-	private int filas;
 	
 	public static CatalogoDiscos getCatalogoDiscos(TiendaView tienda) {
 		if (catalogoDiscos == null)
@@ -54,9 +60,6 @@ public class CatalogoDiscos extends JScrollPane {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		int columnas = 3;
-		filas = columnas-discos.size();
 		
 		actualizar(discos);
 		
@@ -105,7 +108,7 @@ public class CatalogoDiscos extends JScrollPane {
 					public void mouseClicked(MouseEvent e) {
 						tienda.setVisible(false);
 						// hacemos visible la información del disco
-						DiscoView.getDiscoView(tienda).setVisible(true); 
+						DiscoView.getDiscoView(tienda,disco).setVisible(true); 
 					}
 
 					public void mousePressed(MouseEvent e) {}
