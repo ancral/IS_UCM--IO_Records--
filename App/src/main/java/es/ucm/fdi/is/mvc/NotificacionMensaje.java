@@ -7,7 +7,9 @@ public enum NotificacionMensaje {
 	DISCO_CREADO_EXISTE("El disco ya se encuentra en el catálogo"),
 	DISCO_CREADO("El disco se ha creado correctamente"),
 	DISCO_BORRADO("El disco ha sido descatalogado"),
-	DISCO_ACTUALIZADO("Se han cambiado los datos del disco");
+	DISCO_ACTUALIZADO("Se han cambiado los datos del disco"),
+	LEER_TODOS,
+	LEER_POR_GENERO;
 	
 	private String mensaje;
 	

@@ -109,7 +109,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	public void handleEvent(final Notificacion notificacion) {
 		new JFXPanel();
 		
-		switch (notificacion) {
+		switch (notificacion.getNotificacion()) {
 		
 		case SESION_INICIADA:
 			this.usuario.setIcon(Utilidades.createImage("iconos/user-ok.png", 48, 48));
@@ -120,7 +120,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 				public void run() {
 					TrayNotification tray = new TrayNotification();
 					tray.setTitle("BIENVENIDO");
-					tray.setMessage(notificacion.getMensaje());
+					tray.setMessage(notificacion.getNotificacion().getMensaje());
 					tray.setNotificationType(NotificationType.SUCCESS);
 					tray.setAnimationType(AnimationType.FADE);
 		            tray.showAndDismiss(Duration.millis(1500));
@@ -142,7 +142,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 				public void run() {
 					TrayNotification tray = new TrayNotification();
 					tray.setTitle("¡ERROR!");
-					tray.setMessage(notificacion.getMensaje());
+					tray.setMessage(notificacion.getNotificacion().getMensaje());
 					tray.setNotificationType(NotificationType.ERROR);
 					tray.setAnimationType(AnimationType.POPUP);
 		            tray.showAndWait();

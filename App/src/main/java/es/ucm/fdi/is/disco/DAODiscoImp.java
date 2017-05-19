@@ -49,7 +49,7 @@ public class DAODiscoImp implements DAODisco {
 		PreparedStatement sql = TiendaDatabase.getConexion()
 				.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
 		PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-				.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
+				.prepareStatement("SELECT * FROM ListaCanciones WHERE Titulo = ?");
 		
 			sqlCanciones.setString(1, titulo);
 			sql.setString(1, titulo);

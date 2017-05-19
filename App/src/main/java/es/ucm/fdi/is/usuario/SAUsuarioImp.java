@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.Notificacion;
+import es.ucm.fdi.is.mvc.NotificacionMensaje;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SAUsuarioImp implements SAUsuario {
@@ -19,9 +20,9 @@ public class SAUsuarioImp implements SAUsuario {
 	
 	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
 		if (this.dao.comprobarLogin(usuario, clave))
-			this.notifyAll(Notificacion.SESION_INICIADA);
+			this.notifyAll(new Notificacion(NotificacionMensaje.SESION_INICIADA));
 		else
-			this.notifyAll(Notificacion.ERROR_SESION);
+			this.notifyAll(new Notificacion(NotificacionMensaje.ERROR_SESION));
 	}
 
 	public void darseAlta(Usuario usuario) {

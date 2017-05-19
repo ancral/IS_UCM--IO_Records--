@@ -1,7 +1,6 @@
 package es.ucm.fdi.is.disco;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
@@ -46,6 +45,7 @@ public class SADiscoImp implements SADisco {
 	public void leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException {
 		ArrayList<Disco> discos = new ArrayList<Disco>();
 		discos.addAll(dao.leerPorGenero(genero));
+		notifyAll(new Notificacion(NotificacionMensaje.LEER_POR_GENERO, discos));
 	}
 
 	public void crearOferta(Disco disco, OfertaDisco oferta) throws TiendaDatabaseException {
@@ -54,8 +54,10 @@ public class SADiscoImp implements SADisco {
 		dao.actualizarDisco(disco, discoOferta);
 	}
 
-	public List<Disco> leerTodos() throws TiendaDatabaseException {
-		return dao.leerTodos();
+	public void leerTodos() throws TiendaDatabaseException {
+		ArrayList<Disco> discos = new ArrayList<Disco>();
+		discos.addAll(dao.leerTodos());
+		notifyAll(new Notificacion(NotificacionMensaje.LEER_TODOS, discos));
 	}
 
 	public void addObverser(TiendaObserver observer) {
