@@ -12,7 +12,7 @@ public interface SADisco extends TiendaObservable {
 	public boolean existeDisco(Disco disco) throws TiendaDatabaseException;
 	public void descatalogarDisco(Disco disco) throws TiendaDatabaseException;
 	public void actualizarDisco(Disco antiguo, Disco nuevo) throws TiendaDatabaseException;
-	public List<Disco> leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException;
+	public void leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException;
 	public void crearOferta(Disco disco, OfertaDisco oferta) throws TiendaDatabaseException;
 	public List<Disco> leerTodos() throws TiendaDatabaseException;
 	public void notifyAll(Notificacion notificacion);

@@ -44,7 +44,7 @@ public class TiendaDatabase {
 			try {
 				Class.forName("org.sqlite.JDBC");
 				
-				conexion = DriverManager.getConnection("jdbc:sqlite:compras.db");
+				conexion = DriverManager.getConnection("jdbc:sqlite:databases/compras.db");
 
 				System.out.println("Connection to SQLite has been established.");
 

@@ -6,6 +6,7 @@ import java.util.List;
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.Notificacion;
+import es.ucm.fdi.is.mvc.NotificacionMensaje;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SADiscoImp implements SADisco {
@@ -13,8 +14,7 @@ public class SADiscoImp implements SADisco {
 	private DAODisco dao;
 	private ArrayList<TiendaObserver> observadores;
 	
-	public SADiscoImp()
-	{
+	public SADiscoImp() {
 		this.dao = FactoriaIntegracion.getFactoria().generaDAODisco();
 		this.observadores = new ArrayList<TiendaObserver>();
 	}
@@ -22,10 +22,10 @@ public class SADiscoImp implements SADisco {
 	public void crearDisco(Disco disco) throws TiendaDatabaseException {
 		if (!dao.existeDisco(disco)) {
 			dao.crearDisco(disco);
-			notifyAll(Notificacion.DISCO_CREADO);
+			notifyAll(new Notificacion(NotificacionMensaje.DISCO_CREADO));
 		}
 		else {
-			notifyAll(Notificacion.DISCO_CREADO_EXISTE);
+			notifyAll(new Notificacion(NotificacionMensaje.DISCO_CREADO_EXISTE));
 		}
 	}
 
@@ -35,14 +35,17 @@ public class SADiscoImp implements SADisco {
 
 	public void descatalogarDisco(Disco disco) throws TiendaDatabaseException {
 		dao.borrarDisco(disco);
+		notifyAll(new Notificacion(NotificacionMensaje.DISCO_BORRADO));
 	}
 
 	public void actualizarDisco(Disco antiguo, Disco nuevo) throws TiendaDatabaseException {
 		dao.actualizarDisco(antiguo, nuevo);
+		notifyAll(new Notificacion(NotificacionMensaje.DISCO_ACTUALIZADO));
 	}
 
-	public List<Disco> leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException {
-		return dao.leerPorGenero(genero);
+	public void leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException {
+		ArrayList<Disco> discos = new ArrayList<Disco>();
+		discos.addAll(dao.leerPorGenero(genero));
 	}
 
 	public void crearOferta(Disco disco, OfertaDisco oferta) throws TiendaDatabaseException {
