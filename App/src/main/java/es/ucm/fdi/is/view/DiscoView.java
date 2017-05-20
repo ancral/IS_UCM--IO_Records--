@@ -165,6 +165,8 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		public DiscoInfo(Disco disco) {
 			Color color = new Color(76, 79, 127);
 			
+			System.out.println(disco.getGenero().toString());
+			
 			this.setBackground(color);
 			this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			FlowLayout discoLayout = new FlowLayout();

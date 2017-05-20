@@ -5,9 +5,10 @@ public enum GeneroDisco {
 	ROCK("Rock"),
 	POP("Pop"),
 	INDIE("Indie"),
-	ELECTRONICA("Electrónica"),
-	CLASICA("Clásica"),
-	BANDAS_SONORAS("Bandas sonoras");
+	ELECTRONICA("Electronica"),
+	CLASICA("Clasica"),
+	BANDAS_SONORAS("Bandas sonoras"),
+	RAP("Rap");
 	
 	private String nombre;
 	

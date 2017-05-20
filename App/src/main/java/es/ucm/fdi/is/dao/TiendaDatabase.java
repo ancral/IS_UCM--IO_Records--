@@ -27,7 +27,6 @@ public class TiendaDatabase {
 	            login = DriverManager.getConnection(url);
 	            
 	            System.out.println("La conexión con la base de datos de USUARIOS ha sido establecida.");
-	            
 
 			} catch (ClassNotFoundException e1) {
 				throw new TiendaDatabaseException("No se ha encontrado la librería de SQLite");
@@ -47,9 +46,9 @@ public class TiendaDatabase {
 				Class.forName("org.sqlite.JDBC");
 				
 				tienda = DriverManager.getConnection("jdbc:sqlite::resource:databases/compras.db");
-
+				
 				System.out.println("La conexión con la base de datos de TIENDA ha sido establecida.");
-
+				
 			} catch (ClassNotFoundException e1) {
 				throw new TiendaDatabaseException("No se ha encontrado la librería de SQLite");
 			} catch (SQLException e2) {
@@ -80,6 +79,7 @@ public class TiendaDatabase {
 		if (login != null) {
 			try {
 				login.close();
+				tienda.close();
 			} catch (SQLException e) {
 				throw new TiendaDatabaseException(e.getMessage());
 			}

@@ -1,11 +1,17 @@
 package es.ucm.fdi.is.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -25,6 +31,7 @@ public class BarraLateral extends JPanel {
 	private JLabel autorLb;
 	private JLabel valoracionLb;
 	private JLabel precioLb;
+	private JButton catalogoGeneral;
 	
 	public static BarraLateral getBarraLateral(CatalogoDiscos catalogo) {
 		if (barraLateral == null)
@@ -57,22 +64,83 @@ public class BarraLateral extends JPanel {
 
 		// ICONO Y SELECTOR DE GÉNEROS MUSICALES
 		// ------------------------------------------
-		JPanel comboIcon = new JPanel();
+		JPanel comboIcon = new JPanel(new GridLayout(1, 2));
 		TitledBorder catBorder = new TitledBorder("Filtrar catálogo");
 		catBorder.setTitleColor(Color.WHITE);
 		comboIcon.setBorder(catBorder);
 		FlowLayout comboLyt = new FlowLayout();
 		comboIcon.setLayout(comboLyt);
 		comboIcon.setBackground(null);
+
+		// BOTON PARA REGRESAR AL CATALOGO GENERAL
+		// ------------------------------------------
+		JPanel regreso = new JPanel();
+		catalogoGeneral = new JButton("Regresar al catalogo general");
+		catalogoGeneral.addMouseListener(new MouseListener() {
+			
+			Font originalFont = null;
+
+		    @SuppressWarnings("unchecked")
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+		        originalFont = catalogoGeneral.getFont();
+		        @SuppressWarnings("rawtypes")
+				Map atributos = originalFont.getAttributes();
+		        atributos.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		        catalogoGeneral.setFont(originalFont.deriveFont(atributos));
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	catalogoGeneral.setFont(originalFont);
+		    }
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				catalogoGeneral.setBackground(null);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				ArrayList<Disco> todosDiscos = new ArrayList<Disco>();
+				try {
+					//Hacemos una busqueda en la BD de los discos con ese genero
+					todosDiscos.addAll(FactoriaIntegracion.getFactoria()
+							.generaDAODisco().leerTodos());
+				} catch (TiendaDatabaseException e1) {
+					e1.printStackTrace();
+				}
+				
+				//Actualizamos el catalogo con esos discos
+				catalogo.actualizar(todosDiscos);
+			}
+			
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		
+		
+		catalogoGeneral.setEnabled(false);
+		catalogoGeneral.setFont(new Font("sans-serif", Font.BOLD, 11));
+		catalogoGeneral.setRolloverEnabled(true);
+		
+		regreso.setBackground(new Color(76, 79, 127));
+		
+        comboIcon.add(regreso,BorderLayout.NORTH);
+		regreso.add(catalogoGeneral);
+		
 		
 		// COMBO-BOX DE GÉNEROS MUSICALES	
 		// ------------------------------------------
+		JPanel combobox = new JPanel();
 		comboIcon.add(new JLabel(Utilidades.createImage("iconos/categorias.png", 50, 50)));
 		JComboBox<GeneroDisco> menuCat = new JComboBox<GeneroDisco>(GeneroDisco.values());
 		menuCat.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				catalogoGeneral.setBackground(Color.WHITE);
 				
 				GeneroDisco generoEncontrado = null;
 				
@@ -97,10 +165,13 @@ public class BarraLateral extends JPanel {
 				
 				//Actualizamos el catalogo con esos discos
 				catalogo.actualizar(discosPorGenero);
+				catalogoGeneral.setEnabled(true);
 			}
 		});
 		comboIcon.add(menuCat);
+		combobox.add(comboIcon,BorderLayout.CENTER);
 		this.add(comboIcon);
+		
 		
 		// TÍTULO > INFORMACIÓN DEL DISCO
 		// ------------------------------------------
