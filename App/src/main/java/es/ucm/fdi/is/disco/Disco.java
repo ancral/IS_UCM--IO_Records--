@@ -11,55 +11,82 @@ public class Disco {
 	private String sello;
 	private GeneroDisco genero;
 	private Integer duracion;
-	private Valoracion valoracion;
+	private Float valoracion;
 	private Float precioCompra;
 	private Float precioVenta;
 	private List<Cancion> listaCanciones;
 	private OfertaDisco oferta;
+	private int numVotaciones;
+	private Float valoracionesTotal;
 	
 	/* Constructora con oferta */
 	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
-					Valoracion valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta) {
+			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta) {
 	
 		this.titulo = titulo;
+		this.valoracionesTotal = valoracion;
+		this.valoracion = valoracion;
+		this.numVotaciones = 0;
 		this.setAutor(autor);
 		this.setFechaSalida(fechaSalida);
 		this.setSello(sello);
 		this.setGenero(genero);
 		this.setDuracion(duracion);
-		this.setValoracion(valoracion);
 		this.setPrecioCompra(precioCompra);
 		this.setPrecioVenta(precioVenta);
 		this.setListaCanciones(listaCanciones);
 		this.setOferta(oferta);
+
 	}
 	
 	/* Constructora sin oferta */
 	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
-			Valoracion valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones) {
+			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones) {
 
 		this.titulo = titulo;
+		this.valoracionesTotal = valoracion;
+		this.valoracion = valoracion;
+		this.numVotaciones = 0;
 		this.setAutor(autor);
 		this.setFechaSalida(fechaSalida);
 		this.setSello(sello);
 		this.setGenero(genero);
 		this.setDuracion(duracion);
-		this.setValoracion(valoracion);
 		this.setPrecioCompra(precioCompra);
 		this.setPrecioVenta(precioVenta);
 		this.setListaCanciones(listaCanciones);
 		this.setOferta(null);
+
 	}
 	
 	public Disco(Disco antiguo, OfertaDisco oferta)
 	{
+		this.setTitulo(antiguo.getTitulo());
+		this.valoracionesTotal = valoracion;
+		this.valoracion = antiguo.getValoracion();
+		this.numVotaciones = antiguo.getNumVotaciones();
+		this.setAutor(antiguo.getAutor());
+		this.setFechaSalida(antiguo.getFechaSalida());
+		this.setSello(antiguo.getSello());
+		this.setGenero(antiguo.getGenero());
+		this.setDuracion(antiguo.getDuracion());
+		this.setPrecioCompra(antiguo.getPrecioCompra());
+		this.setPrecioVenta(antiguo.getPrecioVenta());
+		this.setListaCanciones(antiguo.getListaCanciones());
+		this.setOferta(oferta);
+
+	}
+
+	public Disco(Disco antiguo, Float valoracion) {
+		this.valoracionesTotal = valoracion;
+		this.numVotaciones = antiguo.getNumVotaciones();
+		this.valoracion = valoracion;
 		this.setTitulo(antiguo.getTitulo());
 		this.setAutor(antiguo.getAutor());
 		this.setFechaSalida(antiguo.getFechaSalida());
 		this.setSello(antiguo.getSello());
 		this.setGenero(antiguo.getGenero());
 		this.setDuracion(antiguo.getDuracion());
-		this.setValoracion(antiguo.getValoracion());
 		this.setPrecioCompra(antiguo.getPrecioCompra());
 		this.setPrecioVenta(antiguo.getPrecioVenta());
 		this.setListaCanciones(antiguo.getListaCanciones());
@@ -71,6 +98,7 @@ public class Disco {
 		this.setTitulo(titulo);
 	}
 	
+
 	public String getTitulo() {
 		return titulo;
 	}
@@ -118,14 +146,26 @@ public class Disco {
 		this.duracion = duracion;
 	}
 
-	public Valoracion getValoracion() {
+	public Float getValoracion() {
 		return valoracion;
 	}
 
-	public void setValoracion(Valoracion valoracion) {
-		this.valoracion = valoracion;
+	public Float getValoracionTotal()
+	{
+		return valoracionesTotal;
 	}
-
+	
+	public void setValoracion(Float val) {
+		this.valoracion = val;
+		this.valoracionesTotal += val;
+	}
+	
+	public int getNumVotaciones()
+	{
+		numVotaciones++;
+		return numVotaciones;
+	}
+	
 	public Float getPrecioCompra() {
 		return precioCompra;
 	}

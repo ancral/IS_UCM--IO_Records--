@@ -16,9 +16,9 @@ public class DAODiscoImp implements DAODisco {
 		// TODO Auto-generated method stub
 		try {
 			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Disco (?,?,?,?,?,?,?,?,?,?)");
+					.prepareStatement("INSERT OR IGNORE INTO Disco (?,?,?,?,?,?,?,?,?,?)");
 			PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO ListaCanciones (?,?)");
+					.prepareStatement("INSERT OR IGNORE INTO ListaCanciones (?,?)");
 
 			sql.setString(1, disco.getTitulo());
 			sql.setString(2, disco.getAutor());
@@ -48,6 +48,7 @@ public class DAODiscoImp implements DAODisco {
 		PreparedStatement sqlCanciones = null;
 		ResultSet res = null;
 		ResultSet resCanciones = null;
+
 		try {
 			List<Cancion> canciones = new ArrayList<Cancion>();
 			sql = TiendaDatabase.getConexion().prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
@@ -57,41 +58,41 @@ public class DAODiscoImp implements DAODisco {
 			sqlCanciones.setString(1, titulo);
 			sql.setString(1, titulo);
 
-			res = sql.executeQuery();
-			res.close();
+			
 
-			resCanciones = sql.executeQuery();
+			resCanciones = sqlCanciones.executeQuery();
 
 			// Creando la lista de canciones
 			while (resCanciones.next()) {
-				canciones.add(new Cancion(resCanciones.getString(1)));
+				canciones.add(new Cancion(resCanciones.getString(2)));
 			}
 			resCanciones.close();
-
-			// Busqueda del genero del disco
-			GeneroDisco genero = null;
-			for (GeneroDisco e : GeneroDisco.values()) {
-				if (e.toString().equalsIgnoreCase(res.getString(5))) {
-					genero = e;
+			
+			res = sql.executeQuery();
+			// Comprobamos si tiene alguna fila
+			if (res.next()) {
+				
+				// Busqueda del genero del disco
+				GeneroDisco genero = null;
+				for (GeneroDisco e : GeneroDisco.values()) {
+					if (e.toString().equalsIgnoreCase(res.getString(5))) {
+						genero = e;
+					}
 				}
-			}
 
-			// Busqueda de la valoracion del disco
-			Valoracion valoracion = null;
-			for (Valoracion e : Valoracion.values()) {
-				if (e.toString().equalsIgnoreCase(res.getString(7))) {
-					valoracion = e;
-				}
+				// Busqueda de la valoracion del disco
+				Float valoracion = res.getFloat(7);
+			
+				disco = new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
+						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
+						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)));
 			}
-
-			disco = new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
-					Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
-					Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)));
+			res.close();
 
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
-		
+
 		return disco;
 	}
 
@@ -104,6 +105,7 @@ public class DAODiscoImp implements DAODisco {
 
 			// Leer todos los discos de la tabla
 			while (res.next()) {
+				
 				List<Cancion> canciones = new ArrayList<Cancion>();
 
 				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
@@ -115,6 +117,9 @@ public class DAODiscoImp implements DAODisco {
 				while (resCanciones.next()) {
 					canciones.add(new Cancion(resCanciones.getString(2)));
 				}
+				
+				resCanciones.close();
+				
 				// Busqueda del genero del disco
 				GeneroDisco genero = null;
 				for (GeneroDisco e : GeneroDisco.values()) {
@@ -124,17 +129,15 @@ public class DAODiscoImp implements DAODisco {
 				}
 
 				// Busqueda de la valoracion del disco
-				Valoracion valoracion = null;
-				for (Valoracion e : Valoracion.values()) {
-					if (e.toString().equalsIgnoreCase(res.getString(7))) {
-						valoracion = e;
-					}
-				}
+				Float valoracion = res.getFloat(7);
 
+				System.out.println(res.getString(1));
 				discos.add(new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
 						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10))));
 			}
+			res.close();
+			
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -146,32 +149,36 @@ public class DAODiscoImp implements DAODisco {
 		try {
 
 			PreparedStatement actualizar = TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE Disco SET Titulo = ?" + "AND Autor = ?, Fecha = ?, Sello = ? AND "
+					.prepareStatement("UPDATE Disco SET Titulo = ?" + ", Autor = ?, Fecha = ?, Sello = ?,  "
 							+ "Genero = ? , Duracion = ? , Valoracion = ? " + ", PrecioCompra = ? , PrecioVenta = ? , "
 							+ "Oferta = ? WHERE Titulo = ?");
 			PreparedStatement actualizarCanciones = TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE ListaCanciones SET Titulo = ?, Cancion = ?" + " WHERE Titulo = ?");
-
+					.prepareStatement("UPDATE OR IGNORE ListaCanciones SET Titulo = ?, Cancion = ?" + " WHERE Titulo = ?");
+			
+			System.out.println(nuevo.getTitulo());
+			
 			actualizar.setString(1, nuevo.getTitulo());
 			actualizar.setString(2, nuevo.getAutor());
 			actualizar.setDate(3, (Date) nuevo.getFechaSalida());
 			actualizar.setString(4, nuevo.getSello());
 			actualizar.setString(5, nuevo.getGenero().toString());
 			actualizar.setInt(6, nuevo.getDuracion());
-			actualizar.setString(7, nuevo.getValoracion().toString());
+			actualizar.setFloat(7, nuevo.getValoracion());
 			actualizar.setFloat(8, nuevo.getPrecioCompra());
 			actualizar.setFloat(9, nuevo.getPrecioVenta());
 			actualizar.setInt(10, nuevo.getOferta().getPorcentaje());
 			actualizar.setString(11, antiguo.getTitulo());
-
+			
+			actualizar.executeUpdate();
+			
 			for (Cancion c : nuevo.getListaCanciones()) {
 				actualizarCanciones.setString(1, nuevo.getTitulo());
 				actualizarCanciones.setString(2, c.toString());
 				actualizarCanciones.setString(3, antiguo.getTitulo());
 			}
 
-			actualizar.executeQuery();
-			actualizarCanciones.executeQuery();
+
+			actualizarCanciones.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
@@ -185,7 +192,7 @@ public class DAODiscoImp implements DAODisco {
 
 			borrar.setString(1, disco.getTitulo());
 
-			borrar.executeQuery();
+			borrar.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
@@ -227,12 +234,12 @@ public class DAODiscoImp implements DAODisco {
 				}
 
 				// Busqueda de la valoracion del disco
-				Valoracion valoracion = null;
-				for (Valoracion e : Valoracion.values()) {
+				Float valoracion = null;
+				/*for (Valoracion e : Valoracion.values()) {
 					if (e.toString().equalsIgnoreCase(res.getString(7))) {
 						valoracion = e;
 					}
-				}
+				}*/
 
 				discos.add(new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),

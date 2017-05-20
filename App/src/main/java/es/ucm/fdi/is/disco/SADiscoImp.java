@@ -59,7 +59,13 @@ public class SADiscoImp implements SADisco {
 		discos.addAll(dao.leerTodos());
 		notifyAll(new Notificacion(NotificacionMensaje.LEER_TODOS, discos));
 	}
-
+	
+	public void actualizarValoracion(Disco disco, Float valoracion) throws TiendaDatabaseException {
+		Disco discoValoracion = new Disco(disco,valoracion);
+		
+		dao.actualizarDisco(disco, discoValoracion);
+	}
+	
 	public void addObverser(TiendaObserver observer) {
 		observadores.add(observer);
 	}
@@ -68,10 +74,11 @@ public class SADiscoImp implements SADisco {
 		observadores.remove(observer);
 	}
 
-	@Override
 	public void notifyAll(Notificacion notificacion) {
 		for (TiendaObserver o : observadores)
 			o.notify(notificacion);
 	}
+
+	
 
 }

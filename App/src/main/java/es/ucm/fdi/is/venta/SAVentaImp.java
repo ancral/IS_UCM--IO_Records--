@@ -26,7 +26,6 @@ public class SAVentaImp implements SAVenta {
 		observers.add(observer);
 	}
 
-	@Override
 	public void notifyAll(Notificacion notificacion) {
 		// TODO Auto-generated method stub
 		

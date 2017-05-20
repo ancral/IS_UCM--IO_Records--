@@ -19,9 +19,17 @@ import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Cancion;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
+import es.ucm.fdi.is.disco.SADiscoImp;
 import es.ucm.fdi.is.disco.Valoracion;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.AudioClip;
+import javafx.util.Duration;
+import tray.animations.AnimationType;
+import tray.notification.NotificationType;
+import tray.notification.TrayNotification;
 
 public class DiscoView extends JFrame implements TiendaObserver {
 
@@ -47,7 +55,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		if (discoView == null)
 			discoView = new DiscoView(view,disco);
 		
-		return discoView;
+		return new DiscoView(view,disco);
 	}
 	
 	private void initGUI() {
@@ -164,7 +172,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		
 		private static final long serialVersionUID = 7708121068748511959L;
 
-		public DiscoInfo(Disco disco) {
+		public DiscoInfo(final Disco disco) {
 			Color color = new Color(76, 79, 127);
 			
 			System.out.println(disco.getGenero().toString());
@@ -235,15 +243,65 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			discoInfo.add(generoPanel);
 			
-			// Género del disco
+			// Valoracion del disco
 			JPanel valoracionPanel = new JPanel(leftAlignment);
 			valoracionPanel.setBackground(color);
 			JLabel valoracionIcon = new JLabel(Utilidades.createImage("iconos/valoracion.png", 18, 18));
 			valoracionPanel.add(valoracionIcon);
-			JLabel valoracionDisco = new JLabel("ARREGLAR VALORACIONES");
-			valoracionDisco.setForeground(Color.WHITE);
-			valoracionPanel.add(valoracionDisco);
 			
+			// Creaccion del puntuaje por estrellas
+			// ------------------------------------------
+			
+			// La valoracion cuando se mete un disco en la DB sera de 0
+			
+			int seleccion = Math.round(disco.getValoracion());
+			System.out.println(seleccion);
+			System.out.println(disco.getValoracion());
+			final StarRater starRater = new StarRater(5, disco.getValoracion(), seleccion);
+			starRater.addStarListener(new StarRater.StarListener() {
+			    public void handleSelection(final int selection) {
+			    	
+			    	//Notificacion de votacion
+			    	new JFXPanel();
+			    	
+			    	Platform.runLater(new Runnable() {
+
+						public void run() {
+							TrayNotification tray = new TrayNotification();
+							tray.setTitle("Gracias por votar");
+							tray.setMessage("Has votado con un "+selection+" el disco "
+									+disco.getTitulo()+" de "+disco.getAutor());
+							tray.setNotificationType(NotificationType.INFORMATION);
+							tray.setAnimationType(AnimationType.FADE);
+				            tray.showAndDismiss(Duration.millis(1500));
+						}
+						
+					});
+			    	
+			    	starRater.setRating(selection);
+			    	starRater.setEnabled(false);
+			    	
+			    	int votantes = disco.getNumVotaciones();
+			    	float votaciones = selection + disco.getValoracionTotal();
+			    	float total = (votaciones/votantes);
+
+			    	//Guardamos el disco antes de la actualizacion de la valoracion
+			    	Disco discoAntiguo = disco;
+
+			    	disco.setValoracion(total);
+			    	
+			    	
+			    	try {
+						FactoriaIntegracion.getFactoria().generaDAODisco()
+						.actualizarDisco(discoAntiguo, disco);
+					} catch (TiendaDatabaseException e) {
+						System.out.println("ERROR");
+						e.printStackTrace();
+					}
+			    }
+			  });
+			
+			valoracionPanel.add(starRater);
 			discoInfo.add(valoracionPanel);
 			
 			// Sello del disco
@@ -291,7 +349,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			GridLayout listaPanelLy = new GridLayout(6, 2, 0, 0);
 			this.setLayout(listaPanelLy);
 			
-			TitledBorder listaBorder = new TitledBorder("Lista de canciones (duración)");
+			TitledBorder listaBorder = new TitledBorder("Lista de canciones: ");
 			this.setBorder(listaBorder);
 			
 			
@@ -299,8 +357,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			try {
 				encontrado = FactoriaIntegracion.getFactoria()
 						.generaDAODisco().leerDisco(disco.getTitulo());
-			
-			
+				
 			List<Cancion> canciones = encontrado.getListaCanciones();
 			Iterator<Cancion> it = canciones.iterator();
 			

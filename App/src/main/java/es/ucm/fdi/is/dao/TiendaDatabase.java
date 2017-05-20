@@ -79,7 +79,6 @@ public class TiendaDatabase {
 		if (login != null) {
 			try {
 				login.close();
-				tienda.close();
 			} catch (SQLException e) {
 				throw new TiendaDatabaseException(e.getMessage());
 			}

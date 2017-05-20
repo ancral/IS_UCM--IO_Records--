@@ -116,7 +116,6 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			
 			Platform.runLater(new Runnable() {
 
-				@Override
 				public void run() {
 					TrayNotification tray = new TrayNotification();
 					tray.setTitle("BIENVENIDO");
@@ -138,7 +137,6 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			
 			Platform.runLater(new Runnable() {
 
-				@Override
 				public void run() {
 					TrayNotification tray = new TrayNotification();
 					tray.setTitle("¡ERROR!");

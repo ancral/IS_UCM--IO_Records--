@@ -93,7 +93,7 @@ public class CatalogoDiscos extends JScrollPane {
 		for (int i = 0; i < filas && discosIt.hasNext(); i++) {
 			for (int j = 0; j < columnas && discosIt.hasNext(); j++) {
 				
-				Disco disco = discosIt.next();
+				final Disco disco = discosIt.next();
 				
 				final Caratula car = new Caratula(disco, filas, columnas);
 				car.addMouseListener(new MouseListener() {

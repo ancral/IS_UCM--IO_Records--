@@ -53,7 +53,6 @@ public class SAPedidoImp implements SAPedido {
 		observers.remove(observer);
 	}
 
-	@Override
 	public void notifyAll(Notificacion notificacion) {
 		// TODO Auto-generated method stub
 		

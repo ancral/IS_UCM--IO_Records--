@@ -40,7 +40,7 @@ public class BarraLateral extends JPanel {
 		return barraLateral;
 	}
 
-	private BarraLateral(CatalogoDiscos catalogo) {
+	private BarraLateral(final CatalogoDiscos catalogo) {
 		/* ------------------------------------------------
 		 * LISTA DE CATEGORÍAS
 		 * ------------------------------------------------ */
@@ -97,12 +97,10 @@ public class BarraLateral extends JPanel {
 		    	catalogoGeneral.setFont(originalFont);
 		    }
 			
-			@Override
 			public void mouseReleased(MouseEvent e) {
 				catalogoGeneral.setBackground(null);
 			}
 			
-			@Override
 			public void mousePressed(MouseEvent e) {
 				ArrayList<Disco> todosDiscos = new ArrayList<Disco>();
 				try {
@@ -118,7 +116,6 @@ public class BarraLateral extends JPanel {
 			}
 			
 			
-			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
@@ -138,10 +135,9 @@ public class BarraLateral extends JPanel {
 		// ------------------------------------------
 		JPanel combobox = new JPanel();
 		comboIcon.add(new JLabel(Utilidades.createImage("iconos/categorias.png", 50, 50)));
-		JComboBox<GeneroDisco> menuCat = new JComboBox<GeneroDisco>(GeneroDisco.values());
+		final JComboBox<GeneroDisco> menuCat = new JComboBox<GeneroDisco>(GeneroDisco.values());
 		menuCat.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				catalogoGeneral.setBackground(Color.WHITE);
