@@ -234,12 +234,7 @@ public class DAODiscoImp implements DAODisco {
 				}
 
 				// Busqueda de la valoracion del disco
-				Float valoracion = null;
-				/*for (Valoracion e : Valoracion.values()) {
-					if (e.toString().equalsIgnoreCase(res.getString(7))) {
-						valoracion = e;
-					}
-				}*/
+				Float valoracion = res.getFloat(7);
 
 				discos.add(new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),

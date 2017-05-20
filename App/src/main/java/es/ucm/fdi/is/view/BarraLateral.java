@@ -44,6 +44,9 @@ public class BarraLateral extends JPanel {
 		/* ------------------------------------------------
 		 * LISTA DE CATEGORÍAS
 		 * ------------------------------------------------ */
+		
+		
+		
 		BoxLayout panelDchoLay = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(panelDchoLay);
 		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
@@ -250,5 +253,5 @@ public class BarraLateral extends JPanel {
 		valoracionLb.setText(disco.getSello());
 		precioLb.setText(disco.getPrecioVenta().toString());
 	}
-
+	
 }

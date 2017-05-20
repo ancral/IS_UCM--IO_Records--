@@ -52,9 +52,6 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	}
 	
 	public static DiscoView getDiscoView(TiendaView view,Disco disco) {
-		if (discoView == null)
-			discoView = new DiscoView(view,disco);
-		
 		return new DiscoView(view,disco);
 	}
 	

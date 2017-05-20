@@ -6,12 +6,17 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
@@ -249,12 +254,50 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			// BARRA DE BÚSQUEDA
 			// ------------------------------------------
 			JPanel busqueda = new JPanel();
-			JTextField field = new JTextField(15);
+			final JTextField field = new JTextField(15);
 			field.setMaximumSize(new Dimension(30, 30));
 			field.setToolTipText("Introduce el nombre del disco que quieres buscar");
 			busqueda.add(field);
 			busqueda.add(new JLabel(Utilidades.createImage("iconos/search.png", 28, 28)));
 			busqueda.setBorder(new TitledBorder("Buscar en el catálogo"));
+			field.addKeyListener(new KeyListener() {
+				
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode()==KeyEvent.VK_ENTER)
+					{
+						ArrayList<Disco> discoBusqueda = new ArrayList<Disco>();
+						Disco encontrado = null;
+						try {
+							//Hacemos una busqueda en la BD de los discos con ese genero
+							encontrado = FactoriaIntegracion.getFactoria()
+									.generaDAODisco().leerDisco(field.getText());
+							discoBusqueda.add(encontrado);
+						} catch (TiendaDatabaseException e1) {
+							e1.printStackTrace();
+						}
+						if(encontrado==null)
+						{
+							field.setText("No se ha encontrado el disco");
+							field.select(0,1000000);
+						}else
+						{
+							//Actualizamos el catalogo con el disco
+							CatalogoDiscos.getCatalogoDiscos(TiendaView.this).
+							actualizar(discoBusqueda);
+						}
+					}
+				}
+			});
 			toolBarPanel.add(busqueda);
 			
 			// SEPARADOR
