@@ -173,7 +173,7 @@ public class BarraLateral extends JPanel {
 			}
 		});
 		comboIcon.add(menuCat);
-		combobox.add(comboIcon, BorderLayout.CENTER);
+		combobox.add(comboIcon);
 		
 		filtrar.add(comboIcon, BorderLayout.SOUTH);
 		this.add(filtrar);

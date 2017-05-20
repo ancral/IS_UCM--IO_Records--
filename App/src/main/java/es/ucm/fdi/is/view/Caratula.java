@@ -12,12 +12,15 @@ public class Caratula extends JLabel {
 	private Disco disco;
 	
 	public Caratula(Disco disco, int columnas, int filas) {
-		super(Utilidades.createImage("caratulas/" + disco.getTitulo() + ".jpg", 710/filas,
-				440/columnas));
+		super(Utilidades.createImage("caratulas/" + disco.getTitulo() + ".jpg", 
+				filas < 3 ? 680 / filas : 220,
+				filas < 3 ? 680 / filas : 220));
 
 		this.disco = disco;
 		
-		this.setBorder(BorderFactory.createMatteBorder(2, 2, 4, 2, Color.GRAY));
+		// Si el catálogo tiene menos de 3 filas el borde rompe la estética
+		if (filas >= 3)
+			this.setBorder(BorderFactory.createMatteBorder(2, 2, 4, 2, Color.GRAY));
 	}
 	
 	public Disco getDisco() {

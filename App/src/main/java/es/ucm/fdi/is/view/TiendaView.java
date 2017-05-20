@@ -24,6 +24,7 @@ import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
 
+@SuppressWarnings("restriction")
 public class TiendaView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = 5963169495489228054L;

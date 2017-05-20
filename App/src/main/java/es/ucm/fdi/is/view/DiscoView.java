@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,7 +44,10 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	}
 	
 	public static DiscoView getDiscoView(TiendaView view,Disco disco) {
-		return discoView = new DiscoView(view,disco);
+		if (discoView == null)
+			discoView = new DiscoView(view,disco);
+		
+		return discoView;
 	}
 	
 	private void initGUI() {

@@ -14,13 +14,6 @@ import javax.swing.JScrollPane;
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.media.AudioClip;
-import javafx.util.Duration;
-import tray.animations.AnimationType;
-import tray.notification.NotificationType;
-import tray.notification.TrayNotification;
 
 public class CatalogoDiscos extends JScrollPane {
 
@@ -49,7 +42,7 @@ public class CatalogoDiscos extends JScrollPane {
 		
 		catalogo.setBackground(new Color(190, 190, 242));
 		this.setViewportView(catalogo);
-		this.setPreferredSize(new Dimension(750, 440));
+		this.setPreferredSize(new Dimension(700, 440));
 		this.getVerticalScrollBar().setUnitIncrement(16); // aumenta la velocidad de barra de scroll
 		
 		
