@@ -60,14 +60,17 @@ public class BarraLateral extends JPanel {
 		tituloC.add(tituloCat);
 		// main.add(panelDcho, BorderLayout.EAST);
 		this.add(tituloC);
-
+		
+		// FILTRAR CATÁLOGO
+		JPanel filtrar = new JPanel(new BorderLayout());
+		TitledBorder catBorder = new TitledBorder("Filtrar catálogo");
+		catBorder.setTitleColor(Color.WHITE);
+		filtrar.setBorder(catBorder);
+		filtrar.setBackground(null);
 
 		// ICONO Y SELECTOR DE GÉNEROS MUSICALES
 		// ------------------------------------------
 		JPanel comboIcon = new JPanel(new GridLayout(1, 2));
-		TitledBorder catBorder = new TitledBorder("Filtrar catálogo");
-		catBorder.setTitleColor(Color.WHITE);
-		comboIcon.setBorder(catBorder);
 		FlowLayout comboLyt = new FlowLayout();
 		comboIcon.setLayout(comboLyt);
 		comboIcon.setBackground(null);
@@ -76,6 +79,7 @@ public class BarraLateral extends JPanel {
 		// ------------------------------------------
 		JPanel regreso = new JPanel();
 		catalogoGeneral = new JButton("Regresar al catalogo general");
+		catalogoGeneral.setFocusable(false);
 		catalogoGeneral.addMouseListener(new MouseListener() {
 			
 			Font originalFont = null;
@@ -126,9 +130,9 @@ public class BarraLateral extends JPanel {
 		
 		regreso.setBackground(new Color(76, 79, 127));
 		
-        comboIcon.add(regreso,BorderLayout.NORTH);
 		regreso.add(catalogoGeneral);
-		
+        filtrar.add(regreso, BorderLayout.NORTH);
+	
 		
 		// COMBO-BOX DE GÉNEROS MUSICALES	
 		// ------------------------------------------
@@ -169,8 +173,10 @@ public class BarraLateral extends JPanel {
 			}
 		});
 		comboIcon.add(menuCat);
-		combobox.add(comboIcon,BorderLayout.CENTER);
-		this.add(comboIcon);
+		combobox.add(comboIcon, BorderLayout.CENTER);
+		
+		filtrar.add(comboIcon, BorderLayout.SOUTH);
+		this.add(filtrar);
 		
 		
 		// TÍTULO > INFORMACIÓN DEL DISCO
