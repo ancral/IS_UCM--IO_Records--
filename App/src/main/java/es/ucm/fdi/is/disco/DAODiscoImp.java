@@ -55,8 +55,9 @@ public class DAODiscoImp implements DAODisco {
 			sqlCanciones = TiendaDatabase.getConexion()
 					.prepareStatement("SELECT * FROM ListaCanciones WHERE Titulo = ?");
 
+			
 			sqlCanciones.setString(1, titulo);
-			sql.setString(1, titulo);
+			sql.setString(1, titulo.toLowerCase());
 
 			
 
@@ -167,7 +168,7 @@ public class DAODiscoImp implements DAODisco {
 			actualizar.setFloat(8, nuevo.getPrecioCompra());
 			actualizar.setFloat(9, nuevo.getPrecioVenta());
 			actualizar.setInt(10, nuevo.getOferta().getPorcentaje());
-			actualizar.setString(11, antiguo.getTitulo());
+			actualizar.setString(11, antiguo.getTitulo().toLowerCase());
 			
 			actualizar.executeUpdate();
 			
@@ -190,7 +191,7 @@ public class DAODiscoImp implements DAODisco {
 			PreparedStatement borrar = TiendaDatabase.getConexion()
 					.prepareStatement("DELETE FROM Disco WHERE Titulo = ?");
 
-			borrar.setString(1, disco.getTitulo());
+			borrar.setString(1, disco.getTitulo().toLowerCase());
 
 			borrar.executeUpdate();
 
@@ -256,7 +257,7 @@ public class DAODiscoImp implements DAODisco {
 			PreparedStatement existe = TiendaDatabase.getConexion()
 					.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
 
-			existe.setString(1, disco.getTitulo());
+			existe.setString(1, disco.getTitulo().toLowerCase());
 
 			ResultSet res = existe.executeQuery();
 

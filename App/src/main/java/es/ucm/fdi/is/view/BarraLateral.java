@@ -248,7 +248,7 @@ public class BarraLateral extends JPanel {
 	}
 	
 	public void showDiscoInfo(Disco disco) {
-		tituloLb.setText(disco.getTitulo());
+		tituloLb.setText(disco.getTitulo().toUpperCase());
 		autorLb.setText(disco.getAutor());
 		valoracionLb.setText(disco.getSello());
 		precioLb.setText(disco.getPrecioVenta().toString());

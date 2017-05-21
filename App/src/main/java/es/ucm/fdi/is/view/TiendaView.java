@@ -165,7 +165,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	}
 	
 	public void showTituloDisco(String titulo) {
-		this.pieInfo.setText(titulo);
+		this.pieInfo.setText(titulo.toUpperCase());
 	}
 	
 	public void showDiscoInfo(Disco disco) {
@@ -288,7 +288,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 						if(encontrado==null)
 						{
 							field.setText("No se ha encontrado el disco");
-							field.select(0,1000000);
+							field.select(0,1000);
 						}else
 						{
 							//Actualizamos el catalogo con el disco

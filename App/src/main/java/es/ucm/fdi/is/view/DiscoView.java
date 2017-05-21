@@ -211,7 +211,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			nombreDiscoPanel.setBackground(color);
 			JLabel nombreDiscoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
 			nombreDiscoPanel.add(nombreDiscoIcon);
-			JLabel nombreDisco = new JLabel(disco.getTitulo());
+			JLabel nombreDisco = new JLabel(disco.getTitulo().toUpperCase());
 			nombreDisco.setForeground(Color.WHITE);
 			nombreDisco.setFont(new Font("sans", Font.BOLD, 35));
 			nombreDiscoPanel.add(nombreDisco);
