@@ -98,6 +98,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 
 		main.add(pie, BorderLayout.SOUTH);
 
+		this.setIconImage(Utilidades.loadImage("iconos/logo.png"));
 		this.pack();
 		this.setResizable(false);
 		this.setLocationRelativeTo(null); // centra la ventana
@@ -330,7 +331,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			toolBarPanel.add(usuario);
 		}
 
-		public void buscar(String valor, JTextField field) {
+		private void buscar(String valor, JTextField field) {
 			ArrayList<Disco> busqueda = new ArrayList<Disco>();
 			Disco encontrado = null;
 			try {

@@ -153,6 +153,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		
 		main.add(contenedor);
 		
+		this.setIconImage(Utilidades.loadImage("iconos/logo.png"));
 		this.pack();
 		this.setLocationRelativeTo(null); // centra la ventana
 		this.setResizable(false);
@@ -256,7 +257,8 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			System.out.println(disco.getValoracion());
 			final StarRater starRater = new StarRater(5, disco.getValoracion(), seleccion);
 			starRater.addStarListener(new StarRater.StarListener() {
-			    public void handleSelection(final int selection) {
+			    @SuppressWarnings("restriction")
+				public void handleSelection(final int selection) {
 			    	
 			    	//Notificacion de votacion
 			    	new JFXPanel();

@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>es.ucm.fdi.is.launcher.Main</mainClass>
+                  <mainClass>es.ucm.fdi.is.launcher.CargandoLauncher</mainClass>
                 </transformer>
               </transformers>
             </configuration>
