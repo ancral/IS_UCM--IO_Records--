@@ -306,6 +306,8 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			// Sello del disco
 			JPanel selloPanel = new JPanel(leftAlignment);
 			selloPanel.setBackground(color);
+			JLabel selloIcon = new JLabel(Utilidades.createImage("iconos/disco.png", 18, 18));
+			selloPanel.add(selloIcon);
 			JLabel selloDisco = new JLabel(disco.getSello());
 			selloDisco.setForeground(Color.WHITE);
 			selloPanel.add(selloDisco);
@@ -315,6 +317,8 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			// Fecha de salida del disco
 			JPanel fechaPanel = new JPanel(leftAlignment);
 			fechaPanel.setBackground(color);
+			JLabel fechaIcon = new JLabel(Utilidades.createImage("iconos/calendario.png", 18, 18));
+			fechaPanel.add(fechaIcon);
 			JLabel fechaDisco = new JLabel(disco.getFechaSalida().toString());
 			fechaDisco.setForeground(Color.WHITE);
 			fechaPanel.add(fechaDisco);
