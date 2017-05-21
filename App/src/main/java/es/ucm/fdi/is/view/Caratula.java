@@ -12,7 +12,7 @@ public class Caratula extends JLabel {
 	private Disco disco;
 	
 	public Caratula(Disco disco, int columnas, int filas) {
-		super(Utilidades.createImage("caratulas/" + disco.getTitulo() + ".jpg", 
+		super(Utilidades.createImage("caratulas/" + disco.getTitulo().toLowerCase() + ".jpg", 
 				filas < 3 ? 680 / filas : 220,
 				filas < 3 ? 680 / filas : 220));
 

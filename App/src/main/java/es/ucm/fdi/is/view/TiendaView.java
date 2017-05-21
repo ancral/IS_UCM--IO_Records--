@@ -168,7 +168,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	}
 
 	public void showTituloDisco(String titulo) {
-		this.pieInfo.setText(titulo.toUpperCase());
+		this.pieInfo.setText(titulo);
 	}
 
 	public void showDiscoInfo(Disco disco) {

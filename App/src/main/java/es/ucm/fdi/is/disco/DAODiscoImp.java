@@ -51,12 +51,12 @@ public class DAODiscoImp implements DAODisco {
 
 		try {
 			List<Cancion> canciones = new ArrayList<Cancion>();
-			sql = TiendaDatabase.getConexion().prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
+			sql = TiendaDatabase.getConexion().prepareStatement("SELECT * FROM Disco WHERE "
+					+ "LOWER(Titulo) = ?");
 			sqlCanciones = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM ListaCanciones WHERE Titulo = ?");
+					.prepareStatement("SELECT * FROM ListaCanciones WHERE LOWER(Titulo) = ?");
 
-			
-			sqlCanciones.setString(1, titulo);
+			sqlCanciones.setString(1, titulo.toLowerCase());
 			sql.setString(1, titulo.toLowerCase());
 
 			
@@ -152,11 +152,10 @@ public class DAODiscoImp implements DAODisco {
 			PreparedStatement actualizar = TiendaDatabase.getConexion()
 					.prepareStatement("UPDATE Disco SET Titulo = ?" + ", Autor = ?, Fecha = ?, Sello = ?,  "
 							+ "Genero = ? , Duracion = ? , Valoracion = ? " + ", PrecioCompra = ? , PrecioVenta = ? , "
-							+ "Oferta = ? WHERE Titulo = ?");
+							+ "Oferta = ? WHERE LOWER(Titulo) = ?");
 			PreparedStatement actualizarCanciones = TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE OR IGNORE ListaCanciones SET Titulo = ?, Cancion = ?" + " WHERE Titulo = ?");
-			
-			System.out.println(nuevo.getTitulo());
+					.prepareStatement("UPDATE OR IGNORE ListaCanciones SET Titulo = ?, Cancion = ?" + 
+			" WHERE LOWER(Titulo) = ?");
 			
 			actualizar.setString(1, nuevo.getTitulo());
 			actualizar.setString(2, nuevo.getAutor());
@@ -175,7 +174,7 @@ public class DAODiscoImp implements DAODisco {
 			for (Cancion c : nuevo.getListaCanciones()) {
 				actualizarCanciones.setString(1, nuevo.getTitulo());
 				actualizarCanciones.setString(2, c.toString());
-				actualizarCanciones.setString(3, antiguo.getTitulo());
+				actualizarCanciones.setString(3, antiguo.getTitulo().toLowerCase());
 			}
 
 

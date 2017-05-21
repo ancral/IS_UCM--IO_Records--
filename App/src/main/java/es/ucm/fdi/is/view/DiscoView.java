@@ -184,8 +184,9 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			JPanel caratulaP = new JPanel();
 			caratulaP.setBackground(color);
 			BoxLayout caratulaPLay = new BoxLayout(caratulaP, BoxLayout.Y_AXIS);
-			caratulaP.setLayout(caratulaPLay);		
-			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/"+disco.getTitulo()+".jpg", 250, 250));
+			caratulaP.setLayout(caratulaPLay);
+			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/"+
+			disco.getTitulo().toLowerCase()+".jpg", 250, 250));
 			caratulaP.add(caratula);
 			
 			JPanel comprarPanel = new JPanel();
@@ -212,7 +213,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			nombreDiscoPanel.setBackground(color);
 			JLabel nombreDiscoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
 			nombreDiscoPanel.add(nombreDiscoIcon);
-			JLabel nombreDisco = new JLabel(disco.getTitulo().toUpperCase());
+			JLabel nombreDisco = new JLabel(disco.getTitulo());
 			nombreDisco.setForeground(Color.WHITE);
 			nombreDisco.setFont(new Font("sans", Font.BOLD, 35));
 			nombreDiscoPanel.add(nombreDisco);
@@ -257,8 +258,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			System.out.println(disco.getValoracion());
 			final StarRater starRater = new StarRater(5, disco.getValoracion(), seleccion);
 			starRater.addStarListener(new StarRater.StarListener() {
-			    @SuppressWarnings("restriction")
-				public void handleSelection(final int selection) {
+			    public void handleSelection(final int selection) {
 			    	
 			    	//Notificacion de votacion
 			    	new JFXPanel();
@@ -370,7 +370,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 				cancionLy.setAlignment(FlowLayout.LEFT);
 				cancion.setLayout(cancionLy);
 				cancion.add(new JLabel(Utilidades.createImage("iconos/play.png", 10, 10)));
-				cancion.add(new JLabel(it.next().toString()));
+				cancion.add(new JLabel(it.next().getTitulo()));
 				this.add(cancion);
 			}
 			} catch (TiendaDatabaseException e) {

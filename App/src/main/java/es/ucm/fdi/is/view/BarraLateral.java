@@ -102,6 +102,7 @@ public class BarraLateral extends JPanel {
 			
 			public void mouseReleased(MouseEvent e) {
 				catalogoGeneral.setBackground(null);
+				catalogoGeneral.setEnabled(false);
 			}
 			
 			public void mousePressed(MouseEvent e) {
@@ -113,7 +114,6 @@ public class BarraLateral extends JPanel {
 				} catch (TiendaDatabaseException e1) {
 					e1.printStackTrace();
 				}
-				
 				//Actualizamos el catalogo con esos discos
 				catalogo.actualizar(todosDiscos);
 			}
@@ -248,7 +248,7 @@ public class BarraLateral extends JPanel {
 	}
 	
 	public void showDiscoInfo(Disco disco) {
-		tituloLb.setText(disco.getTitulo().toUpperCase());
+		tituloLb.setText(disco.getTitulo());
 		autorLb.setText(disco.getAutor());
 		valoracionLb.setText(disco.getSello());
 		precioLb.setText(disco.getPrecioVenta().toString());
