@@ -11,7 +11,7 @@ import es.ucm.fdi.is.mvc.TiendaObserver;
 public class SAUsuarioImp implements SAUsuario {
 	
 	private ArrayList<TiendaObserver> observadores;
-	private DAOUsuario dao;
+	private static DAOUsuario dao = FactoriaIntegracion.getFactoria().generaDAOUsuario();
 	
 	private static SAUsuarioImp saUsuario = null;
 	
@@ -24,11 +24,10 @@ public class SAUsuarioImp implements SAUsuario {
 	
 	private SAUsuarioImp() {
 		this.observadores = new ArrayList<TiendaObserver>();
-		this.dao = FactoriaIntegracion.getFactoria().generaDAOUsuario();
 	}
 	
 	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
-		if (this.dao.comprobarLogin(usuario, clave))
+		if (dao.comprobarLogin(usuario, clave))
 			this.notifyAll(new Notificacion(NotificacionMensaje.SESION_INICIADA));
 		else
 			this.notifyAll(new Notificacion(NotificacionMensaje.ERROR_SESION));

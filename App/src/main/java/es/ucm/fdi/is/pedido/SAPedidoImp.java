@@ -12,7 +12,7 @@ import es.ucm.fdi.is.usuario.Usuario;
 
 public class SAPedidoImp implements SAPedido {
 
-	private DAOPedido dao;
+	private static DAOPedido dao = FactoriaIntegracion.getFactoria().generaDAOPedido();
 	private ArrayList<TiendaObserver> observers;
 	
 	private static SAPedidoImp saPedido = null;
@@ -26,7 +26,6 @@ public class SAPedidoImp implements SAPedido {
 	
 	private SAPedidoImp()
 	{
-		this.dao = FactoriaIntegracion.getFactoria().generaDAOPedido();
 		this.observers = new ArrayList<TiendaObserver>();
 	}
 	

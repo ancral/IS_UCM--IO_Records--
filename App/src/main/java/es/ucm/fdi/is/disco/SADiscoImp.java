@@ -12,7 +12,7 @@ public class SADiscoImp implements SADisco {
 	
 	private static SADiscoImp saDisco = null;
 
-	private DAODisco dao;
+	private static DAODisco dao = FactoriaIntegracion.getFactoria().generaDAODisco();
 	private ArrayList<TiendaObserver> observadores;
 	
 	public static SADiscoImp getSADisco() {
@@ -23,7 +23,6 @@ public class SADiscoImp implements SADisco {
 	}
 	
 	private SADiscoImp() {
-		this.dao = FactoriaIntegracion.getFactoria().generaDAODisco();
 		this.observadores = new ArrayList<TiendaObserver>();
 	}
 	

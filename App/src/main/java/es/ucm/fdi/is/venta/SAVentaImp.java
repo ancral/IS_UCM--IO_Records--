@@ -2,12 +2,13 @@ package es.ucm.fdi.is.venta;
 
 import java.util.ArrayList;
 
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SAVentaImp implements SAVenta {
 	
-	private DAOVenta dao;
+	private static DAOVenta dao = FactoriaIntegracion.getFactoria().generaDAOVenta();
 	private ArrayList<TiendaObserver> observers;
 	
 	private static SAVentaImp saVenta = null;
