@@ -9,13 +9,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import es.ucm.fdi.is.dao.FactoriaIntegracion;
-import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Cancion;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
@@ -292,14 +289,8 @@ public class DiscoView extends JFrame implements TiendaObserver {
 
 			    	disco.setValoracion(total);
 			    	
-			    	
-			    	try {
-						FactoriaIntegracion.getFactoria().generaDAODisco()
-						.actualizarDisco(discoAntiguo, disco);
-					} catch (TiendaDatabaseException e) {
-						System.out.println("ERROR");
-						e.printStackTrace();
-					}
+			    	discoController.actualizarDisco(discoAntiguo, disco);
+			    	// TODO: No estoy muy seguro de que vaya haciendo la media de las valoraciones
 			    }
 			  });
 			
@@ -357,28 +348,17 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			TitledBorder listaBorder = new TitledBorder("Lista de canciones: ");
 			this.setBorder(listaBorder);
+
+			Iterator<Cancion> canciones = disco.getListaCanciones().iterator();
 			
-			
-			Disco encontrado;
-			try {
-				encontrado = FactoriaIntegracion.getFactoria()
-						.generaDAODisco().leerDisco(disco.getTitulo());
-				
-			List<Cancion> canciones = encontrado.getListaCanciones();
-			Iterator<Cancion> it = canciones.iterator();
-			
-			while(it.hasNext()){
+			while(canciones.hasNext()){
 				JPanel cancion = new JPanel();
 				FlowLayout cancionLy = new FlowLayout();
 				cancionLy.setAlignment(FlowLayout.LEFT);
 				cancion.setLayout(cancionLy);
 				cancion.add(new JLabel(Utilidades.createImage("iconos/play.png", 10, 10)));
-				cancion.add(new JLabel(it.next().getTitulo()));
+				cancion.add(new JLabel(canciones.next().getTitulo()));
 				this.add(cancion);
-			}
-			} catch (TiendaDatabaseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 	}

@@ -121,7 +121,8 @@ public class DAODiscoImp implements DAODisco {
 				List<Cancion> canciones = new ArrayList<Cancion>();
 
 				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-						.prepareStatement("SELECT * FROM ListaCanciones");
+						.prepareStatement("SELECT * FROM ListaCanciones WHERE LOWER(Titulo) = ?");
+				sqlCanciones.setString(1, res.getString(1).toLowerCase());
 
 				ResultSet resCanciones = sqlCanciones.executeQuery();
 
