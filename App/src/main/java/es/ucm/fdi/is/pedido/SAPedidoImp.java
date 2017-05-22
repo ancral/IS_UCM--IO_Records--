@@ -15,7 +15,16 @@ public class SAPedidoImp implements SAPedido {
 	private DAOPedido dao;
 	private ArrayList<TiendaObserver> observers;
 	
-	public SAPedidoImp()
+	private static SAPedidoImp saPedido = null;
+	
+	public static SAPedidoImp getSAPedido() {
+		if (saPedido == null)
+			saPedido = new SAPedidoImp();
+		
+		return saPedido;
+	}
+	
+	private SAPedidoImp()
 	{
 		this.dao = FactoriaIntegracion.getFactoria().generaDAOPedido();
 		this.observers = new ArrayList<TiendaObserver>();

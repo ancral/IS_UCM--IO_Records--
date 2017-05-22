@@ -9,6 +9,17 @@ public class SAVentaImp implements SAVenta {
 	
 	private DAOVenta dao;
 	private ArrayList<TiendaObserver> observers;
+	
+	private static SAVentaImp saVenta = null;
+	
+	public static SAVentaImp getSAVenta() {
+		if (saVenta == null)
+			saVenta = new SAVentaImp();
+		
+		return saVenta;
+	}
+	
+	private SAVentaImp() {}
 
 	public void generarFactura(Venta venta) {
 		// TODO: Implementar

@@ -1,5 +1,6 @@
 package es.ucm.fdi.is.view;
 
+import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.GeneroDisco;
 import es.ucm.fdi.is.disco.SADisco;
@@ -9,18 +10,16 @@ public class TiendaController {
 	
 	private static TiendaController tiendaController = null;
 	
-	private SADisco disco;
+	private static SADisco disco = FactoriaSA.getFactoria().generaSADisco();
 	
-	public static TiendaController getTiendaController(SADisco disco) {
+	public static TiendaController getTiendaController() {
 		if (tiendaController == null)
-			tiendaController = new TiendaController(disco);
+			tiendaController = new TiendaController();
 		
 		return tiendaController;
 	}
 
-	private TiendaController(SADisco disco) {
-		this.disco = disco;
-	}
+	private TiendaController() {}
 	
 	public void leerTodoCatalogo() {
 		try {

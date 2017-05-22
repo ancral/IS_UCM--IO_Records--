@@ -35,27 +35,25 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	/* Patrón Singleton en la vistas */
 	private static TiendaView tiendaView = null;
 
-	private LoginController loginController;
-	protected TiendaController tiendaController;
+	private static LoginController loginController = LoginController.getLoginController();
+	private static TiendaController tiendaController = TiendaController.getTiendaController();
 	private BarraLateral barraLateral;
 	private JLabel usuario;
 	private JLabel pieInfo;
 	private JTextField barraBusqueda;
 
 	/* Constructor invisible */
-	private TiendaView(LoginController loginControl, TiendaController tiendaControl) {
+	private TiendaView() {
 		super("I/O Records > Catálogo");
-		this.loginController = loginControl;
-		this.tiendaController = tiendaControl;
-		loginControl.addObserver(this);
-		tiendaControl.addObserver(this);
+		loginController.addObserver(this);
+		tiendaController.addObserver(this);
 		initGUI();
 	}
 
 	/* Devuelve la única instancia del objeto */
-	public static TiendaView getTiendaView(LoginController loginControl, TiendaController tiendaControl) {
+	public static TiendaView getTiendaView() {
 		if (tiendaView == null)
-			tiendaView = new TiendaView(loginControl, tiendaControl);
+			tiendaView = new TiendaView();
 
 		return tiendaView;
 	}
@@ -81,12 +79,12 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		/* ------------------------------------------------
 		 * CATÁLOGO DE DISCOS
 		 * ------------------------------------------------ */
-		main.add(CatalogoDiscos.getCatalogoDiscos(this, this.tiendaController), BorderLayout.WEST);
+		main.add(CatalogoDiscos.getCatalogoDiscos(this), BorderLayout.WEST);
 
 		/* ------------------------------------------------
 		 * BARRA LATERAL > GÉNEROS MUSICALES E INFO
 		 * ------------------------------------------------ */
-		barraLateral = BarraLateral.getBarraLateral(CatalogoDiscos.getCatalogoDiscos(this, this.tiendaController), this.tiendaController);
+		barraLateral = BarraLateral.getBarraLateral(CatalogoDiscos.getCatalogoDiscos(this));
 		main.add(barraLateral, BorderLayout.EAST);
 
 		JPanel pie = new JPanel(new BorderLayout());
@@ -162,7 +160,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			});
 			
 		case BUSCAR_DISCO_ENCONTRADO:
-			CatalogoDiscos.getCatalogoDiscos(TiendaView.this, TiendaView.this.tiendaController).actualizar(notificacion.getDiscos());
+			CatalogoDiscos.getCatalogoDiscos(TiendaView.this).actualizar(notificacion.getDiscos());
 			break;
 			
 		case BUSCAR_DISCO_NO_ENCONTRADO:
@@ -324,7 +322,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			usuario.addMouseListener(new MouseListener() {
 
 				public void mouseClicked(MouseEvent e) {
-					LoginView.getLoginView(TiendaView.this.loginController).setVisible(true);
+					LoginView.getLoginView().setVisible(true);
 				}
 
 				public void mousePressed(MouseEvent e) {	}

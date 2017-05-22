@@ -1,12 +1,11 @@
 package es.ucm.fdi.is.pedido;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import es.ucm.fdi.is.disco.DAODiscoImp;
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 
@@ -15,6 +14,17 @@ import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class DAOPedidoImp implements DAOPedido {
+	
+	private static DAOPedidoImp daoPedido = null;
+	
+	public static DAOPedidoImp getDaoPedido() {
+		if (daoPedido == null)
+			daoPedido = new DAOPedidoImp();
+		
+		return daoPedido;
+	}
+	
+	private DAOPedidoImp() {}
 
 	public void crearPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
@@ -53,7 +63,7 @@ public class DAOPedidoImp implements DAOPedido {
 					.prepareStatement("SELECT * FROM Pedido WHERE idPedido = " + pedido);
 
 			ResultSet res = cliente.executeQuery();
-			DAODisco base = new DAODiscoImp();
+			DAODisco base = FactoriaIntegracion.getFactoria().generaDAODisco();
 
 			while (res.next()) {
 				discos.add(base.leerDisco(res.getString(3)));

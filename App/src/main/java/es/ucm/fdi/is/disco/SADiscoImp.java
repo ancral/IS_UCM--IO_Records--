@@ -9,11 +9,20 @@ import es.ucm.fdi.is.mvc.NotificacionMensaje;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
 public class SADiscoImp implements SADisco {
+	
+	private static SADiscoImp saDisco = null;
 
 	private DAODisco dao;
 	private ArrayList<TiendaObserver> observadores;
 	
-	public SADiscoImp() {
+	public static SADiscoImp getSADisco() {
+		if (saDisco == null)
+			saDisco = new SADiscoImp();
+		
+		return saDisco;
+	}
+	
+	private SADiscoImp() {
 		this.dao = FactoriaIntegracion.getFactoria().generaDAODisco();
 		this.observadores = new ArrayList<TiendaObserver>();
 	}

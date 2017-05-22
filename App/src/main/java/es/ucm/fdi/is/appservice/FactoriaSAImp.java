@@ -10,25 +10,36 @@ import es.ucm.fdi.is.venta.SAVenta;
 import es.ucm.fdi.is.venta.SAVentaImp;
 
 public class FactoriaSAImp extends FactoriaSA {
+	
+	private static FactoriaSAImp factoriaSA = null;
+	
+	public static FactoriaSAImp getFactoriaSA() {
+		if (factoriaSA == null)
+			factoriaSA = new FactoriaSAImp();
+		
+		return factoriaSA;
+	}
+	
+	private FactoriaSAImp() {}
 
 	@Override
 	public SADisco generaSADisco() {
-		return new SADiscoImp();
+		return SADiscoImp.getSADisco();
 	}
 
 	@Override
 	public SAPedido generaSAPedido() {
-		return new SAPedidoImp();
+		return SAPedidoImp.getSAPedido();
 	}
 
 	@Override
 	public SAVenta generaSAVenta() {
-		return new SAVentaImp();
+		return SAVentaImp.getSAVenta();
 	}
 
 	@Override
 	public SAUsuario generaSAUsuario() {
-		return new SAUsuarioImp();
+		return SAUsuarioImp.getSAUsuario();
 	}
 
 }

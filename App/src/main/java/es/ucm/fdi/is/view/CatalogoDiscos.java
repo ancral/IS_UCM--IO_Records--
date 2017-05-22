@@ -21,22 +21,21 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 
 	private static CatalogoDiscos catalogoDiscos = null;
 
-	@SuppressWarnings("unused")
-	private TiendaController control;
+	private static TiendaController control = TiendaController.getTiendaController();
 	private TiendaView tienda;
 	private JPanel catalogo;
 
 	private int tamanyoCatalogo;
 	private static int VACIO = 0;
 
-	public static CatalogoDiscos getCatalogoDiscos(TiendaView tienda, TiendaController control) {
+	public static CatalogoDiscos getCatalogoDiscos(TiendaView tienda) {
 		if (catalogoDiscos == null)
-			catalogoDiscos = new CatalogoDiscos(tienda, control);
+			catalogoDiscos = new CatalogoDiscos(tienda);
 
 		return catalogoDiscos;
 	}
 
-	private CatalogoDiscos(TiendaView tienda, TiendaController control) {
+	private CatalogoDiscos(TiendaView tienda) {
 		this.tienda = tienda;
 		control.addObserver(this);
 

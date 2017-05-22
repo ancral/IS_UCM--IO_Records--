@@ -11,7 +11,8 @@ public enum NotificacionMensaje {
 	LEER_TODOS,
 	BUSCAR_DISCO_ENCONTRADO,
 	BUSCAR_DISCO_NO_ENCONTRADO,
-	LEER_POR_GENERO;
+	LEER_POR_GENERO,
+	DISCO_VALORADO;
 	
 	private String mensaje;
 	

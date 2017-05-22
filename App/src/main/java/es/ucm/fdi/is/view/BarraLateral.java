@@ -24,8 +24,7 @@ public class BarraLateral extends JPanel {
 
 	private static BarraLateral barraLateral = null;
 	
-	@SuppressWarnings("unused")
-	private TiendaController control;
+	private static TiendaController control = TiendaController.getTiendaController();
 
 	private JLabel tituloLb;
 	private JLabel autorLb;
@@ -33,14 +32,14 @@ public class BarraLateral extends JPanel {
 	private JLabel precioLb;
 	private JButton catalogoGeneral;
 
-	public static BarraLateral getBarraLateral(CatalogoDiscos catalogo, TiendaController control) {
+	public static BarraLateral getBarraLateral(CatalogoDiscos catalogo) {
 		if (barraLateral == null)
-			barraLateral = new BarraLateral(catalogo, control);
+			barraLateral = new BarraLateral(catalogo);
 
 		return barraLateral;
 	}
 
-	private BarraLateral(final CatalogoDiscos catalogo, final TiendaController control) {
+	private BarraLateral(final CatalogoDiscos catalogo) {
 		/* ------------------------------------------------
 		 * LISTA DE CATEGORÍAS
 		 * ------------------------------------------------ */

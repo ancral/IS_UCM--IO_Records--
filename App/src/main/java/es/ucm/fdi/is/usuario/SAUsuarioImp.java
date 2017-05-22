@@ -13,7 +13,16 @@ public class SAUsuarioImp implements SAUsuario {
 	private ArrayList<TiendaObserver> observadores;
 	private DAOUsuario dao;
 	
-	public SAUsuarioImp() {
+	private static SAUsuarioImp saUsuario = null;
+	
+	public static SAUsuarioImp getSAUsuario() {
+		if (saUsuario == null)
+			saUsuario = new SAUsuarioImp();
+		
+		return saUsuario;
+	}
+	
+	private SAUsuarioImp() {
 		this.observadores = new ArrayList<TiendaObserver>();
 		this.dao = FactoriaIntegracion.getFactoria().generaDAOUsuario();
 	}

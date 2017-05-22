@@ -14,7 +14,7 @@ public abstract class FactoriaIntegracion {
 	public static FactoriaIntegracion getFactoria() {
 		
 		if (factoria == null)
-			factoria = new FactoriaIntegracionImp();
+			factoria = FactoriaIntegracionImp.getFactoriaIntegracion();
 		
 		return factoria;
 	}

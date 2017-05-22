@@ -19,22 +19,22 @@ import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Cancion;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
-import es.ucm.fdi.is.disco.SADiscoImp;
 import es.ucm.fdi.is.disco.Valoracion;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import tray.animations.AnimationType;
 import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
+@SuppressWarnings("restriction")
 public class DiscoView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = -5306391966978836217L;
 	
+	@SuppressWarnings("unused")
 	private static DiscoView discoView = null;
 	
 	/**
@@ -44,15 +44,18 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	private TiendaView tiendaView;
 	private Disco disco;
 	
+	private static DiscoController discoController = DiscoController.getDiscoController();
+	
 	private DiscoView(TiendaView view, Disco disco) {
 		super("I/O Records > Ventana de disco");
 		this.tiendaView = view;
 		this.disco = disco;
+		discoController.addObserver(this);
 		initGUI();
 	}
 	
-	public static DiscoView getDiscoView(TiendaView view,Disco disco) {
-		return new DiscoView(view,disco);
+	public static DiscoView getDiscoView(TiendaView view, Disco disco) {
+		return new DiscoView(view, disco);
 	}
 	
 	private void initGUI() {
@@ -268,8 +271,8 @@ public class DiscoView extends JFrame implements TiendaObserver {
 						public void run() {
 							TrayNotification tray = new TrayNotification();
 							tray.setTitle("Gracias por votar");
-							tray.setMessage("Has votado con un "+selection+" el disco "
-									+disco.getTitulo()+" de "+disco.getAutor());
+							tray.setMessage("Has votado con un " + selection + " el disco "
+									+ disco.getTitulo()+" de " + disco.getAutor());
 							tray.setNotificationType(NotificationType.INFORMATION);
 							tray.setAnimationType(AnimationType.FADE);
 				            tray.showAndDismiss(Duration.millis(1500));

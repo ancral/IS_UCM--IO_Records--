@@ -18,19 +18,18 @@ public class LoginView extends JFrame implements TiendaObserver {
 	
 	private JTextField usuario;
 	private JPasswordField clave;
-	private LoginController control;
+	private static LoginController control = LoginController.getLoginController();
 	
-	public static LoginView getLoginView(LoginController control) {
+	public static LoginView getLoginView() {
 		if (loginView == null)
-			loginView = new LoginView(control);
+			loginView = new LoginView();
 		
 		return loginView;
 	}
 
-	private LoginView(LoginController control) {
+	private LoginView() {
 		super("I/O Records > Control de accesos");
 		
-		this.control = control;
 		control.addObserver(this);
 		
 		JPanel main = new JPanel();

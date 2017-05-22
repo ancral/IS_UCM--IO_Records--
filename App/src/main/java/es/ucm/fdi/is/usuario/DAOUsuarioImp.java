@@ -8,6 +8,17 @@ import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 
 public class DAOUsuarioImp implements DAOUsuario {
+	
+	private static DAOUsuarioImp daoUsuario = null;
+	
+	public static DAOUsuarioImp getDAOUsuario() {
+		if (daoUsuario == null)
+			daoUsuario = new DAOUsuarioImp();
+		
+		return daoUsuario;
+	}
+	
+	private DAOUsuarioImp() {}
 
 	public boolean comprobarLogin(String usuario, String clave) throws TiendaDatabaseException {
 		boolean ok = false;

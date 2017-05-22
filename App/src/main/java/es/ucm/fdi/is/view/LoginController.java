@@ -1,5 +1,6 @@
 package es.ucm.fdi.is.view;
 
+import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.usuario.SAUsuario;
@@ -8,16 +9,14 @@ public class LoginController {
 	
 	private static LoginController loginController = null;
 	
-	private SAUsuario modelo;
+	private static SAUsuario modelo = FactoriaSA.getFactoria().generaSAUsuario();
 	
 	
-	private LoginController(SAUsuario modelo) {
-		this.modelo = modelo;
-	}
+	private LoginController() {}
 	
-	public static LoginController getLoginController(SAUsuario modelo) {
+	public static LoginController getLoginController() {
 		if (loginController == null)
-			loginController = new LoginController(modelo);
+			loginController = new LoginController();
 		
 		return loginController;
 	}

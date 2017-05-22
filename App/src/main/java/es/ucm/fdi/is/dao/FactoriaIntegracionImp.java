@@ -10,25 +10,36 @@ import es.ucm.fdi.is.venta.DAOVenta;
 import es.ucm.fdi.is.venta.DAOVentaImp;
 
 public class FactoriaIntegracionImp extends FactoriaIntegracion {
+	
+	private static FactoriaIntegracionImp factoriaIntegracion = null;
+	
+	public static FactoriaIntegracionImp getFactoriaIntegracion() {
+		if (factoriaIntegracion == null)
+			factoriaIntegracion = new FactoriaIntegracionImp();
+		
+		return factoriaIntegracion;
+	}
+	
+	private FactoriaIntegracionImp() {}
 
 	@Override
 	public DAODisco generaDAODisco() {
-		return new DAODiscoImp();
+		return DAODiscoImp.getDaoDisco();
 	}
 
 	@Override
 	public DAOPedido generaDAOPedido() {
-		return new DAOPedidoImp();
+		return DAOPedidoImp.getDaoPedido();
 	}
 
 	@Override
 	public DAOVenta generaDAOVenta() {
-		return new DAOVentaImp();
+		return DAOVentaImp.getDaoVenta();
 	}
 
 	@Override
 	public DAOUsuario generaDAOUsuario() {
-		return new DAOUsuarioImp();
+		return DAOUsuarioImp.getDAOUsuario();
 	}
 
 }

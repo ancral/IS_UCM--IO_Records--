@@ -10,6 +10,16 @@ import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.usuario.Empleado;
 
 public class DAOVentaImp implements DAOVenta {
+	private static DAOVentaImp daoVenta = null;
+	
+	public static DAOVentaImp getDaoVenta() {
+		if (daoVenta == null)
+			daoVenta = new DAOVentaImp();
+		
+		return daoVenta;
+	}
+	
+	private DAOVentaImp() {}
 
 	public void crearVenta(Venta venta) throws TiendaDatabaseException {
 		try {

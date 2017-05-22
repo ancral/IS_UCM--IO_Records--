@@ -11,6 +11,17 @@ import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 
 public class DAODiscoImp implements DAODisco {
+	
+	private static DAODiscoImp daoDisco = null;
+	
+	public static DAODiscoImp getDaoDisco() {
+		if (daoDisco == null)
+			daoDisco = new DAODiscoImp();
+		
+		return daoDisco;
+	}
+	
+	private DAODiscoImp() {}
 
 	public void crearDisco(Disco disco) throws TiendaDatabaseException {
 		// TODO Auto-generated method stub

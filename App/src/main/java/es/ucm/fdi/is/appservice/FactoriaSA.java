@@ -14,10 +14,11 @@ public abstract class FactoriaSA {
 	
 	public static FactoriaSA getFactoria() {
 		if (factoria == null)
-			factoria = new FactoriaSAImp();
+			factoria = FactoriaSAImp.getFactoriaSA();
 		
 		return factoria;
 	}
+	
 	
 	public abstract SADisco generaSADisco();
 	public abstract SAPedido generaSAPedido();
