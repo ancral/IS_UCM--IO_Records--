@@ -11,13 +11,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import es.ucm.fdi.is.dao.FactoriaIntegracion;
-import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
@@ -43,6 +40,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	private BarraLateral barraLateral;
 	private JLabel usuario;
 	private JLabel pieInfo;
+	private JTextField barraBusqueda;
 
 	/* Constructor invisible */
 	private TiendaView(LoginController loginControl, TiendaController tiendaControl) {
@@ -50,6 +48,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		this.loginController = loginControl;
 		this.tiendaController = tiendaControl;
 		loginControl.addObserver(this);
+		tiendaControl.addObserver(this);
 		initGUI();
 	}
 
@@ -161,8 +160,16 @@ public class TiendaView extends JFrame implements TiendaObserver {
 				}
 
 			});
-
+			
+		case BUSCAR_DISCO_ENCONTRADO:
+			CatalogoDiscos.getCatalogoDiscos(TiendaView.this, TiendaView.this.tiendaController).actualizar(notificacion.getDiscos());
 			break;
+			
+		case BUSCAR_DISCO_NO_ENCONTRADO:
+			barraBusqueda.setText("No se ha encontrado el disco");
+			barraBusqueda.select(0,1000);
+			break;
+			
 		default:
 			break;
 
@@ -259,17 +266,17 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			// BARRA DE BÚSQUEDA
 			// ------------------------------------------
 			JPanel busqueda = new JPanel();
-			final JTextField field = new JTextField(15);
-			field.setMaximumSize(new Dimension(30, 30));
-			field.setToolTipText("Introduce el nombre del disco que quieres buscar");
-			busqueda.add(field);
+			barraBusqueda = new JTextField(15);
+			barraBusqueda.setMaximumSize(new Dimension(30, 30));
+			barraBusqueda.setToolTipText("Introduce el nombre del disco que quieres buscar");
+			busqueda.add(barraBusqueda);
 			JLabel buscarIcon = new JLabel(Utilidades.createImage("iconos/search.png", 28, 28));
 
 			/* Búscar en el catálogo haciendo click en el icono */
 			buscarIcon.addMouseListener(new MouseListener() {
 
 				public void mouseClicked(MouseEvent e) {
-					buscar(field.getText(), field);
+					tiendaController.buscarDisco(barraBusqueda.getText());
 				}
 
 				public void mousePressed(MouseEvent e) {}
@@ -287,7 +294,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			busqueda.setBorder(new TitledBorder("Buscar en el catálogo"));
 
 			/* Búscar en el catálogo presionando ENTER */
-			field.addKeyListener(new KeyListener() {
+			barraBusqueda.addKeyListener(new KeyListener() {
 
 				public void keyTyped(KeyEvent e) {}
 
@@ -295,7 +302,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==KeyEvent.VK_ENTER)
-						buscar(field.getText(), field);
+						tiendaController.buscarDisco(barraBusqueda.getText());
 				}
 			});
 
@@ -333,27 +340,6 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			toolBarPanel.add(usuario);
 		}
 
-		private void buscar(String valor, JTextField field) {
-			ArrayList<Disco> busqueda = new ArrayList<Disco>();
-			Disco encontrado = null;
-			try {
-				//Hacemos una busqueda en la BD de los discos con ese genero
-				encontrado = FactoriaIntegracion.getFactoria()
-						.generaDAODisco().leerDisco(valor);
-				busqueda.add(encontrado);
-			} catch (TiendaDatabaseException e1) {
-				e1.printStackTrace();
-			}
-			if (encontrado==null) {
-				field.setText("No se ha encontrado el disco");
-				field.select(0,1000);
-			}
-			else {
-				//Actualizamos el catalogo con el disco
-				CatalogoDiscos.getCatalogoDiscos(TiendaView.this, TiendaView.this.tiendaController).
-				actualizar(busqueda);
-			}
-		}
 	}
 
 }

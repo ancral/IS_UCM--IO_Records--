@@ -38,6 +38,14 @@ public class TiendaController {
 		}
 	}
 	
+	public void buscarDisco(String titulo) {
+		try {
+			disco.buscarDisco(titulo);
+		} catch (TiendaDatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	public void addObserver(TiendaObserver observer) {
 		disco.addObverser(observer);
 	}

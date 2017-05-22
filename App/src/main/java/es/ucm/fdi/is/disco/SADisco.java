@@ -13,6 +13,7 @@ public interface SADisco extends TiendaObservable {
 	public void leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException;
 	public void crearOferta(Disco disco, OfertaDisco oferta) throws TiendaDatabaseException;
 	public void leerTodos() throws TiendaDatabaseException;
+	public void buscarDisco(String titulo) throws TiendaDatabaseException;
 	public void actualizarValoracion(Disco disco, Float valoracion) throws TiendaDatabaseException;
 	public void notifyAll(Notificacion notificacion);
 

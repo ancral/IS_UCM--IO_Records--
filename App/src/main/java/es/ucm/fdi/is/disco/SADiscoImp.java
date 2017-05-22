@@ -53,6 +53,16 @@ public class SADiscoImp implements SADisco {
 		
 		dao.actualizarDisco(disco, discoOferta);
 	}
+	
+	public void buscarDisco(String titulo) throws TiendaDatabaseException {
+		ArrayList<Disco> disco = new ArrayList<Disco>();
+		disco.add(dao.leerDisco(titulo));
+		if (disco.get(0) != null) // El primer elemento de la lista es distinto a null si se ha encontrado
+			notifyAll(new Notificacion(NotificacionMensaje.BUSCAR_DISCO_ENCONTRADO, disco));
+		else {
+			notifyAll(new Notificacion(NotificacionMensaje.BUSCAR_DISCO_NO_ENCONTRADO, null));
+		}
+	}
 
 	public void leerTodos() throws TiendaDatabaseException {
 		ArrayList<Disco> discos = new ArrayList<Disco>();
