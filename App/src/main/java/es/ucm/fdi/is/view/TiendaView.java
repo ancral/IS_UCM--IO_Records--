@@ -39,7 +39,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	private static TiendaView tiendaView = null;
 
 	private LoginController loginController;
-	private TiendaController tiendaController;
+	protected TiendaController tiendaController;
 	private BarraLateral barraLateral;
 	private JLabel usuario;
 	private JLabel pieInfo;
@@ -87,7 +87,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		/* ------------------------------------------------
 		 * BARRA LATERAL > GÉNEROS MUSICALES E INFO
 		 * ------------------------------------------------ */
-		barraLateral = BarraLateral.getBarraLateral(CatalogoDiscos.getCatalogoDiscos(this, this.tiendaController));
+		barraLateral = BarraLateral.getBarraLateral(CatalogoDiscos.getCatalogoDiscos(this, this.tiendaController), this.tiendaController);
 		main.add(barraLateral, BorderLayout.EAST);
 
 		JPanel pie = new JPanel(new BorderLayout());

@@ -1,6 +1,7 @@
 package es.ucm.fdi.is.view;
 
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.disco.GeneroDisco;
 import es.ucm.fdi.is.disco.SADisco;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 
@@ -24,6 +25,14 @@ public class TiendaController {
 	public void leerTodoCatalogo() {
 		try {
 			disco.leerTodos();
+		} catch (TiendaDatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void leerPorGenero(GeneroDisco genero) {
+		try {
+			disco.leerPorGenero(genero);
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}

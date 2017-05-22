@@ -21,6 +21,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 
 	private static CatalogoDiscos catalogoDiscos = null;
 
+	@SuppressWarnings("unused")
 	private TiendaController control;
 	private TiendaView tienda;
 	private JPanel catalogo;
@@ -123,6 +124,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 		switch (notificacion.getNotificacion()) {
 
 		case LEER_TODOS:
+		case LEER_POR_GENERO:
 			actualizar(notificacion.getDiscos());
 			break;
 
