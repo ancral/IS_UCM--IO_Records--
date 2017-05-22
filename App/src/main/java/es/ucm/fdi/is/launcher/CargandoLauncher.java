@@ -1,5 +1,3 @@
-
-
 package es.ucm.fdi.is.launcher;
 
 import javax.swing.UIManager;
@@ -8,6 +6,7 @@ import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.view.LoginController;
+import es.ucm.fdi.is.view.TiendaController;
 import es.ucm.fdi.is.view.TiendaView;
 import es.ucm.fdi.is.view.Utilidades;
 
@@ -36,7 +35,10 @@ public class CargandoLauncher {
 		//Cargamos el programa cuando se haya acabado el loading
 		TiendaView.getTiendaView(LoginController
 				.getLoginController(FactoriaSA.getFactoria()
-						.generaSAUsuario()));
+						.generaSAUsuario()),
+				
+				TiendaController.getTiendaController(FactoriaSA.getFactoria()
+						.generaSADisco()));
 			}
 		});
 	}

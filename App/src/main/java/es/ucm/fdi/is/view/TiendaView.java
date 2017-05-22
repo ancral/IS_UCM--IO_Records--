@@ -39,22 +39,24 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	private static TiendaView tiendaView = null;
 
 	private LoginController loginController;
+	private TiendaController tiendaController;
 	private BarraLateral barraLateral;
 	private JLabel usuario;
 	private JLabel pieInfo;
 
 	/* Constructor invisible */
-	private TiendaView(LoginController control) {
+	private TiendaView(LoginController loginControl, TiendaController tiendaControl) {
 		super("I/O Records > Catálogo");
-		this.loginController = control;
-		control.addObserver(this);
+		this.loginController = loginControl;
+		this.tiendaController = tiendaControl;
+		loginControl.addObserver(this);
 		initGUI();
 	}
 
 	/* Devuelve la única instancia del objeto */
-	public static TiendaView getTiendaView(LoginController control) {
+	public static TiendaView getTiendaView(LoginController loginControl, TiendaController tiendaControl) {
 		if (tiendaView == null)
-			tiendaView = new TiendaView(control);
+			tiendaView = new TiendaView(loginControl, tiendaControl);
 
 		return tiendaView;
 	}
@@ -80,12 +82,12 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		/* ------------------------------------------------
 		 * CATÁLOGO DE DISCOS
 		 * ------------------------------------------------ */
-		main.add(CatalogoDiscos.getCatalogoDiscos(this), BorderLayout.WEST);
+		main.add(CatalogoDiscos.getCatalogoDiscos(this, this.tiendaController), BorderLayout.WEST);
 
 		/* ------------------------------------------------
 		 * BARRA LATERAL > GÉNEROS MUSICALES E INFO
 		 * ------------------------------------------------ */
-		barraLateral = BarraLateral.getBarraLateral(CatalogoDiscos.getCatalogoDiscos(this));
+		barraLateral = BarraLateral.getBarraLateral(CatalogoDiscos.getCatalogoDiscos(this, this.tiendaController));
 		main.add(barraLateral, BorderLayout.EAST);
 
 		JPanel pie = new JPanel(new BorderLayout());
@@ -348,7 +350,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			}
 			else {
 				//Actualizamos el catalogo con el disco
-				CatalogoDiscos.getCatalogoDiscos(TiendaView.this).
+				CatalogoDiscos.getCatalogoDiscos(TiendaView.this, TiendaView.this.tiendaController).
 				actualizar(busqueda);
 			}
 		}

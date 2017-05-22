@@ -229,8 +229,8 @@ public class BarraLateral extends JPanel {
 		autorLb.setForeground(Color.WHITE);
 		autor.add(autorLb);
 		
-		valoracion.add(new JLabel(Utilidades.createImage("iconos/valoracion.png", 32, 32)));
-		valoracionLb = new JLabel("Valoracion X/5");
+		valoracion.add(new JLabel(Utilidades.createImage("iconos/disco.png", 32, 32)));
+		valoracionLb = new JLabel("Sello");
 		valoracionLb.setForeground(Color.WHITE);
 		valoracion.add(valoracionLb);
 		
