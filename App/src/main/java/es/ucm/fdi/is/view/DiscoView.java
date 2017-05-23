@@ -8,12 +8,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.Iterator;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Cancion;
+import es.ucm.fdi.is.disco.DAODiscoImp;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
 import es.ucm.fdi.is.disco.Valoracion;
@@ -41,18 +44,28 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	private TiendaView tiendaView;
 	private Disco disco;
 	
+	/* Información del disco */
+	private JLabel nombreDisco;
+	private JLabel autorDisco;
+	private JLabel generoDisco;
+	private JLabel selloDisco;
+	private JLabel fechaDisco;
+	private JLabel precioDisco;
+	
 	private static DiscoController discoController = DiscoController.getDiscoController();
 	
-	private DiscoView(TiendaView view, Disco disco) {
+	private DiscoView(TiendaView view, CatalogoDiscos catalogo, Disco disco) {
 		super("I/O Records > Ventana de disco");
 		this.tiendaView = view;
 		this.disco = disco;
 		discoController.addObserver(this);
+		discoController.addObserver(catalogo);
+
 		initGUI();
 	}
 	
-	public static DiscoView getDiscoView(TiendaView view, Disco disco) {
-		return new DiscoView(view, disco);
+	public static DiscoView getDiscoView(TiendaView view, CatalogoDiscos catalogo, Disco disco) {
+		return new DiscoView(view, catalogo, disco);
 	}
 	
 	private void initGUI() {
@@ -161,11 +174,34 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	public void notify(Notificacion notificacion) {
-		// TODO Auto-generated method stub
+	public void notify(final Notificacion notificacion) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+				handleEvent(notificacion);
+			}
+			
+		});
 		
 	}
+		
 	
+	public void handleEvent(Notificacion notificacion) {
+		switch (notificacion.getNotificacion()) {
+		case DISCO_ACTUALIZADO:
+			DiscoView.this.nombreDisco.setText(disco.getTitulo());
+			DiscoView.this.autorDisco.setText(disco.getAutor());
+			DiscoView.this.generoDisco.setText(disco.getGenero().toString());
+			DiscoView.this.selloDisco.setText(disco.getSello());
+			// DiscoView.this.fechaDisco.setText(disco.getFechaSalida());
+			break;
+			
+			default:
+				break;
+		}
+	}
+
 	private class DiscoInfo extends JPanel {
 		
 		private static final long serialVersionUID = 7708121068748511959L;
@@ -185,8 +221,8 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			caratulaP.setBackground(color);
 			BoxLayout caratulaPLay = new BoxLayout(caratulaP, BoxLayout.Y_AXIS);
 			caratulaP.setLayout(caratulaPLay);
-			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/"+
-			disco.getTitulo().toLowerCase()+".jpg", 250, 250));
+			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/" +
+			disco.getCaratula(), 250, 250));
 			caratulaP.add(caratula);
 			
 			JPanel comprarPanel = new JPanel();
@@ -213,7 +249,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			nombreDiscoPanel.setBackground(color);
 			JLabel nombreDiscoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
 			nombreDiscoPanel.add(nombreDiscoIcon);
-			JLabel nombreDisco = new JLabel(disco.getTitulo());
+			DiscoView.this.nombreDisco = new JLabel(disco.getTitulo());
 			nombreDisco.setForeground(Color.WHITE);
 			nombreDisco.setFont(new Font("sans", Font.BOLD, 35));
 			nombreDiscoPanel.add(nombreDisco);
@@ -225,7 +261,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			autorPanel.setBackground(color);
 			JLabel autorIcon = new JLabel(Utilidades.createImage("iconos/disc-author.png", 18, 18));
 			autorPanel.add(autorIcon);
-			JLabel autorDisco = new JLabel(disco.getAutor());
+			DiscoView.this.autorDisco = new JLabel(disco.getAutor());
 			autorDisco.setForeground(Color.WHITE);
 			autorPanel.add(autorDisco);
 			
@@ -236,7 +272,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			generoPanel.setBackground(color);
 			JLabel generoIcon = new JLabel(Utilidades.createImage("iconos/categorias.png", 18, 18));
 			generoPanel.add(generoIcon);
-			JLabel generoDisco = new JLabel(disco.getGenero().toString());
+			DiscoView.this.generoDisco = new JLabel(disco.getGenero().toString());
 			generoDisco.setForeground(Color.WHITE);
 			generoPanel.add(generoDisco);
 			
@@ -302,7 +338,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			selloPanel.setBackground(color);
 			JLabel selloIcon = new JLabel(Utilidades.createImage("iconos/disco.png", 18, 18));
 			selloPanel.add(selloIcon);
-			JLabel selloDisco = new JLabel(disco.getSello());
+			DiscoView.this.selloDisco = new JLabel(disco.getSello());
 			selloDisco.setForeground(Color.WHITE);
 			selloPanel.add(selloDisco);
 			
@@ -313,7 +349,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			fechaPanel.setBackground(color);
 			JLabel fechaIcon = new JLabel(Utilidades.createImage("iconos/calendario.png", 18, 18));
 			fechaPanel.add(fechaIcon);
-			JLabel fechaDisco = new JLabel(disco.getFechaSalida().toString());
+			DiscoView.this.fechaDisco = new JLabel(disco.getFechaSalida().toString());
 			fechaDisco.setForeground(Color.WHITE);
 			fechaPanel.add(fechaDisco);
 			
@@ -326,7 +362,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			precioPanel.setBackground(color);
 			JLabel precioIcon = new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32));
 			precioPanel.add(precioIcon);
-			JLabel precioDisco = new JLabel(disco.getPrecioVenta().toString());
+			DiscoView.this.precioDisco = new JLabel(disco.getPrecioVenta().toString());
 			precioDisco.setForeground(Color.WHITE);
 			precioDisco.setFont(new Font("sans", Font.BOLD, 15));
 			precioPanel.add(precioDisco);
@@ -388,44 +424,51 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			JPanel titulo = new JPanel(new FlowLayout());
 			titulo.add(new JLabel("Título: "));
-			titulo.add(new JTextField(30));
+			final JTextField tituloF = new JTextField(30);
+			titulo.add(tituloF);
 			
 			formulario.add(titulo);
 			
 			JPanel autor = new JPanel(new FlowLayout());
 			autor.add(new JLabel("Intérprete: "));
-			autor.add(new JTextField(15));
+			final JTextField autorF = new JTextField(15);
+			autor.add(autorF);
 			
 			formulario.add(autor);
 			
 			JPanel genero = new JPanel(new FlowLayout());
 			genero.add(new JLabel("Género musical: "));
-			genero.add(new JComboBox<GeneroDisco>(GeneroDisco.values()));
+			final JComboBox<GeneroDisco> generoCB = new JComboBox<GeneroDisco>(GeneroDisco.values());
+			genero.add(generoCB);
 			
 			formulario.add(genero);
 			
 			JPanel valoracion = new JPanel(new FlowLayout());
 			valoracion.add(new JLabel("Valoración del disco: "));
-			valoracion.add(new JComboBox<Valoracion>(Valoracion.values()));
+			final JComboBox<Valoracion> valoracionCB = new JComboBox<Valoracion>(Valoracion.values());  
+			valoracion.add(valoracionCB);
 			
 			formulario.add(valoracion);
 			
 			JPanel discografica = new JPanel(new FlowLayout());
 			discografica.add(new JLabel("Discográfica: "));
-			discografica.add(new JTextField(15));
+			final JTextField discograficaF = new JTextField(15);
+			discografica.add(discograficaF);
 			
 			formulario.add(discografica);
 			
 			JPanel fecha = new JPanel(new FlowLayout());
 			fecha.add(new JLabel("Fecha de salida: "));
-			fecha.add(new JTextField(10));
+			final JTextField fechaF = new JTextField(10);
+			fecha.add(fechaF);
 			fecha.add(new JLabel("DD/MM/AAAA"));
 			
 			formulario.add(fecha);
 			
 			JPanel precio = new JPanel(new FlowLayout());
 			precio.add(new JLabel("Precio del disco: "));
-			precio.add(new JTextField(5));
+			final JTextField precioF = new JTextField(5);
+			precio.add(precioF);
 			precio.add(new JLabel("€"));
 			
 			formulario.add(precio);
@@ -438,6 +481,48 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			JPanel guardarPan = new JPanel();
 			JButton guardar = new JButton("Guardar cambios", Utilidades.createImage("iconos/save.png", 18, 18));
+			
+			guardar.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					Disco discoAct =
+							new Disco(disco.getTitulo(), disco.getAutor(), disco.getFechaSalida(), disco.getSello(),
+									  disco.getGenero(), disco.getDuracion(), disco.getValoracion(), disco.getPrecioCompra(),
+									  disco.getPrecioVenta(), disco.getListaCanciones(), disco.getOferta(), disco.getCaratula());
+					
+					
+					/* Inicializamos el disco más cómodamente con los setters. 
+					 * Solamente modificamos los campos en los que se haya escrito */
+					
+					discoAct.setTitulo(tituloF.getText().isEmpty() ? disco.getTitulo() : tituloF.getText());
+					discoAct.setAutor(autorF.getText().isEmpty() ? disco.getAutor() : autorF.getText());
+					discoAct.setGenero((GeneroDisco) generoCB.getSelectedItem());
+					// discoAct.setValoracion(new Float(5));
+					discoAct.setSello(discograficaF.getText().isEmpty() ? disco.getSello() : discograficaF.getText());
+					
+					// int dia = Integer.parseInt(fechaF.getText().substring(0, 1));
+					// int mes = Integer.parseInt(fechaF.getText().substring(3, 4));
+					// int anyo = Integer.parseInt(fechaF.getText().substring(6, 9));
+					
+					/*
+					Date date = new Date(System.currentTimeMillis());
+					discoAct.setFechaSalida(date);
+					discoAct.setPrecioVenta(new Float(precioF.getText()));
+					*/
+					
+					// Atributo con el nuevo disco
+					Disco discoAnterior = DiscoView.this.disco;
+					DiscoView.this.disco = discoAct;
+					
+					// Actualizamos el disco en la BD
+					discoController.actualizarDisco(discoAnterior, discoAct);
+
+					// Cerramos el formulario al pulsar el botón
+					ModificarDisco.this.dispose();
+				}
+				
+			});
+			
 			guardar.setPreferredSize(new Dimension(200, 30));
 			guardarPan.add(guardar);
 			contenedor.add(guardarPan);

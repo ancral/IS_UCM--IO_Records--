@@ -17,31 +17,20 @@ public class Disco {
 	private List<Cancion> listaCanciones;
 	private OfertaDisco oferta;
 	private int numVotaciones;
-	private Float valoracionesTotal;
+	private Float valoracionesTotal = new Float(0);
+	private String caratula;
 	
 	/* Constructora con oferta */
 	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
-			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta) {
-	
-		this.titulo = titulo;
-		this.valoracionesTotal = valoracion;
-		this.valoracion = valoracion;
-		this.numVotaciones = 0;
-		this.setAutor(autor);
-		this.setFechaSalida(fechaSalida);
-		this.setSello(sello);
-		this.setGenero(genero);
-		this.setDuracion(duracion);
-		this.setPrecioCompra(precioCompra);
-		this.setPrecioVenta(precioVenta);
-		this.setListaCanciones(listaCanciones);
-		this.setOferta(oferta);
+			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta, String caratula) {
 
+		this(titulo, autor, fechaSalida, sello, genero, duracion, valoracion, precioCompra, precioVenta, listaCanciones, caratula);
+		this.oferta = oferta;
 	}
 	
 	/* Constructora sin oferta */
 	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
-			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones) {
+			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, String caratula) {
 
 		this.titulo = titulo;
 		this.valoracionesTotal = valoracion;
@@ -56,6 +45,7 @@ public class Disco {
 		this.setPrecioVenta(precioVenta);
 		this.setListaCanciones(listaCanciones);
 		this.setOferta(null);
+		this.caratula = caratula;
 
 	}
 	
@@ -196,6 +186,10 @@ public class Disco {
 
 	public void setOferta(OfertaDisco oferta) {
 		this.oferta = oferta;
+	}
+	
+	public String getCaratula() {
+		return this.caratula;
 	}
 	
 

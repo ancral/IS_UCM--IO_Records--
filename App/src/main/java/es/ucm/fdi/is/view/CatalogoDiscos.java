@@ -96,7 +96,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 						// hacemos visible la información del disco
 
 						System.out.println(disco.getTitulo().toString());
-						DiscoView.getDiscoView(tienda, disco).setVisible(true); 
+						DiscoView.getDiscoView(tienda, CatalogoDiscos.this, disco).setVisible(true); 
 					}
 
 					public void mousePressed(MouseEvent e) {}
@@ -125,6 +125,10 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 		case LEER_TODOS:
 		case LEER_POR_GENERO:
 			actualizar(notificacion.getDiscos());
+			break;
+			
+		case DISCO_ACTUALIZADO:
+			TiendaController.getTiendaController().leerTodoCatalogo();
 			break;
 
 		default:
