@@ -42,7 +42,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	private JLabel usuario;
 	private JLabel pieInfo;
 	private JTextField barraBusqueda;
-	private Usuario usuarioSesion;
+	protected Usuario usuarioSesion;
 
 	/* Constructor invisible */
 	private TiendaView() {

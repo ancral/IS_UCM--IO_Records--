@@ -3,7 +3,7 @@ package es.ucm.fdi.is.view;
 import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.TiendaObserver;
-import es.ucm.fdi.is.usuario.Empleado;
+import es.ucm.fdi.is.usuario.Cliente;
 import es.ucm.fdi.is.usuario.SAUsuario;
 
 public class LoginController {
@@ -26,7 +26,13 @@ public class LoginController {
 		String claveString = new String(clave);
 		
 		try {
-			modelo.iniciarSesion(usuario, claveString, new Empleado("vacio"));
+			modelo.iniciarSesion(usuario, claveString, new Cliente("vacio"));
+			
+			/*
+			 * Creamos un cliente vacío que luego se inicializará correctamente
+			 * cuando se inicie sesión y se pase la notificación a la vista
+			 */
+			
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}
