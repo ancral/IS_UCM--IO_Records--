@@ -36,7 +36,6 @@ public class DiscoController {
 	
 	public void anyadirAlPedido(Pedido ped, Disco disco, Usuario usuario) {
 		try {
-			// pedido.crearPedido(ped);
 			pedido.addProducto(ped, disco, usuario);
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());

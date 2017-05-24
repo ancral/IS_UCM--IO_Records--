@@ -107,6 +107,8 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	}
 	
 	public void refrescarCarrito(Pedido pedido) {
+		listaDiscos.removeAll();
+		
 		Iterator<Disco> pedidos = pedido.getDiscos().iterator();
 		
 		while (pedidos.hasNext()) {

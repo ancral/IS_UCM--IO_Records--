@@ -32,7 +32,7 @@ public abstract class Usuario {
 	public String getNif() {
 		return this.nif;
 	}
-	
+
 	public String getClave() {
 		return this.clave;
 	}
@@ -84,5 +84,6 @@ public abstract class Usuario {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
+	
 	
 }
