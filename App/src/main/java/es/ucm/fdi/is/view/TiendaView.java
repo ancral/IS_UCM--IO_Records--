@@ -158,6 +158,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 				}
 
 			});
+			break;
 			
 		case BUSCAR_DISCO_ENCONTRADO:
 			CatalogoDiscos.getCatalogoDiscos(TiendaView.this).actualizar(notificacion.getDiscos());

@@ -485,7 +485,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			guardar.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					Disco discoAct =
+					final Disco discoAct =
 							new Disco(disco.getTitulo(), disco.getAutor(), disco.getFechaSalida(), disco.getSello(),
 									  disco.getGenero(), disco.getDuracion(), disco.getValoracion(), disco.getPrecioCompra(),
 									  disco.getPrecioVenta(), disco.getListaCanciones(), disco.getOferta(), disco.getCaratula());
@@ -511,11 +511,20 @@ public class DiscoView extends JFrame implements TiendaObserver {
 					*/
 					
 					// Atributo con el nuevo disco
-					Disco discoAnterior = DiscoView.this.disco;
+					final Disco discoAnterior = DiscoView.this.disco;
 					DiscoView.this.disco = discoAct;
 					
 					// Actualizamos el disco en la BD
-					discoController.actualizarDisco(discoAnterior, discoAct);
+					Thread actualizar = new Thread(new Runnable() {
+
+						public void run() {
+							discoController.actualizarDisco(discoAnterior, discoAct);
+						}
+						
+					});
+					
+					actualizar.start();
+					
 
 					// Cerramos el formulario al pulsar el botón
 					ModificarDisco.this.dispose();
