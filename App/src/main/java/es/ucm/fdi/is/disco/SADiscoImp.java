@@ -46,7 +46,10 @@ public class SADiscoImp implements SADisco {
 	}
 
 	public void actualizarDisco(Disco antiguo, Disco nuevo) throws TiendaDatabaseException {
+		System.out.println(antiguo.getValoracion());
+		System.out.println(nuevo.getValoracion());
 		dao.actualizarDisco(antiguo, nuevo);
+		
 		notifyAll(new Notificacion(NotificacionMensaje.DISCO_ACTUALIZADO));
 	}
 

@@ -22,10 +22,32 @@ public class Disco {
 	
 	/* Constructora con oferta */
 	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
-			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta, String caratula) {
+			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta, String caratula
+			, int numVotaciones) {
 
 		this(titulo, autor, fechaSalida, sello, genero, duracion, valoracion, precioCompra, precioVenta, listaCanciones, caratula);
 		this.oferta = oferta;
+		this.numVotaciones = numVotaciones;
+	}
+	
+	
+	/* Constructora copia*/
+	public Disco(Disco copia)
+	{
+		this.titulo = copia.getTitulo();
+		this.autor = copia.getAutor();
+		this.fechaSalida = copia.getFechaSalida();
+		this.sello = copia.getSello();
+		this.genero = copia.getGenero();
+		this.duracion = copia.getDuracion();
+		this.valoracion = copia.getValoracion();
+		this.precioCompra = copia.getPrecioCompra();
+		this.precioVenta = copia.getPrecioVenta();
+		this.listaCanciones = copia.getListaCanciones();
+		this.oferta = copia.getOferta();
+		this.numVotaciones = copia.getNumVotaciones();
+		this.valoracionesTotal = copia.getValoracionTotal();
+		this.caratula = copia.getCaratula();
 	}
 	
 	/* Constructora sin oferta */
@@ -152,8 +174,13 @@ public class Disco {
 	
 	public int getNumVotaciones()
 	{
-		numVotaciones++;
 		return numVotaciones;
+	}
+	
+	public void setNumVotaciones(int x)
+	{
+		this.numVotaciones = this.numVotaciones + x;
+		System.out.println(numVotaciones);
 	}
 	
 	public Float getPrecioCompra() {

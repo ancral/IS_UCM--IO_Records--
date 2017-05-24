@@ -37,5 +37,6 @@ public class DiscoController {
 	public void removeObserver(TiendaObserver observer) {
 		disco.removeObserver(observer);
 	}
-
+	
+	
 }

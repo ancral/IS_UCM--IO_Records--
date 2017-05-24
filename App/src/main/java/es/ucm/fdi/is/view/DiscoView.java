@@ -38,13 +38,13 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	private static DiscoView discoView = null;
 	
 	/**
-	 * Referencia a la vista del catálogo para poder hacerlo visible al
-	 * accionar el botón de regresar
+	 * Referencia a la vista del catÃ¡logo para poder hacerlo visible al
+	 * accionar el botÃ³n de regresar
 	 */
 	private TiendaView tiendaView;
 	private Disco disco;
 	
-	/* Información del disco */
+	/* InformaciÃ³n del disco */
 	private JLabel nombreDisco;
 	private JLabel autorDisco;
 	private JLabel generoDisco;
@@ -69,7 +69,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	}
 	
 	private void initGUI() {
-		// CREACIÓN DEL CONTENEDOR PRINCIPAL
+		// CREACIÃ“N DEL CONTENEDOR PRINCIPAL
 		// ----------------------------------------------
 		JPanel main = new JPanel();
 		BoxLayout mainLayout = new BoxLayout(main, BoxLayout.Y_AXIS);
@@ -78,11 +78,11 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		this.setContentPane(main);
 		
 		/* ------------------------------------------------
-		 * MENÚ SUPERIOR
+		 * MENÃš SUPERIOR
 		 * ------------------------------------------------ */
 		this.setJMenuBar(new MenuSuperior(this));
 		
-		// BOTÓN PARA REGRESAR AL CATÁLOGO
+		// BOTÃ“N PARA REGRESAR AL CATÃ�LOGO
 		// ----------------------------------------------
 		JPanel botones = new JPanel();
 		BorderLayout botonesLy = new BorderLayout();
@@ -93,21 +93,21 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		FlowLayout botonesLineLy = new FlowLayout();
 		botonesLine.setLayout(botonesLineLy);
 		
-		JButton regresar = new JButton("Volver al catálogo", Utilidades.createImage("iconos/volver.png", 32, 32));
+		JButton regresar = new JButton("Volver al catÃ¡logo", Utilidades.createImage("iconos/volver.png", 32, 32));
 		regresar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				DiscoView.this.setVisible(false); // ocultamos esta vista
-				DiscoView.this.tiendaView.setVisible(true); // hacemos visible el catálogo
+				DiscoView.this.tiendaView.setVisible(true); // hacemos visible el catÃ¡logo
 			}
 			
 		});
 		botonesLine.add(regresar);
 		
-		// BOTÓN PARA MODIFICAR DISCO
+		// BOTÃ“N PARA MODIFICAR DISCO
 		// ----------------------------------------------
 		JButton modificar = new JButton(Utilidades.createImage("iconos/modificar.png", 32, 32));
-		modificar.setToolTipText("Modificar disco del catálogo");
+		modificar.setToolTipText("Modificar disco del catÃ¡logo");
 		
 		modificar.addActionListener(new ActionListener() {
 
@@ -119,13 +119,13 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		
 		botonesLine.add(modificar);
 		
-		// BOTÓN PARA DESCATALOGAR DISCO
+		// BOTÃ“N PARA DESCATALOGAR DISCO
 		// ----------------------------------------------
 		JButton descatalogar = new JButton(Utilidades.createImage("iconos/borrar.png", 32, 32));
-		descatalogar.setToolTipText("Descatalogar disco del catálogo");
+		descatalogar.setToolTipText("Descatalogar disco del catÃ¡logo");
 		botonesLine.add(descatalogar);
 		
-		// BOTÓN PARA PONER OFERTA
+		// BOTÃ“N PARA PONER OFERTA
 		// ----------------------------------------------
 		JButton oferta = new JButton(Utilidades.createImage("iconos/oferta.png", 32, 32));
 		oferta.setToolTipText("Establecer una oferta en el disco");
@@ -135,7 +135,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			public void actionPerformed(ActionEvent e) {
 				String ofertaIn = 
 						JOptionPane.showInputDialog(DiscoView.this, 
-								"Introduce la oferta para este disco", "Añadir oferta a disco",
+								"Introduce la oferta para este disco", "AÃ±adir oferta a disco",
 								JOptionPane.QUESTION_MESSAGE);
 				System.out.println(ofertaIn); // TODO: test
 			}
@@ -152,7 +152,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		BorderLayout contenedorLy = new BorderLayout();
 		contenedor.setLayout(contenedorLy);
 		
-		// INFORMACIÓN DEL DISCO SELECCIONADO
+		// INFORMACIÃ“N DEL DISCO SELECCIONADO
 		// ----------------------------------------------
 		contenedor.add(new DiscoInfo(disco), BorderLayout.NORTH);
 		
@@ -216,7 +216,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			FlowLayout discoLayout = new FlowLayout();
 			this.setLayout(discoLayout);
 			
-			// Carátula
+			// CarÃ¡tula
 			JPanel caratulaP = new JPanel();
 			caratulaP.setBackground(color);
 			BoxLayout caratulaPLay = new BoxLayout(caratulaP, BoxLayout.Y_AXIS);
@@ -231,7 +231,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			comprarPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 			comprarPanel.setLayout(comprarPanelLy);
 			
-			JButton carrito = new JButton("Añadir al carrito", Utilidades.createImage("iconos/compra.png", 32, 32));
+			JButton carrito = new JButton("AÃ±adir al carrito", Utilidades.createImage("iconos/compra.png", 32, 32));
 			carrito.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
@@ -244,17 +244,17 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			caratulaP.add(comprarPanel);
 			this.add(caratulaP);
 			
-			// Layout de la información de la derecha
+			// Layout de la informaciÃ³n de la derecha
 			FlowLayout leftAlignment = new FlowLayout();
 			leftAlignment.setAlignment(FlowLayout.LEFT);
 			
-			// Título y más información
+			// TÃ­tulo y mÃ¡s informaciÃ³n
 			JPanel discoInfo = new JPanel();
 			discoInfo.setBackground(color);
 			BoxLayout discoInfoLayout = new BoxLayout(discoInfo, BoxLayout.Y_AXIS);
 			discoInfo.setLayout(discoInfoLayout);		
 			
-			// Título del disco
+			// TÃ­tulo del disco
 			JPanel nombreDiscoPanel = new JPanel(leftAlignment);
 			nombreDiscoPanel.setBackground(color);
 			JLabel nombreDiscoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
@@ -277,7 +277,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			
 			discoInfo.add(autorPanel);
 			
-			// Género del disco
+			// GÃ©nero del disco
 			JPanel generoPanel = new JPanel(leftAlignment);
 			generoPanel.setBackground(color);
 			JLabel generoIcon = new JLabel(Utilidades.createImage("iconos/categorias.png", 18, 18));
@@ -300,8 +300,9 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			// La valoracion cuando se mete un disco en la DB sera de 0
 			
 			int seleccion = Math.round(disco.getValoracion());
+			
 			System.out.println(seleccion);
-			System.out.println(disco.getValoracion());
+			
 			final StarRater starRater = new StarRater(5, disco.getValoracion(), seleccion);
 			starRater.addStarListener(new StarRater.StarListener() {
 			    public void handleSelection(final int selection) {
@@ -326,14 +327,18 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			    	starRater.setRating(selection);
 			    	starRater.setEnabled(false);
 			    	
+			    	Disco discoAntiguo = new Disco(disco);
+			    	
+			    	disco.setNumVotaciones(1);
 			    	int votantes = disco.getNumVotaciones();
-			    	float votaciones = selection + disco.getValoracionTotal();
+			    	float votaciones = selection + disco.getValoracion();
 			    	float total = (votaciones/votantes);
-
+			    	
 			    	//Guardamos el disco antes de la actualizacion de la valoracion
-			    	Disco discoAntiguo = disco;
-
+			    	
+			    	
 			    	disco.setValoracion(total);
+			    	
 			    	
 			    	discoController.actualizarDisco(discoAntiguo, disco);
 			    	// TODO: No estoy muy seguro de que vaya haciendo la media de las valoraciones
@@ -433,35 +438,35 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			formulario.setLayout(formularioLy);
 			
 			JPanel titulo = new JPanel(new FlowLayout());
-			titulo.add(new JLabel("Título: "));
+			titulo.add(new JLabel("TÃ­tulo: "));
 			final JTextField tituloF = new JTextField(30);
 			titulo.add(tituloF);
 			
 			formulario.add(titulo);
 			
 			JPanel autor = new JPanel(new FlowLayout());
-			autor.add(new JLabel("Intérprete: "));
+			autor.add(new JLabel("IntÃ©rprete: "));
 			final JTextField autorF = new JTextField(15);
 			autor.add(autorF);
 			
 			formulario.add(autor);
 			
 			JPanel genero = new JPanel(new FlowLayout());
-			genero.add(new JLabel("Género musical: "));
+			genero.add(new JLabel("GÃ©nero musical: "));
 			final JComboBox<GeneroDisco> generoCB = new JComboBox<GeneroDisco>(GeneroDisco.values());
 			genero.add(generoCB);
 			
 			formulario.add(genero);
 			
 			JPanel valoracion = new JPanel(new FlowLayout());
-			valoracion.add(new JLabel("Valoración del disco: "));
+			valoracion.add(new JLabel("ValoraciÃ³n del disco: "));
 			final JComboBox<Valoracion> valoracionCB = new JComboBox<Valoracion>(Valoracion.values());  
 			valoracion.add(valoracionCB);
 			
 			formulario.add(valoracion);
 			
 			JPanel discografica = new JPanel(new FlowLayout());
-			discografica.add(new JLabel("Discográfica: "));
+			discografica.add(new JLabel("DiscogrÃ¡fica: "));
 			final JTextField discograficaF = new JTextField(15);
 			discografica.add(discograficaF);
 			
@@ -479,7 +484,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			precio.add(new JLabel("Precio del disco: "));
 			final JTextField precioF = new JTextField(5);
 			precio.add(precioF);
-			precio.add(new JLabel("€"));
+			precio.add(new JLabel("â‚¬"));
 			
 			formulario.add(precio);
 			
@@ -498,10 +503,11 @@ public class DiscoView extends JFrame implements TiendaObserver {
 					final Disco discoAct =
 							new Disco(disco.getTitulo(), disco.getAutor(), disco.getFechaSalida(), disco.getSello(),
 									  disco.getGenero(), disco.getDuracion(), disco.getValoracion(), disco.getPrecioCompra(),
-									  disco.getPrecioVenta(), disco.getListaCanciones(), disco.getOferta(), disco.getCaratula());
+									  disco.getPrecioVenta(), disco.getListaCanciones(),
+									  disco.getOferta(), disco.getCaratula(), disco.getNumVotaciones());
 					
 					
-					/* Inicializamos el disco más cómodamente con los setters. 
+					/* Inicializamos el disco mÃ¡s cÃ³modamente con los setters. 
 					 * Solamente modificamos los campos en los que se haya escrito */
 					
 					discoAct.setTitulo(tituloF.getText().isEmpty() ? disco.getTitulo() : tituloF.getText());
@@ -536,7 +542,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 					actualizar.start();
 					
 
-					// Cerramos el formulario al pulsar el botón
+					// Cerramos el formulario al pulsar el botÃ³n
 					ModificarDisco.this.dispose();
 				}
 				
