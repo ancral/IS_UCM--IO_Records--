@@ -3,6 +3,7 @@ package es.ucm.fdi.is.view;
 import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.usuario.Empleado;
 import es.ucm.fdi.is.usuario.SAUsuario;
 
 public class LoginController {
@@ -25,7 +26,7 @@ public class LoginController {
 		String claveString = new String(clave);
 		
 		try {
-			modelo.iniciarSesion(usuario, claveString);
+			modelo.iniciarSesion(usuario, claveString, new Empleado("vacio"));
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}

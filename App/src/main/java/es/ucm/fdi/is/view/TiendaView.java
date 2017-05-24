@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.usuario.Usuario;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.AudioClip;
@@ -41,6 +42,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	private JLabel usuario;
 	private JLabel pieInfo;
 	private JTextField barraBusqueda;
+	private Usuario usuarioSesion;
 
 	/* Constructor invisible */
 	private TiendaView() {
@@ -137,6 +139,9 @@ public class TiendaView extends JFrame implements TiendaObserver {
 				}
 
 			});
+			
+			TiendaView.this.usuarioSesion = notificacion.getUsuario();
+			System.out.println(usuarioSesion.getNif());
 
 			break;
 		case ERROR_SESION:

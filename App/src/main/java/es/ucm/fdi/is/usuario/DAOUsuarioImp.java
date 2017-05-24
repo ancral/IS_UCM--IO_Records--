@@ -20,21 +20,30 @@ public class DAOUsuarioImp implements DAOUsuario {
 	
 	private DAOUsuarioImp() {}
 
-	public boolean comprobarLogin(String usuario, String clave) throws TiendaDatabaseException {
+	public boolean comprobarLogin(String usuario, String clave, Usuario usuarioSesion)
+																throws TiendaDatabaseException {
 		boolean ok = false;
 		
 		
 		try {
-			PreparedStatement sql = TiendaDatabase.getConexionLogin()
-					.prepareStatement("SELECT * FROM usuarios WHERE nombre = ? AND clave = ?");
+			PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Usuario WHERE NIF = ? AND Clave = ?");
 
 			sql.setString(1, usuario);
 			sql.setString(2, clave);
 
 			ResultSet res = sql.executeQuery();
 
-			if (res.next())
+			if (res.next()) {
 				ok = true;
+				
+				usuarioSesion.setNif(res.getString(1));
+				usuarioSesion.setClave(res.getString(2));
+				usuarioSesion.setNombre(res.getString(3));
+				usuarioSesion.setDireccion(res.getString(4));
+				usuarioSesion.setFechaNacimiento(res.getDate(5));
+				
+			}
 
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());

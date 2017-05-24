@@ -6,9 +6,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
 import es.ucm.fdi.is.disco.Valoracion;
 
@@ -131,44 +134,51 @@ public class PanelView extends JDialog {
 			
 			JPanel titulo = new JPanel(new FlowLayout());
 			titulo.add(new JLabel("Título: "));
-			titulo.add(new JTextField(30));
+			final JTextField tituloF = new JTextField(30);
+			titulo.add(tituloF);
 			
 			formulario.add(titulo);
 			
 			JPanel autor = new JPanel(new FlowLayout());
 			autor.add(new JLabel("Intérprete: "));
-			autor.add(new JTextField(15));
+			final JTextField autorF = new JTextField(15);
+			autor.add(autorF);
 			
 			formulario.add(autor);
 			
 			JPanel genero = new JPanel(new FlowLayout());
 			genero.add(new JLabel("Género musical: "));
-			genero.add(new JComboBox<GeneroDisco>(GeneroDisco.values()));
+			final JComboBox<GeneroDisco> generoCB = new JComboBox<GeneroDisco>(GeneroDisco.values());
+			genero.add(generoCB);
 			
 			formulario.add(genero);
 			
 			JPanel valoracion = new JPanel(new FlowLayout());
 			valoracion.add(new JLabel("Valoración del disco: "));
-			valoracion.add(new JComboBox<Valoracion>(Valoracion.values()));
+			final JComboBox<Valoracion> valoracionCB = new JComboBox<Valoracion>(Valoracion.values());  
+			valoracion.add(valoracionCB);
 			
 			formulario.add(valoracion);
 			
 			JPanel discografica = new JPanel(new FlowLayout());
 			discografica.add(new JLabel("Discográfica: "));
-			discografica.add(new JTextField(15));
+			final JTextField discograficaF = new JTextField(15);
+			discografica.add(discograficaF);
 			
 			formulario.add(discografica);
 			
 			JPanel fecha = new JPanel(new FlowLayout());
 			fecha.add(new JLabel("Fecha de salida: "));
-			fecha.add(new JTextField(10));
+			final JTextField fechaF = new JTextField(10);
+			fecha.add(fechaF);
 			fecha.add(new JLabel("DD/MM/AAAA"));
 			
 			formulario.add(fecha);
 			
 			JPanel precio = new JPanel(new FlowLayout());
 			precio.add(new JLabel("Precio del disco: "));
-			precio.add(new JTextField(5));
+			final JTextField precioF = new JTextField(5);
+			precio.add(precioF);
 			precio.add(new JLabel("€"));
 			
 			formulario.add(precio);
@@ -181,6 +191,19 @@ public class PanelView extends JDialog {
 			
 			JPanel guardarPan = new JPanel();
 			JButton guardar = new JButton("Añadir disco", Utilidades.createImage("iconos/save.png", 18, 18));
+			
+			/*
+			guardar.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent arg0) {
+					Disco nuevoDisco = 
+							new Disco(tituloF.getText(), autorF.getText(), (GeneroDisco) generoCB.getSelectedItem(),
+									(Valoracion) valoracionCB.getSelectedItem(), discograficaF.getText(),
+									(Date) fechaF.getText(), precioF.getText(), "null.jpg");
+				}
+				
+			});*/
+			
 			guardar.setPreferredSize(new Dimension(200, 30));
 			guardarPan.add(guardar);
 			this.add(guardarPan);

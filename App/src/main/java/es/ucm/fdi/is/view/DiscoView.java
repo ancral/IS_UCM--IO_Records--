@@ -230,7 +230,17 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			BoxLayout comprarPanelLy = new BoxLayout(comprarPanel, BoxLayout.Y_AXIS);
 			comprarPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 			comprarPanel.setLayout(comprarPanelLy);
-			comprarPanel.add(new JButton("Añadir al carrito", Utilidades.createImage("iconos/compra.png", 32, 32)));
+			
+			JButton carrito = new JButton("Añadir al carrito", Utilidades.createImage("iconos/compra.png", 32, 32));
+			carrito.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+				
+			});
+			
+			comprarPanel.add(carrito);
 			caratulaP.add(comprarPanel);
 			this.add(caratulaP);
 			

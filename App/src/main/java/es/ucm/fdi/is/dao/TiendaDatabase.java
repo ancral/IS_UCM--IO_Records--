@@ -8,13 +8,14 @@ import java.sql.Statement;
 
 
 public class TiendaDatabase {
-	private static Connection login = null;
+	// private static Connection login = null;
 	private static Connection tienda = null;
 	private static Statement statement = null;
 
 	private TiendaDatabase() {
 	}
 
+	/*
 	public static Connection getConexionLogin() throws TiendaDatabaseException {
 
 		if (login == null) {
@@ -37,6 +38,7 @@ public class TiendaDatabase {
 
 		return login;
 	}
+	*/
 
 	public static Connection getConexion() throws TiendaDatabaseException {
 		
@@ -60,7 +62,7 @@ public class TiendaDatabase {
 	}
 
 	public static void iniciar() throws TiendaDatabaseException {
-		getConexionLogin();
+		// getConexionLogin();
 		getConexion();
 
 		if (statement == null) {
@@ -76,9 +78,9 @@ public class TiendaDatabase {
 	}
 
 	public static void cerrar() throws TiendaDatabaseException {
-		if (login != null) {
+		if (tienda != null) {
 			try {
-				login.close();
+				tienda.close();
 			} catch (SQLException e) {
 				throw new TiendaDatabaseException(e.getMessage());
 			}

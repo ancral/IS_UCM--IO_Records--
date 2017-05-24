@@ -48,4 +48,28 @@ public abstract class Usuario {
 	public TipoUsuario getTipo() {
 		return this.tipo;
 	}
+	
+	public void setNif(String nif) {
+		this.nif = nif;
+	}
+
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public void setTipo(TipoUsuario tipo) {
+		this.tipo = tipo;
+	}
 }
