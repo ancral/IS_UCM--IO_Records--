@@ -44,6 +44,7 @@ public class SAPedidoImp implements SAPedido {
 
 	public void addProducto(Pedido pedido, Disco disco, Usuario usuario) throws TiendaDatabaseException {
 		dao.addProductoPedido(disco, pedido);
+		pedido.meterDisco(disco);
 		usuario.setPedido(pedido);
 		this.notifyAll(new Notificacion(NotificacionMensaje.ANYADIR_CARRITO, null, usuario));
 	}
@@ -65,8 +66,9 @@ public class SAPedidoImp implements SAPedido {
 	}
 
 	public void notifyAll(Notificacion notificacion) {
-		// TODO Auto-generated method stub
-		
+		for (TiendaObserver o : this.observers) {
+			o.notify(notificacion);
+		}
 	}
 
 }

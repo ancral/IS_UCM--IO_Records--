@@ -7,16 +7,16 @@ import es.ucm.fdi.is.disco.Disco;
 
 public class Pedido {
 	
-	private String identificador;
+	private int identificador;
 	private List<Disco> discos;
 	private String idCliente;
 	private TipoRecogida recogida;
 	
-	public Pedido(String identificador, String idCliente, TipoRecogida recogida) {
+	public Pedido(int identificador, String idCliente, TipoRecogida recogida) {
 		this(identificador, new ArrayList<Disco>(), idCliente, recogida);
 	}
 	
-	public Pedido(String identificador, List<Disco> discos, String idCliente, TipoRecogida recogida) {
+	public Pedido(int identificador, List<Disco> discos, String idCliente, TipoRecogida recogida) {
 		this.identificador = identificador;
 		this.discos = discos;
 		this.idCliente = idCliente;
@@ -27,7 +27,7 @@ public class Pedido {
 		this.discos.add(disco);
 	}
 	
-	public String getId() {
+	public int getId() {
 		return this.identificador;
 	}
 	

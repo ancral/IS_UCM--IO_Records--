@@ -2,6 +2,8 @@ package es.ucm.fdi.is.usuario;
 
 import java.sql.Date;
 
+import es.ucm.fdi.is.pedido.Pedido;
+
 public class Empleado extends Usuario {
 	
 	private RangoEmpleado rango;
@@ -15,9 +17,9 @@ public class Empleado extends Usuario {
 	}
 	
 	public Empleado(String nif, String clave, String nombre, String direccion, Date fechaNacimiento,
-					 RangoEmpleado rango, String cargo, Float salario, Date antiguedad) {
+					 RangoEmpleado rango, String cargo, Float salario, Date antiguedad, Pedido pedido) {
 		
-		super(nif, clave, nombre, direccion, fechaNacimiento, TipoUsuario.EMPLEADO);
+		super(nif, clave, nombre, direccion, fechaNacimiento, TipoUsuario.EMPLEADO, pedido);
 		this.rango = rango;
 		this.salario = salario;
 		this.antiguedad = antiguedad;

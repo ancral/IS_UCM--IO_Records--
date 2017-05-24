@@ -132,7 +132,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			caratulaP.setBackground(color);
 			BoxLayout caratulaPLay = new BoxLayout(caratulaP, BoxLayout.Y_AXIS);
 			caratulaP.setLayout(caratulaPLay);		
-			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/cover.jpg", 150, 150));
+			JLabel caratula = new JLabel(Utilidades.createImage("caratulas/" + disco.getCaratula(), 150, 150));
 			caratulaP.add(caratula);
 			
 			JPanel comprarPanel = new JPanel();
@@ -159,7 +159,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			nombreDiscoPanel.setBackground(color);
 			JLabel nombreDiscoIcon = new JLabel(Utilidades.createImage("iconos/disc-title.png", 32, 32));
 			nombreDiscoPanel.add(nombreDiscoIcon);
-			JLabel nombreDisco = new JLabel("Este es el nombre de un disco muy largo");
+			JLabel nombreDisco = new JLabel(disco.getTitulo());
 			nombreDisco.setForeground(Color.BLACK);
 			// nombreDisco.setFont(new Font("sans", Font.BOLD, 15));
 			nombreDiscoPanel.add(nombreDisco);
@@ -171,7 +171,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			autorPanel.setBackground(color);
 			JLabel autorIcon = new JLabel(Utilidades.createImage("iconos/disc-author.png", 32, 32));
 			autorPanel.add(autorIcon);
-			JLabel autorDisco = new JLabel("Autor del disco");
+			JLabel autorDisco = new JLabel(disco.getAutor());
 			autorDisco.setForeground(Color.BLACK);
 			autorPanel.add(autorDisco);
 			
@@ -184,7 +184,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			precioPanel.setBackground(color);
 			JLabel precioIcon = new JLabel(Utilidades.createImage("iconos/disc-price.png", 32, 32));
 			precioPanel.add(precioIcon);
-			JLabel precioDisco = new JLabel("Precio del disco");
+			JLabel precioDisco = new JLabel(disco.getPrecioVenta().toString());
 			precioDisco.setForeground(Color.BLACK);
 			precioDisco.setFont(new Font("sans", Font.BOLD, 15));
 			precioPanel.add(precioDisco);
@@ -196,7 +196,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	}
 
 	public void notify(Notificacion notificacion) {
-		
+	
 		switch (notificacion.getNotificacion()) {
 		case ANYADIR_CARRITO:
 			refrescarCarrito(notificacion.getUsuario().getPedido());

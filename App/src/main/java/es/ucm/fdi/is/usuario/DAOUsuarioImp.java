@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.pedido.Pedido;
+import es.ucm.fdi.is.pedido.TipoRecogida;
 
 public class DAOUsuarioImp implements DAOUsuario {
 	
@@ -42,6 +44,27 @@ public class DAOUsuarioImp implements DAOUsuario {
 				usuarioSesion.setNombre(res.getString(3));
 				usuarioSesion.setDireccion(res.getString(4));
 				usuarioSesion.setFechaNacimiento(res.getDate(5));
+				
+				res.close();
+				
+				PreparedStatement sqlIdPedido = TiendaDatabase.getConexion()
+						.prepareStatement("SELECT IdPedido FROM DatosVarios");
+				
+				ResultSet id = sqlIdPedido.executeQuery();
+				id.next();
+				
+				usuarioSesion.setPedido(new Pedido(id.getInt(1), usuarioSesion.getNif(), TipoRecogida.TIENDA));
+				
+				id.close();
+				
+				/*
+				 * Actualizamos el contador de pedidos de la base de datos
+				 */
+				
+				sqlIdPedido= TiendaDatabase.getConexion()
+						.prepareStatement("UPDATE DatosVarios SET IdPedido = IdPedido + 1");
+				
+				sqlIdPedido.executeUpdate();
 				
 			}
 

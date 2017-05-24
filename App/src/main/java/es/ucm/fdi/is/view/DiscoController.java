@@ -36,7 +36,7 @@ public class DiscoController {
 	
 	public void anyadirAlPedido(Pedido ped, Disco disco, Usuario usuario) {
 		try {
-			pedido.crearPedido(ped);
+			// pedido.crearPedido(ped);
 			pedido.addProducto(ped, disco, usuario);
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
@@ -45,10 +45,12 @@ public class DiscoController {
 	
 	public void addObserver(TiendaObserver observer) {
 		disco.addObverser(observer);
+		pedido.addObverser(observer);
 	}
 	
 	public void removeObserver(TiendaObserver observer) {
 		disco.removeObserver(observer);
+		pedido.removeObserver(observer);
 	}
 	
 	

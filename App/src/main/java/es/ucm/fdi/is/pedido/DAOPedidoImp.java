@@ -31,7 +31,7 @@ public class DAOPedidoImp implements DAOPedido {
 			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
 
 			for (Disco disco : pedido.getDiscos()) {
-				sql.setString(1, pedido.getId());
+				sql.setInt(1, pedido.getId());
 				sql.setString(2, pedido.getCliente());
 				sql.setString(3, disco.toString());
 				sql.setString(4, pedido.getTipoRecogida().toString());
@@ -102,7 +102,7 @@ public class DAOPedidoImp implements DAOPedido {
 					}
 				}
 
-				pedido.add(new Pedido(res.getString(1), discos, res.getString(3), tipo));
+				pedido.add(new Pedido(res.getInt(1), discos, res.getString(3), tipo));
 
 			}
 		} catch (SQLException e) {
@@ -116,12 +116,12 @@ public class DAOPedidoImp implements DAOPedido {
 			PreparedStatement producto = TiendaDatabase.getConexion()
 					.prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
 
-			producto.setString(1, pedido.getId());
+			producto.setInt(1, pedido.getId());
 			producto.setString(2, pedido.getCliente());
-			producto.setString(3, disco.toString());
+			producto.setString(3, disco.getTitulo());
 			producto.setString(4, pedido.getTipoRecogida().toString());
 
-			producto.executeQuery();
+			producto.executeUpdate();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -137,12 +137,12 @@ public class DAOPedidoImp implements DAOPedido {
 							+ "	WHERE idPedido = ?");
 
 			for (Disco disco : nuevo.getDiscos()) {
-				actualizar.setString(1, nuevo.getId());
+				actualizar.setInt(1, nuevo.getId());
 				actualizar.setString(2, nuevo.getCliente());
 				actualizar.setString(3, disco.toString());
 				actualizar.setString(4, nuevo.getTipoRecogida().toString());
 				
-				actualizar.setString(5, antiguo.getId());
+				actualizar.setInt(5, antiguo.getId());
 				
 				actualizar.executeQuery();
 			}

@@ -104,7 +104,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// BOTÓN PARA MODIFICAR DISCO
 		// ----------------------------------------------
 		JButton modificar = new JButton(Utilidades.createImage("iconos/modificar.png", 32, 32));
-		modificar.setToolTipText("Modificar disco del catÃ¡logo");
+		modificar.setToolTipText("Modificar disco del catálogo");
 		
 		modificar.addActionListener(new ActionListener() {
 
@@ -119,7 +119,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// BOTÓN PARA DESCATALOGAR DISCO
 		// ----------------------------------------------
 		JButton descatalogar = new JButton(Utilidades.createImage("iconos/borrar.png", 32, 32));
-		descatalogar.setToolTipText("Descatalogar disco del catÃ¡logo");
+		descatalogar.setToolTipText("Descatalogar disco del catálogo");
 		botonesLine.add(descatalogar);
 		
 		// BOTÓN PARA PONER OFERTA
@@ -132,7 +132,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			public void actionPerformed(ActionEvent e) {
 				String ofertaIn = 
 						JOptionPane.showInputDialog(DiscoView.this, 
-								"Introduce la oferta para este disco", "AÃ±adir oferta a disco",
+								"Introduce la oferta para este disco", "Añadir oferta a disco",
 								JOptionPane.QUESTION_MESSAGE);
 				System.out.println(ofertaIn); // TODO: test
 			}
