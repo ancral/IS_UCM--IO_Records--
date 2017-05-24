@@ -246,7 +246,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			op3.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					CarritoView.getCarritoView(TiendaView.this).setVisible(true);
+					CarritoView.getCarritoView(TiendaView.this, TiendaView.this.usuarioSesion.getPedido()).setVisible(true);
 				}
 
 			});

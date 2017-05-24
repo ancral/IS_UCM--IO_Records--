@@ -21,7 +21,7 @@ public class CargandoLauncher {
 		// Consumir tiempo
 		for (int i = 0; i <= 500; i++) {
 			for (long j = 0; j < 50000; ++j) {
-				// String caquita = " " + (j + i);
+				String caquita = " " + (j + i);
 			}
 			screen.setProgress("Cargando: " + i/5, i);
 		}

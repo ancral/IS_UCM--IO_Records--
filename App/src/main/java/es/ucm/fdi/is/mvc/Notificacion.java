@@ -9,6 +9,10 @@ public class Notificacion {
 	
 	private NotificacionMensaje notificacion;
 	private ArrayList<Disco> discos;
+	
+	/**
+	 * Utilizado para informar del usuario que provoca las notificaciones
+	 */
 	private Usuario usuario;
 	
 	public Notificacion(NotificacionMensaje notificacion) {
@@ -31,6 +35,10 @@ public class Notificacion {
 	
 	public ArrayList<Disco> getDiscos() {
 		return this.discos;
+	}
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	public Usuario getUsuario() {

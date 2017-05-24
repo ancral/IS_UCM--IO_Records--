@@ -7,6 +7,7 @@ import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
+import es.ucm.fdi.is.mvc.NotificacionMensaje;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.usuario.Usuario;
 
@@ -41,8 +42,10 @@ public class SAPedidoImp implements SAPedido {
 		return dao.verPedidosUsuario(usuario);
 	}
 
-	public void addProducto(Pedido pedido, Disco disco) throws TiendaDatabaseException {
+	public void addProducto(Pedido pedido, Disco disco, Usuario usuario) throws TiendaDatabaseException {
 		dao.addProductoPedido(disco, pedido);
+		usuario.setPedido(pedido);
+		this.notifyAll(new Notificacion(NotificacionMensaje.ANYADIR_CARRITO, null, usuario));
 	}
 
 	public void modificarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException  {

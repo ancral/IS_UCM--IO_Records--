@@ -28,7 +28,7 @@ public class DAOPedidoImp implements DAOPedido {
 
 	public void crearPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
-			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido (?,?,?,?)");
+			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
 
 			for (Disco disco : pedido.getDiscos()) {
 				sql.setString(1, pedido.getId());
@@ -114,7 +114,7 @@ public class DAOPedidoImp implements DAOPedido {
 	public void addProductoPedido(Disco disco, Pedido pedido) throws TiendaDatabaseException {
 		try {
 			PreparedStatement producto = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Pedido (?,?,?,?)");
+					.prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
 
 			producto.setString(1, pedido.getId());
 			producto.setString(2, pedido.getCliente());

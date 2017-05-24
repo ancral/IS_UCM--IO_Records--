@@ -5,24 +5,35 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.Iterator;
 
 import javax.swing.*;
 
-public class CarritoView extends JDialog {
+import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.mvc.Notificacion;
+import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.pedido.Pedido;
+
+public class CarritoView extends JDialog implements TiendaObserver {
 
 	private static final long serialVersionUID = -105457093080251712L;
 	
 	private static CarritoView carritoView = null;
+	private static DiscoController discoController = DiscoController.getDiscoController();
 	
-	public static CarritoView getCarritoView(JFrame window) {
+	private JPanel listaDiscos;
+	
+	public static CarritoView getCarritoView(JFrame window, Pedido pedido) {
 		if (carritoView == null)
-			carritoView = new CarritoView(window);
+			carritoView = new CarritoView(window, pedido);
 		
 		return carritoView;
 	}
 	
-	private CarritoView(JFrame window) {
+	private CarritoView(JFrame window, Pedido pedido) {
 		super(window, "Carrito de la compra", true);
+		
+		discoController.addObserver(this);
 		
 		JPanel contenedor = new JPanel();
 		BorderLayout contenedorLy = new BorderLayout();
@@ -43,15 +54,16 @@ public class CarritoView extends JDialog {
 		contenedor.add(titulo, BorderLayout.NORTH);
 		
 		JScrollPane listaScroll = new JScrollPane();
-		JPanel listaDiscos = new JPanel();
+		listaDiscos = new JPanel();
 		BoxLayout listaDiscosLy = new BoxLayout(listaDiscos, BoxLayout.Y_AXIS);
 		listaDiscos.setLayout(listaDiscosLy);
 		
-		listaDiscos.add(new DiscoInfo());
-		listaDiscos.add(Box.createVerticalStrut(5)); // espacio en blanco
-		listaDiscos.add(new DiscoInfo());
-		listaDiscos.add(Box.createVerticalStrut(5)); // espacio en blanco
-		listaDiscos.add(new DiscoInfo());
+		Iterator<Disco> pedidos = pedido.getDiscos().iterator();
+		
+		while (pedidos.hasNext()) {
+			listaDiscos.add(new DiscoInfo(pedidos.next()));
+			listaDiscos.add(Box.createVerticalStrut(5)); // espacio en blanco
+		}
 		
 		listaScroll.setViewportView(listaDiscos);
 		listaScroll.setPreferredSize(new Dimension(600, 300));
@@ -94,11 +106,20 @@ public class CarritoView extends JDialog {
 		// this.setVisible(true);
 	}
 	
+	public void refrescarCarrito(Pedido pedido) {
+		Iterator<Disco> pedidos = pedido.getDiscos().iterator();
+		
+		while (pedidos.hasNext()) {
+			listaDiscos.add(new DiscoInfo(pedidos.next()));
+			listaDiscos.add(Box.createVerticalStrut(5)); // espacio en blanco
+		}
+	}
+	
 	private class DiscoInfo extends JPanel {
 		
 		private static final long serialVersionUID = -3664881150439954949L;
 
-		public DiscoInfo() {
+		public DiscoInfo(Disco disco) {
 			Color color = new Color(250, 130, 130);
 			
 			this.setBackground(color);
@@ -171,6 +192,18 @@ public class CarritoView extends JDialog {
 			discoInfo.add(precioPanel);
 			
 			this.add(discoInfo);
+		}
+	}
+
+	public void notify(Notificacion notificacion) {
+		
+		switch (notificacion.getNotificacion()) {
+		case ANYADIR_CARRITO:
+			refrescarCarrito(notificacion.getUsuario().getPedido());
+			break;
+		
+			default:
+				break;
 		}
 	}
 

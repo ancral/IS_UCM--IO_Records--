@@ -3,7 +3,6 @@ package es.ucm.fdi.is.view;
 import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.TiendaObserver;
-import es.ucm.fdi.is.usuario.Cliente;
 import es.ucm.fdi.is.usuario.SAUsuario;
 
 public class LoginController {
@@ -26,7 +25,7 @@ public class LoginController {
 		String claveString = new String(clave);
 		
 		try {
-			modelo.iniciarSesion(usuario, claveString, new Cliente("vacio"));
+			modelo.iniciarSesion(usuario, claveString);
 			
 			/*
 			 * Creamos un cliente vacío que luego se inicializará correctamente

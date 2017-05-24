@@ -2,6 +2,9 @@ package es.ucm.fdi.is.usuario;
 
 import java.sql.Date;
 
+import es.ucm.fdi.is.pedido.Pedido;
+import es.ucm.fdi.is.pedido.TipoRecogida;
+
 public abstract class Usuario {
 	
 	private String nif;
@@ -10,10 +13,12 @@ public abstract class Usuario {
 	private String direccion;
 	private Date fechaNacimiento;
 	private TipoUsuario tipo;
+	private Pedido pedido;
 	
 	public Usuario(String nif)
 	{
 		this.nif = nif;
+		this.pedido = new Pedido("0000", this.getNif(), TipoRecogida.TIENDA);
 	}
 	
 	public Usuario(String nif, String clave, String nombre, String direccion, Date fechaNacimiento, TipoUsuario tipo) {
@@ -23,6 +28,7 @@ public abstract class Usuario {
 		this.direccion = direccion;
 		this.fechaNacimiento = fechaNacimiento;
 		this.tipo = (this.tipo != null) ? TipoUsuario.CLIENTE_EMPLEADO : tipo;
+		this.pedido = new Pedido("0000", this.getNif(), TipoRecogida.TIENDA);
 	}
 	
 	public String getNif() {
@@ -49,6 +55,10 @@ public abstract class Usuario {
 		return this.tipo;
 	}
 	
+	public Pedido getPedido() {
+		return this.pedido;
+	}
+	
 	public void setNif(String nif) {
 		this.nif = nif;
 	}
@@ -72,4 +82,9 @@ public abstract class Usuario {
 	public void setTipo(TipoUsuario tipo) {
 		this.tipo = tipo;
 	}
+	
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+	
 }

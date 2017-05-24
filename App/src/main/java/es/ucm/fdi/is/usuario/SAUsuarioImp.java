@@ -26,9 +26,13 @@ public class SAUsuarioImp implements SAUsuario {
 		this.observadores = new ArrayList<TiendaObserver>();
 	}
 	
-	public void iniciarSesion(String usuario, String clave, Usuario usuarioSesion) throws TiendaDatabaseException {
-		if (dao.comprobarLogin(usuario, clave, usuarioSesion))
-			this.notifyAll(new Notificacion(NotificacionMensaje.SESION_INICIADA, null, usuarioSesion));
+	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
+		Usuario usuarioSesion = new Cliente("");
+		
+		if (dao.comprobarLogin(usuario, clave, usuarioSesion)) {
+			Notificacion notificacion = new Notificacion(NotificacionMensaje.SESION_INICIADA, null, usuarioSesion);
+			this.notifyAll(notificacion);
+		}
 		else
 			this.notifyAll(new Notificacion(NotificacionMensaje.ERROR_SESION));
 	}
