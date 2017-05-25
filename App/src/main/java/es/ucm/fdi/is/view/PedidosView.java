@@ -132,8 +132,6 @@ public class PedidosView extends JDialog implements TiendaObserver {
 			this.pedidosLy = new GridLayout(2, 3, 20, 20);
 			this.contenedorPedidos.setLayout(pedidosLy);
 			this.contenedorPedidos.add(new PedidoInfo(notificacion.getUsuario().getPedido()));
-			this.contenedorPedidos.revalidate();
-			this.contenedorPedidos.repaint();
 			break;
 			
 			default:
