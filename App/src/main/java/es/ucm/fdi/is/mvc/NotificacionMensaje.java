@@ -14,7 +14,8 @@ public enum NotificacionMensaje {
 	LEER_POR_GENERO,
 	DISCO_VALORADO,
 	ANYADIR_CARRITO,
-	ERROR_DISCO_YA_CARRITO;
+	ERROR_DISCO_YA_CARRITO,
+	BORRADO_CARRITO;
 	
 	private String mensaje;
 	

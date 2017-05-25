@@ -27,12 +27,20 @@ public class Pedido {
 		this.discos.add(disco);
 	}
 	
+	public void quitarDisco(Disco disco) {
+		this.discos.remove(disco);
+	}
+	
 	public int getId() {
 		return this.identificador;
 	}
 	
 	public List<Disco> getDiscos() {
 		return this.discos;
+	}
+	
+	public boolean esVacio() {
+		return discos.isEmpty();
 	}
 	
 	public String getCliente()

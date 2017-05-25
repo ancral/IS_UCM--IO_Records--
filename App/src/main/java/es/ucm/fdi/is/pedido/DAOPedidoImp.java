@@ -78,13 +78,37 @@ public class DAOPedidoImp implements DAOPedido {
 		return existe;
 	}
 	
+	public void eliminarDiscoPedido(Pedido pedido, Disco disco) throws TiendaDatabaseException {
+		try {
+			PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("DELETE FROM DiscosPedido WHERE idPedido = ? AND tituloDisco = ?");
+			
+			sql.setInt(1, pedido.getId());
+			sql.setString(2, disco.getTitulo());
+			
+			sql.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+	}
+	
 
 	public void eliminarPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
+			PreparedStatement borrarDiscosPedido = TiendaDatabase.getConexion()
+					.prepareStatement("DELETE FROM DiscosPedido WHERE idPedido = ?");
+			
+			borrarDiscosPedido.setInt(1, pedido.getId());
+			
+			borrarDiscosPedido.executeUpdate();
+			
 			PreparedStatement borrar = TiendaDatabase.getConexion().prepareStatement(
 					"DELETE FROM Pedido WHERE idPedido = ?");
+			
+			borrar.setInt(1, pedido.getId());
 
-			borrar.executeQuery();
+			borrar.executeUpdate();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -147,6 +171,9 @@ public class DAOPedidoImp implements DAOPedido {
 		return pedido;
 	}
 
+	/************************************
+	 *  	  / NO SE UTILIZA /
+	 ************************************/
 	public void addProductoPedido(Disco disco, Pedido pedido) throws TiendaDatabaseException {
 		try {
 			PreparedStatement producto = TiendaDatabase.getConexion()

@@ -50,9 +50,14 @@ public class SAPedidoImp implements SAPedido {
 			dao.meterDisco(pedido, disco); // Añadimos el disco al pedido que se le pasa por parámetro (se guarda en la BD)
 			pedido.meterDisco(disco); // Añadimos el disco al pedido que se mantiene en memoria
 			usuario.setPedido(pedido); // Asignamos el pedido al usuario
+			this.notifyAll(new Notificacion(NotificacionMensaje.ANYADIR_CARRITO, null, usuario));
 		}
-		
-		this.notifyAll(new Notificacion(NotificacionMensaje.ANYADIR_CARRITO, null, usuario));
+	}
+	
+	public void eliminarDiscoPedido(Pedido pedido, Disco disco, Usuario usuario) throws TiendaDatabaseException {
+		dao.eliminarDiscoPedido(pedido, disco);
+		pedido.quitarDisco(disco);
+		this.notifyAll(new Notificacion(NotificacionMensaje.BORRADO_CARRITO, null, usuario));
 	}
 
 	public void modificarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException  {

@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 
 import javax.swing.*;
@@ -21,25 +23,28 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	private static CarritoView carritoView = null;
 	private static DiscoController discoController = DiscoController.getDiscoController();
 	
+	private TiendaView tiendaView;
 	private JPanel listaDiscos;
-	
+	private Pedido pedido;
 	private int numArticulos;
 	private float precioCarrito;
 	private JLabel numArticulosLb;
 	private JLabel precioCarritoLb;
 	
-	public static CarritoView getCarritoView(JFrame window, Pedido pedido) {
+	public static CarritoView getCarritoView(TiendaView tiendaView, Pedido pedido) {
 		if (carritoView == null)
-			carritoView = new CarritoView(window, pedido);
+			carritoView = new CarritoView(tiendaView, pedido);
 		
 		return carritoView;
 	}
 	
-	private CarritoView(JFrame window, Pedido pedido) {
-		super(window, "Carrito de la compra", true);
+	private CarritoView(TiendaView tiendaView, Pedido pedido) {
+		super(tiendaView, "Carrito de la compra", true);
 		
 		discoController.addObserver(this);
 		
+		this.tiendaView = tiendaView;
+		this.pedido = pedido;
 		this.numArticulos = 0;
 		this.precioCarrito = 0;
 		
@@ -121,6 +126,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	
 	public void refrescarCarrito(Pedido pedido) {
 		listaDiscos.removeAll();
+		listaDiscos.repaint();
 		
 		Iterator<Disco> pedidos = pedido.getDiscos().iterator();
 		
@@ -131,7 +137,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		
 		CarritoView.this.numArticulos = 0;
 		CarritoView.this.precioCarrito = 0;
-		
+	
 		while (pedidos.hasNext()) {
 			Disco ped = pedidos.next();
 			
@@ -141,20 +147,20 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			
 			CarritoView.this.numArticulos += 1;
 			CarritoView.this.precioCarrito += ped.getPrecioVenta();
-			
-			CarritoView.this.numArticulosLb.setText("Número de artículos: " + this.numArticulos);
-			CarritoView.this.precioCarritoLb.setText("Precio total: " + Utilidades.round(this.precioCarrito, 2) + "€");
-			
+		
 			listaDiscos.add(new DiscoInfo(ped));
 			listaDiscos.add(Box.createVerticalStrut(5)); // espacio en blanco
 		}
+		
+		CarritoView.this.numArticulosLb.setText("Número de artículos: " + this.numArticulos);
+		CarritoView.this.precioCarritoLb.setText("Precio total: " + Utilidades.round(this.precioCarrito, 2) + "€");
 	}
 	
 	private class DiscoInfo extends JPanel {
 		
 		private static final long serialVersionUID = -3664881150439954949L;
 
-		public DiscoInfo(Disco disco) {
+		public DiscoInfo(final Disco disco) {
 			Color color = new Color(250, 130, 130);
 			
 			this.setBackground(color);
@@ -175,7 +181,18 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			BoxLayout comprarPanelLy = new BoxLayout(comprarPanel, BoxLayout.Y_AXIS);
 			comprarPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 			comprarPanel.setLayout(comprarPanelLy);
-			comprarPanel.add(new JButton("Quitar", Utilidades.createImage("iconos/borrar.png", 18, 18)));
+			
+			JButton borrar = new JButton("Quitar", Utilidades.createImage("iconos/borrar.png", 18, 18));
+			
+			borrar.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					discoController.eliminarDiscoPedido(CarritoView.this.pedido, disco, CarritoView.this.tiendaView.usuarioSesion);
+				}
+				
+			});
+			
+			comprarPanel.add(borrar);
 			caratulaP.add(comprarPanel);
 			this.add(caratulaP);
 			
@@ -230,16 +247,34 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		}
 	}
 
-	public void notify(Notificacion notificacion) {
+	public void notify(final Notificacion notificacion) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+				handleNotify(notificacion);
+			}
+			
+		});
+		
+	}
 	
+	public void handleNotify(Notificacion notificacion) {
+		
 		switch (notificacion.getNotificacion()) {
 		case ANYADIR_CARRITO:
 			refrescarCarrito(notificacion.getUsuario().getPedido());
+			break;
+			
+		case BORRADO_CARRITO:
+			refrescarCarrito(notificacion.getUsuario().getPedido());
+			System.out.println("Borrado");
 			break;
 		
 			default:
 				break;
 		}
+		
 	}
 
 }

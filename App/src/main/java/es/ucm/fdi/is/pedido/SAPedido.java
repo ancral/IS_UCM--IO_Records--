@@ -14,6 +14,7 @@ public interface SAPedido extends TiendaObservable {
 	public void devolverPedido(Pedido pedido) throws TiendaDatabaseException;
 	public List<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException;
 	public void addProducto(Pedido pedido, Disco disco, Usuario usuario) throws TiendaDatabaseException;
+	public void eliminarDiscoPedido(Pedido pedido, Disco disco, Usuario usuario) throws TiendaDatabaseException;
 	public void modificarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException;
 	public void eliminar(Pedido pedido) throws TiendaDatabaseException;
 	public void notifyAll(Notificacion notificacion);

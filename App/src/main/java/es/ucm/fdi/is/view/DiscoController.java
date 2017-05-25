@@ -42,6 +42,14 @@ public class DiscoController {
 		}
 	}
 	
+	public void eliminarDiscoPedido(Pedido ped, Disco disco, Usuario usuario) {
+		try {
+			pedido.eliminarDiscoPedido(ped, disco, usuario);
+		} catch (TiendaDatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	public void addObserver(TiendaObserver observer) {
 		disco.addObverser(observer);
 		pedido.addObverser(observer);

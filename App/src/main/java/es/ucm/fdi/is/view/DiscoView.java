@@ -202,6 +202,11 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			// DiscoView.this.fechaDisco.setText(disco.getFechaSalida());
 			break;
 			
+		case ANYADIR_CARRITO:
+			JOptionPane.showMessageDialog(DiscoView.this, "¡El disco que has seleccionado se ha añadido al carrito!"
+					, "Añadido al carrito", JOptionPane.INFORMATION_MESSAGE);
+			break;
+			
 		case ERROR_DISCO_YA_CARRITO:
 			JOptionPane.showMessageDialog(DiscoView.this, "El disco que has seleccionado ya está en el carrito"
 					, "Error al añadir", JOptionPane.ERROR_MESSAGE);
