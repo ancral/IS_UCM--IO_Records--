@@ -1,4 +1,4 @@
-package es.ucm.fdi.is.view;
+ package es.ucm.fdi.is.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,11 +8,19 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
-public class PedidosView extends JDialog {
+import es.ucm.fdi.is.mvc.Notificacion;
+import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.pedido.Pedido;
+
+public class PedidosView extends JDialog implements TiendaObserver {
 	
 	private static final long serialVersionUID = -4213333647897143783L;
 	
 	private static PedidosView pedidosView = null;
+	private static TiendaController tiendaController = TiendaController.getTiendaController();
+	
+	private JPanel contenedorPedidos;
+	private GridLayout pedidosLy;
 	
 	public static PedidosView getPedidosView(JFrame window) {
 		if (pedidosView == null)
@@ -22,7 +30,9 @@ public class PedidosView extends JDialog {
 	}
 
 	private PedidosView(JFrame window) {
-		super(window, "Lista de pedidos", true);		
+		super(window, "Lista de pedidos", true);
+		
+		tiendaController.addObserver(this);
 		
 		JPanel contenedor = new JPanel();
 		BorderLayout contenedorLy = new BorderLayout();
@@ -43,17 +53,9 @@ public class PedidosView extends JDialog {
 		contenedor.add(titulo, BorderLayout.NORTH);
 		
 		
-		JPanel contenedorPedidos = new JPanel();
-		GridLayout pedidosLy = new GridLayout(2, 3, 20, 20);
+		contenedorPedidos = new JPanel();
+		pedidosLy = new GridLayout(2, 3, 20, 20);
 		contenedorPedidos.setLayout(pedidosLy);
-		
-		// GRID DE PEDIDOS
-		
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 3; j++) {
-				contenedorPedidos.add(new Pedido());
-			}
-		}
 		
 		contenedor.add(contenedorPedidos, BorderLayout.CENTER);
 		
@@ -67,11 +69,11 @@ public class PedidosView extends JDialog {
 		// this.setVisible(true);
 	}
 	
-	private class Pedido extends JPanel {
+	private class PedidoInfo extends JPanel {
 		
 		private static final long serialVersionUID = -2054428498926191259L;
 
-		public Pedido() {
+		public PedidoInfo(Pedido pedido) {
 			this.setBorder(BorderFactory.createMatteBorder(3, 3, 8, 3, Color.DARK_GRAY));
 			
 			JPanel contenedor = new JPanel();
@@ -86,7 +88,7 @@ public class PedidosView extends JDialog {
 			contenedor.add(titulo);
 			
 			JPanel numero = new JPanel();
-			JLabel pedidoNum = new JLabel("XXXXXXXX");
+			JLabel pedidoNum = new JLabel(Integer.toString(pedido.getId()));
 			pedidoNum.setFont(new Font("sans", Font.BOLD, 20));
 			numero.add(pedidoNum);
 			contenedor.add(numero);
@@ -109,6 +111,35 @@ public class PedidosView extends JDialog {
 			
 			this.add(contenedor);
 		}
+	}
+
+	public void notify(final Notificacion notificacion) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+				handleNotify(notificacion);
+			}
+			
+		});
+	}
+	
+	public void handleNotify(Notificacion notificacion) {
+		
+		switch (notificacion.getNotificacion()) {
+		case CARRITO_FINALIZADO:
+			System.out.println("Carrito finalizado");
+
+			this.pedidosLy = new GridLayout(2, 3, 20, 20);
+			this.contenedorPedidos.setLayout(pedidosLy);
+			this.contenedorPedidos.add(new PedidoInfo(notificacion.getUsuario().getPedido()));
+			this.contenedorPedidos.revalidate();
+			this.contenedorPedidos.repaint();
+			break;
+			
+			default:
+			break;
+		}
+		
 	}
 
 }

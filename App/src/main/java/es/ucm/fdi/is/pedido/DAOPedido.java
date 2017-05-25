@@ -13,6 +13,7 @@ public interface DAOPedido {
 	public boolean existeDisco(Pedido pedido, Disco disco) throws TiendaDatabaseException;
 	public void eliminarDiscoPedido(Pedido pedido, Disco disco) throws TiendaDatabaseException;
 	public void eliminarPedido(Pedido pedido) throws TiendaDatabaseException;
+	public void finalizarPedido(Pedido pedido) throws TiendaDatabaseException;
 	public List<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException;
 	public void addProductoPedido(Disco disco, Pedido pedido) throws TiendaDatabaseException;
 	public void actualizarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException;

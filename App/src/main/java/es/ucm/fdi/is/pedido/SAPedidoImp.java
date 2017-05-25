@@ -59,6 +59,12 @@ public class SAPedidoImp implements SAPedido {
 		pedido.quitarDisco(disco);
 		this.notifyAll(new Notificacion(NotificacionMensaje.BORRADO_CARRITO, null, usuario));
 	}
+	
+	public void finalizarPedido(Pedido pedido, Usuario usuario) throws TiendaDatabaseException {
+		dao.finalizarPedido(pedido);
+		pedido.setFinalizado(1);
+		this.notifyAll(new Notificacion(NotificacionMensaje.CARRITO_FINALIZADO, null, usuario));
+	}
 
 	public void modificarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException  {
 		dao.actualizarPedido(antiguo, nuevo);

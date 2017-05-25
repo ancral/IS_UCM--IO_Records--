@@ -15,7 +15,8 @@ public enum NotificacionMensaje {
 	DISCO_VALORADO,
 	ANYADIR_CARRITO,
 	ERROR_DISCO_YA_CARRITO,
-	BORRADO_CARRITO;
+	BORRADO_CARRITO,
+	CARRITO_FINALIZADO;
 	
 	private String mensaje;
 	

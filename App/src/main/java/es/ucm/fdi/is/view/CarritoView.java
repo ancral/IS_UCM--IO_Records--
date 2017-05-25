@@ -22,6 +22,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	
 	private static CarritoView carritoView = null;
 	private static DiscoController discoController = DiscoController.getDiscoController();
+	private static TiendaController tiendaController = TiendaController.getTiendaController();
 	
 	private TiendaView tiendaView;
 	private JPanel listaDiscos;
@@ -38,7 +39,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		return carritoView;
 	}
 	
-	private CarritoView(TiendaView tiendaView, Pedido pedido) {
+	private CarritoView(final TiendaView tiendaView, final Pedido pedido) {
 		super(tiendaView, "Carrito de la compra", true);
 		
 		discoController.addObserver(this);
@@ -108,7 +109,16 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		
 		datos.add(Box.createVerticalStrut(5)); // espacio en blanco
 		
-		datos.add(new JButton("Hacer pedido", Utilidades.createImage("iconos/pedidos.png", 32, 32)));
+		JButton hacerPedido = new JButton("Hacer pedido", Utilidades.createImage("iconos/pedidos.png", 32, 32));
+		hacerPedido.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				tiendaController.finalizarPedido(pedido, tiendaView.usuarioSesion);
+			}
+			
+		});
+		
+		datos.add(hacerPedido);
 		
 		inferior.add(datos, BorderLayout.SOUTH);
 		

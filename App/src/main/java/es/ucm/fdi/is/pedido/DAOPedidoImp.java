@@ -28,11 +28,12 @@ public class DAOPedidoImp implements DAOPedido {
 
 	public void crearPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
-			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido VALUES (?,?,?)");
+			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
 
 			sql.setInt(1, pedido.getId());
 			sql.setString(2, pedido.getCliente());
 			sql.setString(3, pedido.getTipoRecogida().toString());
+			sql.setInt(4, pedido.getFinalizado());
 
 			sql.executeUpdate();
 		} catch (SQLException e) {
@@ -169,6 +170,21 @@ public class DAOPedidoImp implements DAOPedido {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
 		return pedido;
+	}
+	
+	public void finalizarPedido(Pedido pedido) throws TiendaDatabaseException {
+		try {
+			PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("UPDATE Pedido SET Finalizado = 1 WHERE idPedido = ?");
+			
+			sql.setInt(1, pedido.getId());
+			
+			sql.executeUpdate();
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+		
+		
 	}
 
 	/************************************

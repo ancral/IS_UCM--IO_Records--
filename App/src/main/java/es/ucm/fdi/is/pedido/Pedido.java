@@ -11,6 +11,7 @@ public class Pedido {
 	private List<Disco> discos;
 	private String idCliente;
 	private TipoRecogida recogida;
+	private int finalizado;
 	
 	public Pedido(int identificador, String idCliente, TipoRecogida recogida) {
 		this(identificador, new ArrayList<Disco>(), idCliente, recogida);
@@ -21,6 +22,7 @@ public class Pedido {
 		this.discos = discos;
 		this.idCliente = idCliente;
 		this.recogida = recogida;
+		this.finalizado = 0;
 	}
 	
 	public void meterDisco(Disco disco) {
@@ -50,6 +52,14 @@ public class Pedido {
 	
 	public TipoRecogida getTipoRecogida() {
 		return this.recogida;
+	}
+	
+	public int getFinalizado() {
+		return this.finalizado;
+	}
+	
+	public void setFinalizado(int finalizado) {
+		this.finalizado = finalizado;
 	}
 	
 	public Float precioTotal() {
