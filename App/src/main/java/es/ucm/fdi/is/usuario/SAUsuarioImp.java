@@ -7,11 +7,13 @@ import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.NotificacionMensaje;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.pedido.DAOPedido;
 
 public class SAUsuarioImp implements SAUsuario {
 	
 	private ArrayList<TiendaObserver> observadores;
 	private static DAOUsuario dao = FactoriaIntegracion.getFactoria().generaDAOUsuario();
+	private static DAOPedido daoPedido = FactoriaIntegracion.getFactoria().generaDAOPedido();
 	
 	private static SAUsuarioImp saUsuario = null;
 	
@@ -29,7 +31,11 @@ public class SAUsuarioImp implements SAUsuario {
 	public void iniciarSesion(String usuario, String clave) throws TiendaDatabaseException {
 		Usuario usuarioSesion = new Cliente("");
 		
-		if (dao.comprobarLogin(usuario, clave, usuarioSesion)) {
+		if (dao.comprobarLogin(usuario, clave, usuarioSesion)) { // Devuelve un usuario inicializado por el 3er parámetro
+			
+			daoPedido.crearPedido(usuarioSesion.getPedido()); // Crea un pedido en la BD con el ID de pedido asignado a la
+															  // sesión actual (un pedido nuevo cada sesión)
+			
 			Notificacion notificacion = new Notificacion(NotificacionMensaje.SESION_INICIADA, null, usuarioSesion);
 			this.notifyAll(notificacion);
 		}

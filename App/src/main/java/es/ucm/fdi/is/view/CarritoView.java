@@ -23,6 +23,11 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	
 	private JPanel listaDiscos;
 	
+	private int numArticulos;
+	private float precioCarrito;
+	private JLabel numArticulosLb;
+	private JLabel precioCarritoLb;
+	
 	public static CarritoView getCarritoView(JFrame window, Pedido pedido) {
 		if (carritoView == null)
 			carritoView = new CarritoView(window, pedido);
@@ -34,6 +39,9 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		super(window, "Carrito de la compra", true);
 		
 		discoController.addObserver(this);
+		
+		this.numArticulos = 0;
+		this.precioCarrito = 0;
 		
 		JPanel contenedor = new JPanel();
 		BorderLayout contenedorLy = new BorderLayout();
@@ -61,7 +69,12 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		Iterator<Disco> pedidos = pedido.getDiscos().iterator();
 		
 		while (pedidos.hasNext()) {
-			listaDiscos.add(new DiscoInfo(pedidos.next()));
+			Disco ped = pedidos.next();
+			
+			this.numArticulos += 1;
+			this.precioCarrito += ped.getPrecioVenta();
+			
+			listaDiscos.add(new DiscoInfo(ped));
 			listaDiscos.add(Box.createVerticalStrut(5)); // espacio en blanco
 		}
 		
@@ -81,12 +94,12 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		JPanel datos = new JPanel();
 		BoxLayout datosLy = new BoxLayout(datos, BoxLayout.Y_AXIS);
 		datos.setLayout(datosLy);
-		JLabel numArticulos = new JLabel("Número de artículos: 2");
-		numArticulos.setFont(new Font("sans", Font.BOLD, 20));
-		datos.add(numArticulos);
-		JLabel precio = new JLabel("Precio total: 27,50€");
-		precio.setFont(new Font("sans", Font.BOLD, 20));
-		datos.add(precio);
+		this.numArticulosLb = new JLabel("Número de artículos: " + this.numArticulos);
+		this.numArticulosLb.setFont(new Font("sans", Font.BOLD, 20));
+		datos.add(this.numArticulosLb);
+		this.precioCarritoLb = new JLabel("Precio total: " + this.precioCarrito + "€");
+		this.precioCarritoLb.setFont(new Font("sans", Font.BOLD, 20));
+		datos.add(this.precioCarritoLb);
 		
 		datos.add(Box.createVerticalStrut(5)); // espacio en blanco
 		
@@ -111,8 +124,28 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		
 		Iterator<Disco> pedidos = pedido.getDiscos().iterator();
 		
+		/* 
+		 * Reiniciamos el número de artículos y el precio total
+		 * (se vuelve a recorrer toda la lista de pedidos)
+		 */
+		
+		CarritoView.this.numArticulos = 0;
+		CarritoView.this.precioCarrito = 0;
+		
 		while (pedidos.hasNext()) {
-			listaDiscos.add(new DiscoInfo(pedidos.next()));
+			Disco ped = pedidos.next();
+			
+			/*
+			 * Nuevos valores se actualizan al recorrer el contenido del pedido
+			 */
+			
+			CarritoView.this.numArticulos += 1;
+			CarritoView.this.precioCarrito += ped.getPrecioVenta();
+			
+			CarritoView.this.numArticulosLb.setText("Número de artículos: " + this.numArticulos);
+			CarritoView.this.precioCarritoLb.setText("Precio total: " + Utilidades.round(this.precioCarrito, 2) + "€");
+			
+			listaDiscos.add(new DiscoInfo(ped));
 			listaDiscos.add(Box.createVerticalStrut(5)); // espacio en blanco
 		}
 	}

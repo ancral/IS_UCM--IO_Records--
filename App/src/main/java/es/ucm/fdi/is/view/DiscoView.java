@@ -31,7 +31,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = -5306391966978836217L;
 	
-	@SuppressWarnings("unused")
+	
 	private static DiscoView discoView = null;
 	
 	/**
@@ -94,6 +94,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		regresar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				discoController.removeObserver(DiscoView.this);
 				DiscoView.this.setVisible(false); // ocultamos esta vista
 				DiscoView.this.tiendaView.setVisible(true); // hacemos visible el catálogo
 			}
@@ -109,7 +110,10 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		modificar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				new ModificarDisco();
+				if (DiscoView.this.tiendaView.usuarioSesion == null)
+					LoginView.getLoginView().setVisible(true);
+				else
+					new ModificarDisco();
 			}
 			
 		});
@@ -130,11 +134,15 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		oferta.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				String ofertaIn = 
-						JOptionPane.showInputDialog(DiscoView.this, 
-								"Introduce la oferta para este disco", "Añadir oferta a disco",
-								JOptionPane.QUESTION_MESSAGE);
-				System.out.println(ofertaIn); // TODO: test
+				if (DiscoView.this.tiendaView.usuarioSesion == null)
+					LoginView.getLoginView().setVisible(true);
+				else {
+					String ofertaIn = 
+							JOptionPane.showInputDialog(DiscoView.this, 
+									"Introduce la oferta para este disco", "Añadir oferta a disco",
+									JOptionPane.QUESTION_MESSAGE);
+					System.out.println(ofertaIn); // TODO: test
+				}
 			}
 			
 		});
@@ -194,6 +202,27 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			// DiscoView.this.fechaDisco.setText(disco.getFechaSalida());
 			break;
 			
+		case ERROR_DISCO_YA_CARRITO:
+			JOptionPane.showMessageDialog(DiscoView.this, "El disco que has seleccionado ya está en el carrito"
+					, "Error al añadir", JOptionPane.ERROR_MESSAGE);
+			
+			/*
+			 * NO FUNCIONA BIEN SI LANZAMOS LA NOTIFICACIÓN MAS DE 1 VEZ
+			new JFXPanel();
+			Platform.runLater(new Runnable() {
+				public void run() {
+					TrayNotification tray = new TrayNotification();
+					tray.setTitle("Error al añadir");
+					tray.setMessage("El disco que has seleccionado ya está en el carrito");
+					tray.setNotificationType(NotificationType.ERROR);
+					tray.setAnimationType(AnimationType.FADE);
+		            tray.showAndDismiss(Duration.millis(1500));
+				}				
+			});
+			*/
+			
+			break;
+			
 			default:
 				break;
 		}
@@ -232,7 +261,10 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			carrito.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					discoController.anyadirAlPedido(tiendaView.usuarioSesion.getPedido(), disco, tiendaView.usuarioSesion);
+					if (DiscoView.this.tiendaView.usuarioSesion == null)
+						LoginView.getLoginView().setVisible(true);
+					else
+						discoController.anyadirAlPedido(tiendaView.usuarioSesion.getPedido(), disco, tiendaView.usuarioSesion);
 				}
 				
 			});
@@ -435,35 +467,35 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			formulario.setLayout(formularioLy);
 			
 			JPanel titulo = new JPanel(new FlowLayout());
-			titulo.add(new JLabel("TÃ­tulo: "));
+			titulo.add(new JLabel("Título: "));
 			final JTextField tituloF = new JTextField(30);
 			titulo.add(tituloF);
 			
 			formulario.add(titulo);
 			
 			JPanel autor = new JPanel(new FlowLayout());
-			autor.add(new JLabel("IntÃ©rprete: "));
+			autor.add(new JLabel("Intérprete: "));
 			final JTextField autorF = new JTextField(15);
 			autor.add(autorF);
 			
 			formulario.add(autor);
 			
 			JPanel genero = new JPanel(new FlowLayout());
-			genero.add(new JLabel("GÃ©nero musical: "));
+			genero.add(new JLabel("Género musical: "));
 			final JComboBox<GeneroDisco> generoCB = new JComboBox<GeneroDisco>(GeneroDisco.values());
 			genero.add(generoCB);
 			
 			formulario.add(genero);
 			
 			JPanel valoracion = new JPanel(new FlowLayout());
-			valoracion.add(new JLabel("ValoraciÃ³n del disco: "));
+			valoracion.add(new JLabel("Valoración del disco: "));
 			final JComboBox<Valoracion> valoracionCB = new JComboBox<Valoracion>(Valoracion.values());  
 			valoracion.add(valoracionCB);
 			
 			formulario.add(valoracion);
 			
 			JPanel discografica = new JPanel(new FlowLayout());
-			discografica.add(new JLabel("DiscogrÃ¡fica: "));
+			discografica.add(new JLabel("Discográfica: "));
 			final JTextField discograficaF = new JTextField(15);
 			discografica.add(discograficaF);
 			
@@ -481,7 +513,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			precio.add(new JLabel("Precio del disco: "));
 			final JTextField precioF = new JTextField(5);
 			precio.add(precioF);
-			precio.add(new JLabel("â‚¬"));
+			precio.add(new JLabel("€"));
 			
 			formulario.add(precio);
 			

@@ -224,7 +224,14 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			op1.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					PanelView.getPanelView(TiendaView.this).setVisible(true);
+					/*
+					 * Para acceder al panel hay que iniciar sesión
+					 */
+					
+					if (TiendaView.this.usuarioSesion == null)
+						LoginView.getLoginView().setVisible(true);
+					else
+						PanelView.getPanelView(TiendaView.this).setVisible(true);
 				}
 
 			});
@@ -235,7 +242,10 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			op2.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					PedidosView.getPedidosView(TiendaView.this).setVisible(true);
+					if (TiendaView.this.usuarioSesion == null)
+						LoginView.getLoginView().setVisible(true);
+					else
+						PedidosView.getPedidosView(TiendaView.this).setVisible(true);
 				}
 
 			});
@@ -246,7 +256,10 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			op3.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					CarritoView.getCarritoView(TiendaView.this, TiendaView.this.usuarioSesion.getPedido()).setVisible(true);
+					if (TiendaView.this.usuarioSesion == null)
+						LoginView.getLoginView().setVisible(true);
+					else
+						CarritoView.getCarritoView(TiendaView.this, TiendaView.this.usuarioSesion.getPedido()).setVisible(true);
 				}
 
 			});

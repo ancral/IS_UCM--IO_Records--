@@ -13,7 +13,8 @@ public enum NotificacionMensaje {
 	BUSCAR_DISCO_NO_ENCONTRADO,
 	LEER_POR_GENERO,
 	DISCO_VALORADO,
-	ANYADIR_CARRITO;
+	ANYADIR_CARRITO,
+	ERROR_DISCO_YA_CARRITO;
 	
 	private String mensaje;
 	

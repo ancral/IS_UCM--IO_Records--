@@ -80,7 +80,7 @@ public class LoginView extends JFrame implements TiendaObserver {
 		this.pack();
 		this.setLocationRelativeTo(null); // centra la ventana
 		this.setResizable(false);
-		this.setVisible(true);
+		// this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	

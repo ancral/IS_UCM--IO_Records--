@@ -24,13 +24,13 @@ public class LoginController {
 	public void iniciarSesion(String usuario, char[] clave) {		
 		String claveString = new String(clave);
 		
-		try {
-			modelo.iniciarSesion(usuario, claveString);
-			
+		try {			
 			/*
 			 * Creamos un cliente vacío que luego se inicializará correctamente
 			 * cuando se inicie sesión y se pase la notificación a la vista
 			 */
+			
+			modelo.iniciarSesion(usuario, claveString);
 			
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());

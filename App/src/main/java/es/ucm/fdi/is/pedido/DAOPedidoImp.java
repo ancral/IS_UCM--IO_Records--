@@ -28,20 +28,56 @@ public class DAOPedidoImp implements DAOPedido {
 
 	public void crearPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
-			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
+			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido VALUES (?,?,?)");
 
-			for (Disco disco : pedido.getDiscos()) {
-				sql.setInt(1, pedido.getId());
-				sql.setString(2, pedido.getCliente());
-				sql.setString(3, disco.toString());
-				sql.setString(4, pedido.getTipoRecogida().toString());
-			}
+			sql.setInt(1, pedido.getId());
+			sql.setString(2, pedido.getCliente());
+			sql.setString(3, pedido.getTipoRecogida().toString());
 
-			sql.executeQuery();
+			sql.executeUpdate();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
 	}
+	
+	public void meterDisco(Pedido pedido, Disco disco) throws TiendaDatabaseException {
+		try {
+			PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO DiscosPedido VALUES (?, ?)");
+			
+			sql.setInt(1, pedido.getId());
+			sql.setString(2, disco.getTitulo());
+			
+			sql.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+	}
+	
+	public boolean existeDisco(Pedido pedido, Disco disco) throws TiendaDatabaseException {
+		boolean existe = false;
+		
+		try {
+			PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT tituloDisco FROM DiscosPedido"
+							+ " JOIN Pedido ON DiscosPedido.idPedido = ? "
+							+ "WHERE DiscosPedido.tituloDisco = ?");
+			
+			sql.setInt(1, pedido.getId());
+			sql.setString(2, disco.getTitulo());
+			
+			ResultSet res = sql.executeQuery();
+			
+			existe = res.next();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+		
+		return existe;
+	}
+	
 
 	public void eliminarPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
