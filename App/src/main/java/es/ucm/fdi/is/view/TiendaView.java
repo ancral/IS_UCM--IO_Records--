@@ -341,7 +341,11 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			usuario.addMouseListener(new MouseListener() {
 
 				public void mouseClicked(MouseEvent e) {
-					LoginView.getLoginView().setVisible(true);
+					
+					// Solamente mostramos el control de acceso si no se había iniciado sesión
+					if (TiendaView.this.usuarioSesion == null) {
+						LoginView.getLoginView().setVisible(true);
+					}
 				}
 
 				public void mousePressed(MouseEvent e) {	}

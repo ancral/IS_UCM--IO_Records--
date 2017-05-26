@@ -26,6 +26,13 @@ public class DiscoController {
 	
 	private DiscoController() {}
 	
+	
+	/**
+	 * Actualiza un disco antiguo por uno nuevo dado
+	 * 
+	 * @param antiguo El disco antiguo
+	 * @param nuevo El disco nuevo
+	 */
 	public void actualizarDisco(Disco antiguo, Disco nuevo) {
 		try {
 			disco.actualizarDisco(antiguo, nuevo);
@@ -34,6 +41,13 @@ public class DiscoController {
 		}
 	}
 	
+	/**
+	 * Añade un disco al pedido (se utiliza en la vista del carrito)
+	 * 
+	 * @param ped El pedido
+	 * @param disco El disco que se quiere añadir
+	 * @param usuario Usuario que realiza la acción
+	 */
 	public void anyadirAlPedido(Pedido ped, Disco disco, Usuario usuario) {
 		try {
 			pedido.addProducto(ped, disco, usuario);
@@ -42,6 +56,14 @@ public class DiscoController {
 		}
 	}
 	
+	/**
+	 * Elimina un disco de un pedido. Únicamente se puede eliminar un disco de
+	 * un pedido cuando no ha sido finalizado, es decir, no ha pasado a la vista de Pedidos
+	 * 
+	 * @param ped Pedido que se quiere actualizar
+	 * @param disco Disco que se quiere borrar
+	 * @param usuario Usuario que realiza la acción
+	 */
 	public void eliminarDiscoPedido(Pedido ped, Disco disco, Usuario usuario) {
 		try {
 			pedido.eliminarDiscoPedido(ped, disco, usuario);
