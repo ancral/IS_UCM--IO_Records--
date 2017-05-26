@@ -194,7 +194,26 @@ public class DAOPedidoImp implements DAOPedido {
 		
 		
 	}
-
+	
+	public List<Pedido> verTodosPedidosParaVentas() throws TiendaDatabaseException
+	{
+		List<Pedido> pedidos = new ArrayList<Pedido>();
+		try {
+			PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Pedido WHERE Finalizado='0'");
+			
+			ResultSet rs = sql.executeQuery();
+			while(rs.next())
+			{
+				pedidos.add(new Pedido(rs.getInt(1),rs.getString(2),
+						TipoRecogida.valueOf(rs.getString(3))));
+			}
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+		return pedidos;
+	}
+	
 	/************************************
 	 *  	  / NO SE UTILIZA /
 	 ************************************/

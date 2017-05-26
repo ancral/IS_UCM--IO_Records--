@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.usuario.Usuario;
 
 public class Pedido {
 	

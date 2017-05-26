@@ -163,7 +163,8 @@ public class PedidosView extends JDialog implements TiendaObserver {
 			this.refrescarPedidos(notificacion.getUsuario().getPedidos());
 			this.pack();
 			break;
-			
+		case CARRITO_FINALIZADO_PANEL:
+			break;
 			default:
 			break;
 		}

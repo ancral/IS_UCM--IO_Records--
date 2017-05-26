@@ -51,12 +51,12 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 
 	}
 
-	public void actualizar(ArrayList<Disco> discos) {
+	public void actualizar(ArrayList<?> arrayList) {
 
 		//Si tenemos discos en el catalogo, tenemos que borrarlo, para poder actualizarlo
 		if(tamanyoCatalogo!=VACIO) borrar();
 
-		anyadir(discos);
+		anyadir(arrayList);
 	}
 
 	private void borrar()
@@ -67,26 +67,26 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 		catalogo.revalidate();
 	}
 
-	private void anyadir(ArrayList<Disco> discos)
+	private void anyadir(ArrayList<?> arrayList)
 	{
 
 		//Calculamos el ajuste del layout y a su vez el reajuste del tamaño de las caratulas
-		int columnas = (discos.size() < 3) ? 2 : (discos.size()%3==0) ? (discos.size() / 3) 
-				: (discos.size() / 3)+1;
+		int columnas = (arrayList.size() < 3) ? 2 : (arrayList.size()%3==0) ? (arrayList.size() / 3) 
+				: (arrayList.size() / 3)+1;
 
-		int filas = (columnas < 3) ? 1 :(discos.size()%3==0) ? (discos.size() / columnas) 
-				: (discos.size() / columnas)+1;
+		int filas = (columnas < 3) ? 1 :(arrayList.size()%3==0) ? (arrayList.size() / columnas) 
+				: (arrayList.size() / columnas)+1;
 
 		GridLayout catalogoLayout = new GridLayout(filas, columnas, 5, 5);
 		catalogo.setLayout(catalogoLayout);
 
-		Iterator<Disco> discosIt = discos.iterator();
+		Iterator<?> discosIt = arrayList.iterator();
 
 		//Tenemos que poner (&& discosIt.hasNext()), para que ponga la fila restante que faltase
 		for (int i = 0; i < filas && discosIt.hasNext(); i++) {
 			for (int j = 0; j < columnas && discosIt.hasNext(); j++) {
 
-				final Disco disco = discosIt.next();
+				final Disco disco = (Disco) discosIt.next();
 
 				final Caratula car = new Caratula(disco, filas, columnas);
 				car.addMouseListener(new MouseListener() {
@@ -124,7 +124,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 
 		case LEER_TODOS:
 		case LEER_POR_GENERO:
-			actualizar(notificacion.getDiscos());
+			actualizar(notificacion.getDiscosOpedido());
 			break;
 			
 		case DISCO_ACTUALIZADO:

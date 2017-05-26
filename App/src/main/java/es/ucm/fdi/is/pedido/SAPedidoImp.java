@@ -41,7 +41,13 @@ public class SAPedidoImp implements SAPedido {
 	public List<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException {
 		return dao.verPedidosUsuario(usuario);
 	}
-
+	
+	public void verTodosPedidosParaVentas() throws TiendaDatabaseException {
+		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
+		pedidos.addAll(dao.verTodosPedidosParaVentas());
+		notifyAll(new Notificacion(NotificacionMensaje.LEER_TODOSPEDIDOS, pedidos));
+	}
+	
 	public void addProducto(Pedido pedido, Disco disco, Usuario usuario) throws TiendaDatabaseException {
 		if (dao.existeDisco(pedido, disco)) {
 			notifyAll(new Notificacion(NotificacionMensaje.ERROR_DISCO_YA_CARRITO, null, usuario));
@@ -63,7 +69,7 @@ public class SAPedidoImp implements SAPedido {
 	public void finalizarPedido(Pedido pedido, Usuario usuario) throws TiendaDatabaseException {
 		dao.finalizarPedido(pedido);
 		pedido.setFinalizado(1);
-		usuario.getPedidos().add(pedido);
+		dao.verPedidosUsuario(usuario).add(pedido);
 		this.notifyAll(new Notificacion(NotificacionMensaje.CARRITO_FINALIZADO, null, usuario));
 	}
 
@@ -73,10 +79,16 @@ public class SAPedidoImp implements SAPedido {
 
 	public void eliminar(Pedido pedido, Usuario usu) throws TiendaDatabaseException  {
 		dao.eliminarPedido(pedido); // Se elimina de la base de datos el pedido
-		usu.getPedidos().remove(pedido); // Eliminamos el pedido de la lista que mantiene el usuario
+		dao.verPedidosUsuario(usu).remove(pedido); // Eliminamos el pedido de la lista que mantiene el usuario
 		this.notifyAll(new Notificacion(NotificacionMensaje.PEDIDO_ELIMINADO, null, usu));
 	}
-
+	
+	public void eliminarDesdePanel(Pedido pedido, Usuario usu) throws TiendaDatabaseException  {
+		dao.eliminarPedido(pedido); // Se elimina de la base de datos el pedido
+		dao.verPedidosUsuario(usu).remove(pedido); // Eliminamos el pedido de la lista que mantiene el usuario
+		this.notifyAll(new Notificacion(NotificacionMensaje.CARRITO_FINALIZADO_PANEL, null, usu));
+	}
+	
 	public void addObverser(TiendaObserver observer) {
 		observers.add(observer);
 	}

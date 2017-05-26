@@ -6,20 +6,30 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 
 import es.ucm.fdi.is.disco.GeneroDisco;
 import es.ucm.fdi.is.disco.Valoracion;
+import es.ucm.fdi.is.mvc.Notificacion;
+import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.pedido.Pedido;
+import es.ucm.fdi.is.pedido.TipoRecogida;
+import es.ucm.fdi.is.usuario.Cliente;
+import es.ucm.fdi.is.usuario.Usuario;
 
-
-public class PanelView extends JDialog {
+public class PanelView extends JDialog implements TiendaObserver {
 
 	private static final long serialVersionUID = -1880613885872636597L;
-	
+	private static TiendaController control = TiendaController.getTiendaController();
 	private static PanelView panelView = null;
+	private JPanel contenedorPedidos = new JPanel();
 	
-	public static PanelView getPanelView(JFrame window) {
+	public static PanelView getPanelView(JFrame window){
 		if (panelView == null)
 			panelView = new PanelView(window);
 		
@@ -28,6 +38,9 @@ public class PanelView extends JDialog {
 
 	private PanelView(JFrame window) {
 		super(window, "Panel del empleado", true);
+		
+		control.addObserver(this);
+		control.buscarTodosPedidos();
 		
 		JPanel contenedor = new JPanel();
 		contenedor.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -39,21 +52,12 @@ public class PanelView extends JDialog {
 		
 		contenedor.add(tabs, BorderLayout.NORTH);
 		
-		JPanel contenedorPedidos = new JPanel();
-		GridLayout pedidosLy = new GridLayout(2, 3, 10, 10);
-		contenedorPedidos.setLayout(pedidosLy);
-		
-		// GRID DE PEDIDOS
-		
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 3; j++) {
-				contenedorPedidos.add(new Pedido());
-			}
-		}
+		//this.contenedorPedidos = new JPanel();
+		GridLayout pedidosLy = new GridLayout(2, 3, 20, 20);
+		this.contenedorPedidos.setLayout(pedidosLy);
 		
 		tabs.addTab("Pedidos pendientes", Utilidades.createImage("iconos/pedidos.png", 32, 32), contenedorPedidos);
 		tabs.addTab("Añadir disco", Utilidades.createImage("iconos/categorias.png", 32, 32), new InsertarDisco());
-		
 		
 		this.setContentPane(contenedor);
 		this.pack();
@@ -65,11 +69,12 @@ public class PanelView extends JDialog {
 		
 	}
 	
-	private class Pedido extends JPanel {
+	private class Pedidos extends JPanel {
 		
 		private static final long serialVersionUID = 899820362427560765L;
-
-		public Pedido() {
+		private boolean finalizado;
+		
+		public Pedidos(final Pedido p) {
 			this.setBorder(BorderFactory.createMatteBorder(3, 3, 8, 3, Color.DARK_GRAY));
 			
 			JPanel contenedor = new JPanel();
@@ -84,7 +89,7 @@ public class PanelView extends JDialog {
 			contenedor.add(titulo);
 			
 			JPanel numero = new JPanel();
-			JLabel pedidoNum = new JLabel("XXXXXXXX");
+			JLabel pedidoNum = new JLabel(""+p.getId());
 			pedidoNum.setFont(new Font("sans", Font.BOLD, 16));
 			numero.add(pedidoNum);
 			contenedor.add(numero);
@@ -95,17 +100,34 @@ public class PanelView extends JDialog {
 			estadoT.add(pedidoEstado);
 			contenedor.add(estadoT);
 			
+			System.out.println(finalizado);
+			
 			JPanel estado = new JPanel(new FlowLayout());
 			estado.add(new JLabel(Utilidades.createImage("iconos/espera.png", 16, 16)));
-			estado.add(new JLabel("En espera"));
+			String estadoMensaje = finalizado ? "Finalizado" : "En espera";
+			estado.add(new JLabel(estadoMensaje));
 			contenedor.add(estado);
 			
 			JPanel aceptarB = new JPanel();
-			JButton aceptar = new JButton("Aceptar", Utilidades.createImage("iconos/ok.png", 16, 16));
+			final JButton aceptar = new JButton("Aceptar", Utilidades.createImage("iconos/ok.png", 16, 16));
+			aceptar.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent e) {
+					aceptar.setText("Aceptado");
+					aceptar.setEnabled(false);
+					control.finalizarPedido(p, new Cliente(p.getCliente()));
+					control.eliminarPedidoPanel(p, new Cliente(p.getCliente()));
+					setFinal(true);
+				}
+			});
 			aceptarB.add(aceptar);
 			contenedor.add(aceptarB);
 			
 			this.add(contenedor);
+		}
+
+		private void setFinal(boolean f) {
+			this.finalizado = f;
 		}
 	}
 	
@@ -204,6 +226,42 @@ public class PanelView extends JDialog {
 			guardar.setPreferredSize(new Dimension(200, 30));
 			guardarPan.add(guardar);
 			this.add(guardarPan);
+		}
+	}
+	
+	private void insertar(ArrayList<?> pedidos)
+	{
+		
+		this.contenedorPedidos.removeAll();
+		this.contenedorPedidos.repaint();
+		this.contenedorPedidos.revalidate();
+		
+		GridLayout pedidosLy = new GridLayout(2, 3, 20, 20);
+		this.contenedorPedidos.setLayout(pedidosLy);
+		
+		Iterator<?> it = pedidos.iterator();
+		
+		
+		while(it.hasNext()){
+			Pedido p = (Pedido) it.next();
+			this.contenedorPedidos.add(new Pedidos(p));
+
+			this.contenedorPedidos.repaint();
+		}
+	}
+	
+	
+	
+	public void notify(Notificacion notificacion) {
+		switch (notificacion.getNotificacion()) {
+
+		case LEER_TODOSPEDIDOS:
+			insertar(notificacion.getDiscosOpedido());
+			this.pack();
+			break;
+		default:
+			break;
+
 		}
 	}
 }

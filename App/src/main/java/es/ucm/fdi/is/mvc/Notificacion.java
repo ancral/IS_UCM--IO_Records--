@@ -3,12 +3,13 @@ package es.ucm.fdi.is.mvc;
 import java.util.ArrayList;
 
 import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.pedido.Pedido;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class Notificacion {
 	
 	private NotificacionMensaje notificacion;
-	private ArrayList<Disco> discos;
+	private ArrayList<?> discosOpedidos;
 	
 	/**
 	 * Utilizado para informar del usuario que provoca las notificaciones
@@ -19,13 +20,13 @@ public class Notificacion {
 		this(notificacion, null, null);
 	}
 	
-	public Notificacion(NotificacionMensaje notificacion, ArrayList<Disco> discos) {
-		this(notificacion, discos, null);
+	public Notificacion(NotificacionMensaje notificacion, ArrayList<?> discosOpedidos) {
+		this(notificacion, discosOpedidos, null);
 	}
 	
-	public Notificacion(NotificacionMensaje notificacion, ArrayList<Disco> discos, Usuario usuario) {
+	public Notificacion(NotificacionMensaje notificacion, ArrayList<?> discosOpedidos, Usuario usuario) {
 		this.notificacion = notificacion;
-		this.discos = discos;
+		this.discosOpedidos = discosOpedidos;
 		this.usuario = usuario;
 	}
 	
@@ -33,8 +34,8 @@ public class Notificacion {
 		return this.notificacion;
 	}
 	
-	public ArrayList<Disco> getDiscos() {
-		return this.discos;
+	public ArrayList<?> getDiscosOpedido() {
+		return this.discosOpedidos;
 	}
 	
 	public void setUsuario(Usuario usuario) {

@@ -9,6 +9,8 @@ public enum NotificacionMensaje {
 	DISCO_BORRADO("El disco ha sido descatalogado"),
 	DISCO_ACTUALIZADO("Se han cambiado los datos del disco"),
 	LEER_TODOS,
+	LEER_TODOSPEDIDOS,
+	CARRITO_FINALIZADO_PANEL,
 	BUSCAR_DISCO_ENCONTRADO,
 	BUSCAR_DISCO_NO_ENCONTRADO,
 	LEER_POR_GENERO,

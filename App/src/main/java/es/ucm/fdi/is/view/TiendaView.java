@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -18,6 +19,7 @@ import javax.swing.border.TitledBorder;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.pedido.Pedido;
 import es.ucm.fdi.is.usuario.Usuario;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -28,7 +30,6 @@ import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
 
-@SuppressWarnings("restriction")
 public class TiendaView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = 5963169495489228054L;
@@ -43,7 +44,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	private JLabel pieInfo;
 	private JTextField barraBusqueda;
 	protected Usuario usuarioSesion;
-
+	
 	/* Constructor invisible */
 	private TiendaView() {
 		super("I/O Records > Catálogo");
@@ -166,7 +167,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 			break;
 			
 		case BUSCAR_DISCO_ENCONTRADO:
-			CatalogoDiscos.getCatalogoDiscos(TiendaView.this).actualizar(notificacion.getDiscos());
+			CatalogoDiscos.getCatalogoDiscos(TiendaView.this).actualizar(notificacion.getDiscosOpedido());
 			break;
 			
 		case BUSCAR_DISCO_NO_ENCONTRADO:
@@ -187,7 +188,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 	public void showDiscoInfo(Disco disco) {
 		barraLateral.showDiscoInfo(disco);
 	}
-
+	
 	private class BarraSuperior extends JToolBar {
 
 		private static final long serialVersionUID = 5141185337233797115L;
