@@ -10,6 +10,7 @@ public interface SAUsuario extends TiendaObservable {
 	public void darseAlta(Usuario usuario);
 	public void darseBaja(Usuario usuario);
 	public Usuario verDatosPersonales(Usuario usuario);
+	public void asignarNuevoId(Usuario usuario) throws TiendaDatabaseException;
 	public void notifyAll(Notificacion notificacion);
 
 }

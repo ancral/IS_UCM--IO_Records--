@@ -11,5 +11,6 @@ public interface DAOUsuario {
 	public void actualizarUsuario(Usuario antiguo, Usuario nuevo,
 			Empleado empleadoNuevo,
 			Cliente clienteNuevo) throws TiendaDatabaseException;
+	public void nuevoIdPedidoUsuario(Usuario usuario) throws TiendaDatabaseException;
 
 }

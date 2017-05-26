@@ -3,6 +3,7 @@ package es.ucm.fdi.is.pedido;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
@@ -11,6 +12,8 @@ import es.ucm.fdi.is.dao.TiendaDatabaseException;
 
 import es.ucm.fdi.is.disco.DAODisco;
 import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.disco.GeneroDisco;
+import es.ucm.fdi.is.disco.OfertaDisco;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class DAOPedidoImp implements DAOPedido {
@@ -115,7 +118,7 @@ public class DAOPedidoImp implements DAOPedido {
 		}
 	}
 
-	@SuppressWarnings("null")
+	@SuppressWarnings({ "null", "unused" })
 	private List<Disco> busqueda_discos(String pedido) throws TiendaDatabaseException {
 		List<Disco> discos = null;
 
@@ -136,40 +139,45 @@ public class DAOPedidoImp implements DAOPedido {
 		return discos;
 	}
 
-	@SuppressWarnings("null")
-	public List<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException {
-		List<Pedido> pedido = null;
 
+	public ArrayList<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException {
+		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
+		
 		try {
-			PreparedStatement cliente = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Pedido WHERE NIFCliente = " + usuario.getNif());
-
-			ResultSet res = cliente.executeQuery();
-
-			while (res.next()) {
-
-				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-						.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
-
-				sqlCanciones.setString(1, res.getString(1));
-
-				List<Disco> discos = busqueda_discos(res.getString(1));
-
-				// Busqueda del tipo de pedido
-				TipoRecogida tipo = null;
-				for (TipoRecogida e : TipoRecogida.values()) {
-					if (e.toString().equalsIgnoreCase(res.getString(4))) {
-						tipo = e;
-					}
-				}
-
-				pedido.add(new Pedido(res.getInt(1), discos, res.getString(3), tipo));
-
+		
+		PreparedStatement sql = TiendaDatabase.getConexion()
+				.prepareStatement("SELECT * FROM Pedido WHERE Pedido.NIFCliente = ?");
+		
+		sql.setString(1, usuario.getNif());
+		ResultSet resPedidos = sql.executeQuery();
+		
+		while (resPedidos.next()) {
+			ArrayList<Disco> discos = new ArrayList<Disco>();
+			
+			PreparedStatement sqlDisco = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM DiscosPedido "
+							+ "JOIN Disco ON DiscosPedido.tituloDisco = Disco.Titulo "
+							+ "WHERE idPedido = ?");
+			
+			sqlDisco.setInt(1, resPedidos.getInt(1));
+			ResultSet resDiscos = sqlDisco.executeQuery();
+			
+			while (resDiscos.next()) {
+				discos.add(new Disco(resDiscos.getString(3), resDiscos.getString(4), resDiscos.getDate(5),
+						resDiscos.getString(6), GeneroDisco.valueOf(resDiscos.getString(7).toUpperCase()), new Integer(resDiscos.getInt(8)),
+						resDiscos.getFloat(9), resDiscos.getFloat(10), resDiscos.getFloat(11), null, 
+						new OfertaDisco(resDiscos.getInt(12)), resDiscos.getString(13), resDiscos.getInt(14)));
 			}
-		} catch (SQLException e) {
-			throw new TiendaDatabaseException(e.getMessage());
+			
+			pedidos.add(new Pedido(resPedidos.getInt(1), discos, usuario.getNif(), TipoRecogida.valueOf(resPedidos.getString(3)), resPedidos.getInt(4)));
+			
 		}
-		return pedido;
+		
+		} catch (SQLException e) {
+			
+		}
+	
+		return pedidos;
 	}
 	
 	public void finalizarPedido(Pedido pedido) throws TiendaDatabaseException {
@@ -179,7 +187,7 @@ public class DAOPedidoImp implements DAOPedido {
 			
 			sql.setInt(1, pedido.getId());
 			
-			sql.executeUpdate();
+			sql.executeUpdate();			
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}

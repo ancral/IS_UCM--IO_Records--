@@ -25,6 +25,11 @@ public class Pedido {
 		this.finalizado = 0;
 	}
 	
+	public Pedido(int identificador, List<Disco> discos, String idCliente, TipoRecogida recogida, int finalizado) {
+		this(identificador, discos, idCliente, recogida);
+		this.finalizado = finalizado;
+	}
+	
 	public void meterDisco(Disco disco) {
 		this.discos.add(disco);
 	}

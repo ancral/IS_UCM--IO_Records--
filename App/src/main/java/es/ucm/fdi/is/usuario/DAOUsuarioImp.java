@@ -47,24 +47,7 @@ public class DAOUsuarioImp implements DAOUsuario {
 				
 				res.close();
 				
-				PreparedStatement sqlIdPedido = TiendaDatabase.getConexion()
-						.prepareStatement("SELECT IdPedido FROM DatosVarios");
-				
-				ResultSet id = sqlIdPedido.executeQuery();
-				id.next();
-				
-				usuarioSesion.setPedido(new Pedido(id.getInt(1), usuarioSesion.getNif(), TipoRecogida.TIENDA));
-				
-				id.close();
-				
-				/*
-				 * Actualizamos el contador de pedidos de la base de datos
-				 */
-				
-				sqlIdPedido= TiendaDatabase.getConexion()
-						.prepareStatement("UPDATE DatosVarios SET IdPedido = IdPedido + 1");
-				
-				sqlIdPedido.executeUpdate();
+				nuevoIdPedidoUsuario(usuarioSesion);
 				
 			}
 
@@ -73,6 +56,33 @@ public class DAOUsuarioImp implements DAOUsuario {
 		}
 
 		return ok;
+	}
+	
+	public void nuevoIdPedidoUsuario(Usuario usuario) throws TiendaDatabaseException {
+		
+		try {
+			PreparedStatement sqlIdPedido = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT IdPedido FROM DatosVarios");
+			
+			ResultSet id = sqlIdPedido.executeQuery();
+			id.next();
+			
+			usuario.setPedido(new Pedido(id.getInt(1), usuario.getNif(), TipoRecogida.TIENDA));
+			
+			id.close();
+			
+			/*
+			 * Actualizamos el contador de pedidos de la base de datos
+			 */
+			
+			sqlIdPedido= TiendaDatabase.getConexion()
+					.prepareStatement("UPDATE DatosVarios SET IdPedido = IdPedido + 1");
+			
+			sqlIdPedido.executeUpdate();
+		
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
 	}
 
 	public void crearUsuario(Usuario usuario, Empleado empleado, Cliente cliente) throws TiendaDatabaseException {

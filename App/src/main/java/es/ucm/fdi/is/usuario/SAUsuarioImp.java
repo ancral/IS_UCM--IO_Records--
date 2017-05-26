@@ -33,6 +33,8 @@ public class SAUsuarioImp implements SAUsuario {
 		
 		if (dao.comprobarLogin(usuario, clave, usuarioSesion)) { // Devuelve un usuario inicializado por el 3er parámetro
 			
+			usuarioSesion.setPedidos(daoPedido.verPedidosUsuario(usuarioSesion));
+			
 			daoPedido.crearPedido(usuarioSesion.getPedido()); // Crea un pedido en la BD con el ID de pedido asignado a la
 															  // sesión actual (un pedido nuevo cada sesión)
 			
@@ -41,6 +43,11 @@ public class SAUsuarioImp implements SAUsuario {
 		}
 		else
 			this.notifyAll(new Notificacion(NotificacionMensaje.ERROR_SESION));
+	}
+	
+	public void asignarNuevoId(Usuario usuario) throws TiendaDatabaseException {
+		dao.nuevoIdPedidoUsuario(usuario);
+		this.notifyAll(new Notificacion(NotificacionMensaje.NUEVO_ID_PEDIDO, null, usuario));
 	}
 
 	public void darseAlta(Usuario usuario) {

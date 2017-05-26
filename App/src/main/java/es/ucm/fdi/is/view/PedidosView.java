@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -19,18 +23,20 @@ public class PedidosView extends JDialog implements TiendaObserver {
 	private static PedidosView pedidosView = null;
 	private static TiendaController tiendaController = TiendaController.getTiendaController();
 	
+	private TiendaView tiendaView;
 	private JPanel contenedorPedidos;
-	private GridLayout pedidosLy;
 	
-	public static PedidosView getPedidosView(JFrame window) {
+	public static PedidosView getPedidosView(TiendaView tiendaView, ArrayList<Pedido> pedidos) {
 		if (pedidosView == null)
-			pedidosView = new PedidosView(window);
+			pedidosView = new PedidosView(tiendaView, pedidos);
 		
 		return pedidosView;
 	}
 
-	private PedidosView(JFrame window) {
-		super(window, "Lista de pedidos", true);
+	private PedidosView(TiendaView tiendaView, ArrayList<Pedido> pedidos) {
+		super(tiendaView, "Lista de pedidos", true);
+		
+		this.tiendaView = tiendaView;
 		
 		tiendaController.addObserver(this);
 		
@@ -54,8 +60,10 @@ public class PedidosView extends JDialog implements TiendaObserver {
 		
 		
 		contenedorPedidos = new JPanel();
-		pedidosLy = new GridLayout(2, 3, 20, 20);
+		GridLayout pedidosLy = new GridLayout(2, 3, 20, 20);
 		contenedorPedidos.setLayout(pedidosLy);
+		
+		refrescarPedidos(pedidos);
 		
 		contenedor.add(contenedorPedidos, BorderLayout.CENTER);
 		
@@ -73,7 +81,7 @@ public class PedidosView extends JDialog implements TiendaObserver {
 		
 		private static final long serialVersionUID = -2054428498926191259L;
 
-		public PedidoInfo(Pedido pedido) {
+		public PedidoInfo(final Pedido pedido) {
 			this.setBorder(BorderFactory.createMatteBorder(3, 3, 8, 3, Color.DARK_GRAY));
 			
 			JPanel contenedor = new JPanel();
@@ -106,10 +114,34 @@ public class PedidosView extends JDialog implements TiendaObserver {
 			
 			JPanel cancelarB = new JPanel();
 			JButton cancelar = new JButton("Cancelar", Utilidades.createImage("iconos/cancelar.png", 16, 16));
+			
+			cancelar.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					tiendaController.eliminarPedido(pedido, tiendaView.usuarioSesion);
+				}
+				
+			});
+			
 			cancelarB.add(cancelar);
 			contenedor.add(cancelarB);
 			
 			this.add(contenedor);
+		}
+	}
+	
+	private void refrescarPedidos(ArrayList<Pedido> pedidos) {
+		this.contenedorPedidos.removeAll();
+		this.contenedorPedidos.repaint();
+		
+		Iterator<Pedido> pedidoIt = pedidos.iterator();
+		
+		while (pedidoIt.hasNext()) {
+			Pedido ped = pedidoIt.next();
+			
+			if (ped.getFinalizado() == 1) {
+				contenedorPedidos.add(new PedidoInfo(ped));
+			}
 		}
 	}
 
@@ -127,11 +159,9 @@ public class PedidosView extends JDialog implements TiendaObserver {
 		
 		switch (notificacion.getNotificacion()) {
 		case CARRITO_FINALIZADO:
-			System.out.println("Carrito finalizado");
-
-			this.pedidosLy = new GridLayout(2, 3, 20, 20);
-			this.contenedorPedidos.setLayout(pedidosLy);
-			this.contenedorPedidos.add(new PedidoInfo(notificacion.getUsuario().getPedido()));
+		case PEDIDO_ELIMINADO:
+			this.refrescarPedidos(notificacion.getUsuario().getPedidos());
+			this.pack();
 			break;
 			
 			default:

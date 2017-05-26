@@ -31,6 +31,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	private float precioCarrito;
 	private JLabel numArticulosLb;
 	private JLabel precioCarritoLb;
+	private JLabel idPedido;
 	
 	public static CarritoView getCarritoView(TiendaView tiendaView, Pedido pedido) {
 		if (carritoView == null)
@@ -42,7 +43,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	private CarritoView(final TiendaView tiendaView, final Pedido pedido) {
 		super(tiendaView, "Carrito de la compra", true);
 		
-		discoController.addObserver(this);
+		tiendaController.addObserver(this);
 		
 		this.tiendaView = tiendaView;
 		this.pedido = pedido;
@@ -100,12 +101,18 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		JPanel datos = new JPanel();
 		BoxLayout datosLy = new BoxLayout(datos, BoxLayout.Y_AXIS);
 		datos.setLayout(datosLy);
+		this.idPedido = new JLabel("Identificador pedido: " + pedido.getId());
+		this.idPedido.setFont(new Font("sans", Font.BOLD, 25));
+		this.idPedido.setForeground(new Color(55, 214, 121));
+		datos.add(idPedido);
+		datos.add(new JSeparator(), BorderLayout.NORTH);
 		this.numArticulosLb = new JLabel("Número de artículos: " + this.numArticulos);
 		this.numArticulosLb.setFont(new Font("sans", Font.BOLD, 20));
 		datos.add(this.numArticulosLb);
-		this.precioCarritoLb = new JLabel("Precio total: " + this.precioCarrito + "€");
+		this.precioCarritoLb = new JLabel("Precio total: " + Utilidades.round(this.precioCarrito, 2) + "€");
 		this.precioCarritoLb.setFont(new Font("sans", Font.BOLD, 20));
 		datos.add(this.precioCarritoLb);
+		datos.add(new JSeparator(), BorderLayout.NORTH);
 		
 		datos.add(Box.createVerticalStrut(5)); // espacio en blanco
 		
@@ -113,7 +120,14 @@ public class CarritoView extends JDialog implements TiendaObserver {
 		hacerPedido.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				tiendaController.finalizarPedido(pedido, tiendaView.usuarioSesion);
+				if (CarritoView.this.pedido.esVacio()) {
+					JOptionPane.showMessageDialog(CarritoView.this, "No se puede hacer un pedido sin ningún disco añadido"
+							, "Error al finalizar pedido", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					tiendaController.finalizarPedido(CarritoView.this.pedido, tiendaView.usuarioSesion);
+				}
+				CarritoView.this.setVisible(false); // Ocultamos la ventana
 			}
 			
 		});
@@ -256,6 +270,14 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			this.add(discoInfo);
 		}
 	}
+	
+	private void reiniciarCarrito() {
+		this.listaDiscos.removeAll();
+		this.listaDiscos.repaint();
+		this.idPedido.setText("Identificador pedido: " + pedido.getId());
+		this.numArticulosLb.setText("Número de artículos: 0");
+		this.precioCarritoLb.setText("Precio total: 0.00 €");
+	}
 
 	public void notify(final Notificacion notificacion) {
 		
@@ -272,6 +294,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 	public void handleNotify(Notificacion notificacion) {
 		
 		switch (notificacion.getNotificacion()) {
+		
 		case ANYADIR_CARRITO:
 			refrescarCarrito(notificacion.getUsuario().getPedido());
 			break;
@@ -280,9 +303,19 @@ public class CarritoView extends JDialog implements TiendaObserver {
 			refrescarCarrito(notificacion.getUsuario().getPedido());
 			System.out.println("Borrado");
 			break;
+			
+		case CARRITO_FINALIZADO:	
+			reiniciarCarrito();
+			break;
+		
+		case NUEVO_ID_PEDIDO:
+			// Actualizamos el pedido que representa la vista
+			this.pedido = notificacion.getUsuario().getPedido();
+			reiniciarCarrito();
+			break;		
 		
 			default:
-				break;
+			break;
 		}
 		
 	}

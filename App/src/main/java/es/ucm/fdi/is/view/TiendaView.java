@@ -245,7 +245,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 					if (TiendaView.this.usuarioSesion == null)
 						LoginView.getLoginView().setVisible(true);
 					else
-						PedidosView.getPedidosView(TiendaView.this).setVisible(true);
+						PedidosView.getPedidosView(TiendaView.this, usuarioSesion.getPedidos()).setVisible(true);
 				}
 
 			});

@@ -1,6 +1,7 @@
 package es.ucm.fdi.is.usuario;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import es.ucm.fdi.is.pedido.Pedido;
 
@@ -12,21 +13,23 @@ public abstract class Usuario {
 	private String direccion;
 	private Date fechaNacimiento;
 	private TipoUsuario tipo;
-	private Pedido pedido;
+	private ArrayList<Pedido> pedidos;
+	private Pedido pedidoActual;
 	
 	public Usuario(String nif)
 	{
 		this.nif = nif;
 	}
 	
-	public Usuario(String nif, String clave, String nombre, String direccion, Date fechaNacimiento, TipoUsuario tipo, Pedido pedido) {
+	public Usuario(String nif, String clave, String nombre, String direccion, Date fechaNacimiento, TipoUsuario tipo, ArrayList<Pedido> pedidos, Pedido pedidoActual) {
 		this.nif = nif;
 		this.clave = clave;
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.fechaNacimiento = fechaNacimiento;
 		this.tipo = (this.tipo != null) ? TipoUsuario.CLIENTE_EMPLEADO : tipo;
-		this.pedido = pedido;
+		this.pedidos = pedidos;
+		this.pedidoActual = pedidoActual;
 	}
 	
 	public String getNif() {
@@ -54,7 +57,7 @@ public abstract class Usuario {
 	}
 	
 	public Pedido getPedido() {
-		return this.pedido;
+		return this.pedidoActual;
 	}
 	
 	public void setNif(String nif) {
@@ -82,7 +85,15 @@ public abstract class Usuario {
 	}
 	
 	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+		this.pedidoActual = pedido;
+	}
+	
+	public ArrayList<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(ArrayList<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 	
 	

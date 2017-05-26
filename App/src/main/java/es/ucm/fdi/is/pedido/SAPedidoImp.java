@@ -63,6 +63,7 @@ public class SAPedidoImp implements SAPedido {
 	public void finalizarPedido(Pedido pedido, Usuario usuario) throws TiendaDatabaseException {
 		dao.finalizarPedido(pedido);
 		pedido.setFinalizado(1);
+		usuario.getPedidos().add(pedido);
 		this.notifyAll(new Notificacion(NotificacionMensaje.CARRITO_FINALIZADO, null, usuario));
 	}
 
@@ -70,8 +71,10 @@ public class SAPedidoImp implements SAPedido {
 		dao.actualizarPedido(antiguo, nuevo);
 	}
 
-	public void eliminar(Pedido pedido) throws TiendaDatabaseException  {
-		dao.eliminarPedido(pedido);
+	public void eliminar(Pedido pedido, Usuario usu) throws TiendaDatabaseException  {
+		dao.eliminarPedido(pedido); // Se elimina de la base de datos el pedido
+		usu.getPedidos().remove(pedido); // Eliminamos el pedido de la lista que mantiene el usuario
+		this.notifyAll(new Notificacion(NotificacionMensaje.PEDIDO_ELIMINADO, null, usu));
 	}
 
 	public void addObverser(TiendaObserver observer) {
