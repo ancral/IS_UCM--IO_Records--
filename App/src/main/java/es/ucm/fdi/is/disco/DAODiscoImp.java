@@ -11,25 +11,25 @@ import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 
 public class DAODiscoImp implements DAODisco {
-	
+
 	private static DAODiscoImp daoDisco = null;
-	
+
 	public static DAODiscoImp getDaoDisco() {
 		if (daoDisco == null)
 			daoDisco = new DAODiscoImp();
-		
+
 		return daoDisco;
 	}
-	
-	private DAODiscoImp() {}
+
+	private DAODiscoImp() {
+	}
 
 	public void crearDisco(Disco disco) throws TiendaDatabaseException {
 		// TODO Auto-generated method stub
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT OR IGNORE INTO Disco (?,?,?,?,?,?,?,?,?,?,?,?)");
-			PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT OR IGNORE INTO ListaCanciones (?,?)");
+		try (PreparedStatement sql = TiendaDatabase.getConexion()
+				.prepareStatement("INSERT OR IGNORE INTO Disco (?,?,?,?,?,?,?,?,?,?,?,?)");
+				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
+						.prepareStatement("INSERT OR IGNORE INTO ListaCanciones (?,?)");) {
 
 			sql.setString(1, disco.getTitulo());
 			sql.setString(2, disco.getAutor());
@@ -43,7 +43,7 @@ public class DAODiscoImp implements DAODisco {
 			sql.setInt(10, disco.getOferta().getPorcentaje());
 			sql.setString(11, disco.getCaratula());
 			sql.setInt(12, disco.getNumVotaciones());
-			
+
 			for (Cancion c : disco.getListaCanciones()) {
 				sqlCanciones.setString(1, disco.getTitulo());
 				sqlCanciones.setString(3, c.toString());
@@ -57,22 +57,18 @@ public class DAODiscoImp implements DAODisco {
 
 	public Disco leerDisco(String titulo) throws TiendaDatabaseException {
 		Disco disco = null;
-		PreparedStatement sql = null;
-		PreparedStatement sqlCanciones = null;
 		ResultSet res = null;
 		ResultSet resCanciones = null;
 
-		try {
+		try (PreparedStatement sql = TiendaDatabase.getConexion()
+				.prepareStatement("SELECT * FROM Disco WHERE " + "LOWER(Titulo) = ?");
+				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
+						.prepareStatement("SELECT * FROM ListaCanciones WHERE LOWER(Titulo) = ?");) {
+
 			List<Cancion> canciones = new ArrayList<Cancion>();
-			sql = TiendaDatabase.getConexion().prepareStatement("SELECT * FROM Disco WHERE "
-					+ "LOWER(Titulo) = ?");
-			sqlCanciones = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM ListaCanciones WHERE LOWER(Titulo) = ?");
 
 			sqlCanciones.setString(1, titulo.toLowerCase());
 			sql.setString(1, titulo.toLowerCase());
-
-			
 
 			resCanciones = sqlCanciones.executeQuery();
 
@@ -81,11 +77,11 @@ public class DAODiscoImp implements DAODisco {
 				canciones.add(new Cancion(resCanciones.getString(2)));
 			}
 			resCanciones.close();
-			
+
 			res = sql.executeQuery();
 			// Comprobamos si tiene alguna fila
 			if (res.next()) {
-				
+
 				// Busqueda del genero del disco
 				GeneroDisco genero = null;
 				for (GeneroDisco e : GeneroDisco.values()) {
@@ -96,11 +92,11 @@ public class DAODiscoImp implements DAODisco {
 
 				// Busqueda de la valoracion del disco
 				Float valoracion = res.getFloat(7);
-			
+
 				disco = new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
-						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)), res.getString(11)
-						, res.getInt(12));
+						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)), res.getString(11),
+						res.getInt(12));
 			}
 			res.close();
 
@@ -113,14 +109,13 @@ public class DAODiscoImp implements DAODisco {
 
 	public List<Disco> leerTodos() throws TiendaDatabaseException {
 		List<Disco> discos = new ArrayList<Disco>();
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("SELECT * FROM Disco");
+		try (PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("SELECT * FROM Disco");) {
 
 			ResultSet res = sql.executeQuery();
 
 			// Leer todos los discos de la tabla
 			while (res.next()) {
-				
+
 				List<Cancion> canciones = new ArrayList<Cancion>();
 
 				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
@@ -133,9 +128,9 @@ public class DAODiscoImp implements DAODisco {
 				while (resCanciones.next()) {
 					canciones.add(new Cancion(resCanciones.getString(2)));
 				}
-				
+
 				resCanciones.close();
-				
+
 				// Busqueda del genero del disco
 				GeneroDisco genero = null;
 				for (GeneroDisco e : GeneroDisco.values()) {
@@ -146,14 +141,14 @@ public class DAODiscoImp implements DAODisco {
 
 				// Busqueda de la valoracion del disco
 				Float valoracion = res.getFloat(7);
-				
+
 				discos.add(new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
-						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)), res.getString(11)
-						, res.getInt(12)));
+						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)), res.getString(11),
+						res.getInt(12)));
 			}
 			res.close();
-			
+
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -162,23 +157,22 @@ public class DAODiscoImp implements DAODisco {
 
 	// FALTA OPTIMIZARLO (usar funcion borrarDisco)
 	public void actualizarDisco(Disco antiguo, Disco nuevo) throws TiendaDatabaseException {
-		try {
+		try (PreparedStatement actualizar = TiendaDatabase.getConexion()
+				.prepareStatement("UPDATE Disco SET Titulo = ?" + ", Autor = ?, Fecha = ?, Sello = ?,  "
+						+ "Genero = ? , Duracion = ? , Valoracion = ? " + ", PrecioCompra = ? , PrecioVenta = ? , "
+						+ "Oferta = ? " + ", Caratula = ? , Votantes = ? " + "WHERE LOWER(Titulo) = ?");) {
 
-			PreparedStatement actualizar = TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE Disco SET Titulo = ?" + ", Autor = ?, Fecha = ?, Sello = ?,  "
-							+ "Genero = ? , Duracion = ? , Valoracion = ? " + ", PrecioCompra = ? , PrecioVenta = ? , "
-							+ "Oferta = ? " + ", Caratula = ? , Votantes = ? " + "WHERE LOWER(Titulo) = ?");
-			
 			/*
 			 * NO SE SI ES NECESARIO ACTUALIZAR LAS CANCIONES
 			 */
-			
+
 			/*
-			PreparedStatement actualizarCanciones = TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE OR IGNORE ListaCanciones SET Titulo = ?, Cancion = ?" + 
-			" WHERE LOWER(Titulo) = ?");
-			*/
-			
+			 * PreparedStatement actualizarCanciones =
+			 * TiendaDatabase.getConexion()
+			 * .prepareStatement("UPDATE OR IGNORE ListaCanciones SET Titulo = ?, Cancion = ?"
+			 * + " WHERE LOWER(Titulo) = ?");
+			 */
+
 			actualizar.setString(1, nuevo.getTitulo());
 			actualizar.setString(2, nuevo.getAutor());
 			actualizar.setDate(3, (Date) nuevo.getFechaSalida());
@@ -192,19 +186,19 @@ public class DAODiscoImp implements DAODisco {
 			actualizar.setString(11, antiguo.getCaratula());
 			actualizar.setInt(12, nuevo.getNumVotaciones());
 			actualizar.setString(13, antiguo.getTitulo().toLowerCase());
-			
+
 			actualizar.executeUpdate();
-			
+
 			/*
-			for (Cancion c : nuevo.getListaCanciones()) {
-				actualizarCanciones.setString(1, nuevo.getTitulo());
-				actualizarCanciones.setString(2, c.toString());
-				actualizarCanciones.setString(3, antiguo.getTitulo().toLowerCase());
-			}
-
-
-			actualizarCanciones.executeUpdate();
-			*/
+			 * for (Cancion c : nuevo.getListaCanciones()) {
+			 * actualizarCanciones.setString(1, nuevo.getTitulo());
+			 * actualizarCanciones.setString(2, c.toString());
+			 * actualizarCanciones.setString(3,
+			 * antiguo.getTitulo().toLowerCase()); }
+			 * 
+			 * 
+			 * actualizarCanciones.executeUpdate();
+			 */
 
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
@@ -212,9 +206,8 @@ public class DAODiscoImp implements DAODisco {
 	}
 
 	public void borrarDisco(Disco disco) throws TiendaDatabaseException {
-		try {
-			PreparedStatement borrar = TiendaDatabase.getConexion()
-					.prepareStatement("DELETE FROM Disco WHERE Titulo = ?");
+		try (PreparedStatement borrar = TiendaDatabase.getConexion()
+				.prepareStatement("DELETE FROM Disco WHERE Titulo = ?");) {
 
 			borrar.setString(1, disco.getTitulo().toLowerCase());
 
@@ -229,26 +222,27 @@ public class DAODiscoImp implements DAODisco {
 
 		List<Disco> discos = new ArrayList<Disco>();
 
-		try {
-
-			PreparedStatement generos = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Disco WHERE Disco.Genero = '" + g.toString() + "'");
+		try (PreparedStatement generos = TiendaDatabase.getConexion()
+				.prepareStatement("SELECT * FROM Disco WHERE Disco.Genero = '" + g.toString() + "'");) {
 
 			ResultSet res = generos.executeQuery();
 
 			while (res.next()) {
 				List<Cancion> canciones = new ArrayList<Cancion>();
 
-				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-						.prepareStatement("SELECT * FROM ListaCanciones WHERE Titulo = ?");
+				try (PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
+						.prepareStatement("SELECT * FROM ListaCanciones WHERE Titulo = ?");) {
+					sqlCanciones.setString(1, res.getString(1));
 
-				sqlCanciones.setString(1, res.getString(1));
+					ResultSet resCanciones = sqlCanciones.executeQuery();
 
-				ResultSet resCanciones = sqlCanciones.executeQuery();
+					// Creando la lista de canciones
+					while (resCanciones.next()) {
+						canciones.add(new Cancion(resCanciones.getString(2)));
 
-				// Creando la lista de canciones
-				while (resCanciones.next()) {
-					canciones.add(new Cancion(resCanciones.getString(2)));
+					}
+
+					resCanciones.close();
 				}
 
 				// Busqueda del genero del disco
@@ -268,6 +262,7 @@ public class DAODiscoImp implements DAODisco {
 						res.getInt(12)));
 
 			}
+			res.close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -278,17 +273,18 @@ public class DAODiscoImp implements DAODisco {
 
 		boolean existir = false;
 
-		try {
+		try(PreparedStatement existe = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");) {
 
-			PreparedStatement existe = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
+			
 
 			existe.setString(1, disco.getTitulo().toLowerCase());
 
 			ResultSet res = existe.executeQuery();
 
 			existir = res.first();
-
+			
+			res.close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}

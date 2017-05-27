@@ -22,9 +22,9 @@ public class DAOVentaImp implements DAOVenta {
 	private DAOVentaImp() {}
 
 	public void crearVenta(Venta venta) throws TiendaDatabaseException {
-		try {
-			PreparedStatement crearVenta = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Venta (?,?,?,?,?)");
+		try(PreparedStatement crearVenta = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO Venta (?,?,?,?,?)");) {
+			
 			
 			crearVenta.setString(1, venta.getId());
 			crearVenta.setDate(2, venta.getFecha());
@@ -41,11 +41,11 @@ public class DAOVentaImp implements DAOVenta {
 	}
 
 	public void actualizarVenta(Venta antigua, Venta nueva) throws TiendaDatabaseException {
-		try {
-			PreparedStatement actualizarVenta = TiendaDatabase.getConexion()
+		try(PreparedStatement actualizarVenta = TiendaDatabase.getConexion()
 					.prepareStatement("UPDATE Venta SET idVenta = ?"
 							+ " ,Fecha = ? ,idPedido = ? ,NIFEmpleado = ? ,"
-							+ "PrecioTotal = ? WHERE idVenta = ?");
+							+ "PrecioTotal = ? WHERE idVenta = ?");) {
+			
 			
 			actualizarVenta.setString(1, nueva.getId());
 			actualizarVenta.setDate(2, nueva.getFecha());
@@ -63,9 +63,9 @@ public class DAOVentaImp implements DAOVenta {
 	}
 
 	public void borrarVenta(Venta venta) throws TiendaDatabaseException {
-		try {
-			PreparedStatement borrarVenta = TiendaDatabase.getConexion()
-					.prepareStatement("DELETE FROM Venta WHERE idVenta = ?");
+		try(PreparedStatement borrarVenta = TiendaDatabase.getConexion()
+					.prepareStatement("DELETE FROM Venta WHERE idVenta = ?");) {
+			
 			
 			borrarVenta.setString(1, venta.getId());
 			
@@ -80,9 +80,9 @@ public class DAOVentaImp implements DAOVenta {
 	public List<Venta> verVentas() throws TiendaDatabaseException {
 		List<Venta> verVentas = null;
 		
-		try {
-			PreparedStatement verVenta = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Venta");
+		try(PreparedStatement verVenta = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Venta");) {
+			
 
 			
 			ResultSet res = verVenta.executeQuery();
@@ -91,7 +91,7 @@ public class DAOVentaImp implements DAOVenta {
 				verVentas.add(new Venta(res.getString(1), new Empleado(res.getString(4)),
 						res.getFloat(5), res.getString(3), res.getDate(2)));	
 			}
-			
+			res.close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}

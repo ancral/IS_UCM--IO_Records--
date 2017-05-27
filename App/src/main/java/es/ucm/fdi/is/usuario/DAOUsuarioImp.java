@@ -27,9 +27,9 @@ public class DAOUsuarioImp implements DAOUsuario {
 		boolean ok = false;
 		
 		
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Usuario WHERE NIF = ? AND Clave = ?");
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Usuario WHERE NIF = ? AND Clave = ?");) {
+			
 
 			sql.setString(1, usuario);
 			sql.setString(2, clave);
@@ -50,7 +50,6 @@ public class DAOUsuarioImp implements DAOUsuario {
 				nuevoIdPedidoUsuario(usuarioSesion);
 				
 			}
-
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -60,9 +59,9 @@ public class DAOUsuarioImp implements DAOUsuario {
 	
 	public void nuevoIdPedidoUsuario(Usuario usuario) throws TiendaDatabaseException {
 		
-		try {
-			PreparedStatement sqlIdPedido = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT IdPedido FROM DatosVarios");
+		try(PreparedStatement sqlIdPedido = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT IdPedido FROM DatosVarios");) {
+			
 			
 			ResultSet id = sqlIdPedido.executeQuery();
 			id.next();
@@ -75,10 +74,13 @@ public class DAOUsuarioImp implements DAOUsuario {
 			 * Actualizamos el contador de pedidos de la base de datos
 			 */
 			
-			sqlIdPedido= TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE DatosVarios SET IdPedido = IdPedido + 1");
+			try(PreparedStatement sqlIdPedido2= TiendaDatabase.getConexion()
+					.prepareStatement("UPDATE DatosVarios SET IdPedido = IdPedido + 1"))
+			{
+
+				sqlIdPedido2.executeUpdate();
+			}
 			
-			sqlIdPedido.executeUpdate();
 		
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
@@ -86,9 +88,9 @@ public class DAOUsuarioImp implements DAOUsuario {
 	}
 
 	public void crearUsuario(Usuario usuario, Empleado empleado, Cliente cliente) throws TiendaDatabaseException {
-		try {
-			PreparedStatement crearUsuario = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Usuario (?,?,?,?,?)");
+		try(PreparedStatement crearUsuario = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO Usuario (?,?,?,?,?)");) {
+			
 			crearUsuario.setString(1, usuario.getNif());
 			crearUsuario.setString(2, usuario.getClave());
 			crearUsuario.setString(3, usuario.getNombre());
@@ -97,21 +99,28 @@ public class DAOUsuarioImp implements DAOUsuario {
 
 			crearUsuario.executeQuery();
 			if (empleado != null) {
-				PreparedStatement crearEmpleado = TiendaDatabase.getConexion()
-						.prepareStatement("INSERT INTO Empleado (?,?,?,?)");
-				crearEmpleado.setString(1, usuario.getNif());
-				crearEmpleado.setString(2, empleado.getRango().toString());
-				crearEmpleado.setFloat(3, empleado.getSalario());
-				crearEmpleado.setDate(4, empleado.getAntiguedad());
+				try(PreparedStatement crearEmpleado = TiendaDatabase.getConexion()
+						.prepareStatement("INSERT INTO Empleado (?,?,?,?)");)
+				{
 
-				crearEmpleado.executeQuery();
+					crearEmpleado.setString(1, usuario.getNif());
+					crearEmpleado.setString(2, empleado.getRango().toString());
+					crearEmpleado.setFloat(3, empleado.getSalario());
+					crearEmpleado.setDate(4, empleado.getAntiguedad());
+
+					crearEmpleado.executeQuery();
+				}
+
 			} else if (cliente != null) {
-				PreparedStatement creaCliente = TiendaDatabase.getConexion()
-						.prepareStatement("INSERT INTO Empleado (?,?)");
-				creaCliente.setString(1, usuario.getNif());
-				creaCliente.setString(2, cliente.getTipoCliente().toString());
+				try(PreparedStatement creaCliente = TiendaDatabase.getConexion()
+						.prepareStatement("INSERT INTO Empleado (?,?)");)
+				{
 
-				creaCliente.executeQuery();
+					creaCliente.setString(1, usuario.getNif());
+					creaCliente.setString(2, cliente.getTipoCliente().toString());
+
+					creaCliente.executeQuery();
+				}
 			}
 
 		} catch (SQLException e) {
@@ -121,10 +130,10 @@ public class DAOUsuarioImp implements DAOUsuario {
 	}
 
 	public void eliminarUsuario(Usuario usuario, Empleado empleado, Cliente cliente) throws TiendaDatabaseException {
-		try {
-			PreparedStatement eliminarUsuario = TiendaDatabase.getConexion()
-					.prepareStatement("DELETE FROM Usuario WHERE NIF = ?"
-							+ " AND Clave = ? AND Nombre = ? AND Direccion = ?" + " AND FechaNac = ?");
+		try(PreparedStatement eliminarUsuario = TiendaDatabase.getConexion()
+				.prepareStatement("DELETE FROM Usuario WHERE NIF = ?"
+						+ " AND Clave = ? AND Nombre = ? AND Direccion = ?" + " AND FechaNac = ?");) {
+			
 			
 			eliminarUsuario.setString(1, usuario.getNif());
 			eliminarUsuario.setString(2, usuario.getClave());
@@ -136,21 +145,27 @@ public class DAOUsuarioImp implements DAOUsuario {
 			
 			if (empleado != null) {
 				
-				PreparedStatement eliminarEmpleado = TiendaDatabase.getConexion().prepareStatement(
-						"DELETE FROM Empleado WHERE NIF = ?");
-				
-				eliminarEmpleado.setString(1, usuario.getNif());;
+				try(PreparedStatement eliminarEmpleado = TiendaDatabase.getConexion().prepareStatement(
+						"DELETE FROM Empleado WHERE NIF = ?");)
+				{
 
-				eliminarEmpleado.executeQuery();
-				
+					
+					eliminarEmpleado.setString(1, usuario.getNif());;
+
+					eliminarEmpleado.executeQuery();
+					
+				}
 			} else if (cliente != null) {
 				
-				PreparedStatement eliminarCliente = TiendaDatabase.getConexion()
-						.prepareStatement("DELETE FROM Cliente WHERE NIF = ? " + "AND Tipo = ?");
-				
-				eliminarCliente.setString(1, usuario.getNif());
+				try(PreparedStatement eliminarCliente = TiendaDatabase.getConexion()
+						.prepareStatement("DELETE FROM Cliente WHERE NIF = ? " + "AND Tipo = ?");)
+				{
+					eliminarCliente.setString(1, usuario.getNif());
 
-				eliminarCliente.executeQuery();
+					eliminarCliente.executeQuery();
+				}
+				
+				
 			}
 
 		} catch (SQLException e) {
@@ -162,9 +177,8 @@ public class DAOUsuarioImp implements DAOUsuario {
 	public Usuario devolverUsuario(String id) throws TiendaDatabaseException
 	{
 		Usuario usuario = null;
-		try {
-			PreparedStatement buscarUsuario = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Usuario WHERE NIF = ?");
+		try(PreparedStatement buscarUsuario = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Usuario WHERE NIF = ?");) {
 			
 			buscarUsuario.setString(1, id);
 
@@ -186,10 +200,10 @@ public class DAOUsuarioImp implements DAOUsuario {
 	public void actualizarUsuario(Usuario antiguo, Usuario nuevo,
 			Empleado empleadoNuevo,
 			Cliente clienteNuevo) throws TiendaDatabaseException {
-		try {
-			PreparedStatement actualizarUsuario = TiendaDatabase.getConexion()
+		try(PreparedStatement actualizarUsuario = TiendaDatabase.getConexion()
 					.prepareStatement("UPDATE Usuario SET NIF = ?" + " ,Clave = ? ,Nombre = ? ,Direccion = ?"
-							+ " ,FechaNac = ?" + " WHERE NIF = ?");
+							+ " ,FechaNac = ?" + " WHERE NIF = ?");) {
+			
 			
 			actualizarUsuario.setString(1, nuevo.getNif());
 			actualizarUsuario.setString(2, nuevo.getClave());
@@ -203,33 +217,39 @@ public class DAOUsuarioImp implements DAOUsuario {
 			
 			if(empleadoNuevo != null)
 			{
-				PreparedStatement actualizarEmpleado = TiendaDatabase.getConexion()
+				try(PreparedStatement actualizarEmpleado = TiendaDatabase.getConexion()
 						.prepareStatement("UPDATE Empleado SET NIF = ?" + " ,Rango = ? ,Salario = ?"
-								+ " ,Antiguedad = ?" + " WHERE NIF = ?");
-				
-				actualizarEmpleado.setString(1, nuevo.getNif());
-				actualizarEmpleado.setString(2, empleadoNuevo.getRango().toString());
-				actualizarEmpleado.setFloat(3, empleadoNuevo.getSalario());
-				actualizarEmpleado.setDate(4, empleadoNuevo.getAntiguedad());
-				
-				actualizarEmpleado.setString(5, antiguo.getNif());
+								+ " ,Antiguedad = ?" + " WHERE NIF = ?");)
+				{
 
-				actualizarEmpleado.executeQuery();
+					
+					actualizarEmpleado.setString(1, nuevo.getNif());
+					actualizarEmpleado.setString(2, empleadoNuevo.getRango().toString());
+					actualizarEmpleado.setFloat(3, empleadoNuevo.getSalario());
+					actualizarEmpleado.setDate(4, empleadoNuevo.getAntiguedad());
+					
+					actualizarEmpleado.setString(5, antiguo.getNif());
+
+					actualizarEmpleado.executeQuery();	
+				}
 				
 			}else if(clienteNuevo != null)
 			{
-				PreparedStatement actualizarCliente = TiendaDatabase.getConexion()
+				try(PreparedStatement actualizarCliente = TiendaDatabase.getConexion()
 						.prepareStatement("UPDATE Cliente SET NIF = ?"
-								+ " ,Tipo = ?" + " WHERE NIF = ?");
-				
-				actualizarCliente.setString(1, nuevo.getNif());
-				actualizarCliente.setString(2, clienteNuevo.getTipoCliente().toString());
-				
-				
-				actualizarCliente.setString(3, antiguo.getNif());
-				
+								+ " ,Tipo = ?" + " WHERE NIF = ?");)
+				{
+					actualizarCliente.setString(1, nuevo.getNif());
+					actualizarCliente.setString(2, clienteNuevo.getTipoCliente().toString());
+					
+					
+					actualizarCliente.setString(3, antiguo.getNif());
+					
 
-				actualizarCliente.executeQuery();
+					actualizarCliente.executeQuery();
+				}
+				
+				
 			}
 			
 			

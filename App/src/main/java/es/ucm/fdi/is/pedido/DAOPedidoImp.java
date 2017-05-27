@@ -30,32 +30,27 @@ public class DAOPedidoImp implements DAOPedido {
 	private DAOPedidoImp() {}
 
 	public void crearPedido(Pedido pedido) throws TiendaDatabaseException {
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
-
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)")) {
 			sql.setInt(1, pedido.getId());
 			sql.setString(2, pedido.getCliente());
 			sql.setString(3, pedido.getTipoRecogida().toString());
 			sql.setInt(4, 0);
 
-			sql.executeUpdate();
-			TiendaDatabase.getConexion().close();
+			sql.execute();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
 	}
 	
 	public void meterDisco(Pedido pedido, Disco disco) throws TiendaDatabaseException {
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO DiscosPedido VALUES (?, ?)");
-			
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO DiscosPedido VALUES (?, ?)")){
+		
 			sql.setInt(1, pedido.getId());
 			sql.setString(2, disco.getTitulo());
 			
 			sql.executeUpdate();
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -64,11 +59,11 @@ public class DAOPedidoImp implements DAOPedido {
 	public boolean existeDisco(Pedido pedido, Disco disco) throws TiendaDatabaseException {
 		boolean existe = false;
 		
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT tituloDisco FROM DiscosPedido"
-							+ " JOIN Pedido ON DiscosPedido.idPedido = ? "
-							+ "WHERE DiscosPedido.tituloDisco = ?");
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+				.prepareStatement("SELECT tituloDisco FROM DiscosPedido"
+						+ " JOIN Pedido ON DiscosPedido.idPedido = ? "
+						+ "WHERE DiscosPedido.tituloDisco = ?");) {
+			
 			
 			sql.setInt(1, pedido.getId());
 			sql.setString(2, disco.getTitulo());
@@ -76,7 +71,6 @@ public class DAOPedidoImp implements DAOPedido {
 			ResultSet res = sql.executeQuery();
 			
 			existe = res.next();
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -85,15 +79,14 @@ public class DAOPedidoImp implements DAOPedido {
 	}
 	
 	public void eliminarDiscoPedido(Pedido pedido, Disco disco) throws TiendaDatabaseException {
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("DELETE FROM DiscosPedido WHERE idPedido = ? AND tituloDisco = ?");
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("DELETE FROM DiscosPedido WHERE idPedido = ? AND tituloDisco = ?");) {
+			
 			
 			sql.setInt(1, pedido.getId());
 			sql.setString(2, disco.getTitulo());
 			
 			sql.executeUpdate();
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -101,21 +94,21 @@ public class DAOPedidoImp implements DAOPedido {
 	
 
 	public void eliminarPedido(Pedido pedido) throws TiendaDatabaseException {
-		try {
-			PreparedStatement borrarDiscosPedido = TiendaDatabase.getConexion()
+		try(PreparedStatement borrarDiscosPedido = TiendaDatabase.getConexion()
 					.prepareStatement("DELETE FROM DiscosPedido WHERE idPedido = ?");
+				PreparedStatement borrar = TiendaDatabase.getConexion().prepareStatement(
+						"DELETE FROM Pedido WHERE idPedido = ?");) {
+			
 			
 			borrarDiscosPedido.setInt(1, pedido.getId());
 			
 			borrarDiscosPedido.executeUpdate();
 			
-			PreparedStatement borrar = TiendaDatabase.getConexion().prepareStatement(
-					"DELETE FROM Pedido WHERE idPedido = ?");
+			
 			
 			borrar.setInt(1, pedido.getId());
 
 			borrar.executeUpdate();
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -125,9 +118,9 @@ public class DAOPedidoImp implements DAOPedido {
 	private List<Disco> busqueda_discos(String pedido) throws TiendaDatabaseException {
 		List<Disco> discos = null;
 
-		try {
-			PreparedStatement cliente = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Pedido WHERE idPedido = " + pedido);
+		try(PreparedStatement cliente = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Pedido WHERE idPedido = " + pedido);) {
+			
 
 			ResultSet res = cliente.executeQuery();
 			DAODisco base = FactoriaIntegracion.getFactoria().generaDAODisco();
@@ -135,7 +128,6 @@ public class DAOPedidoImp implements DAOPedido {
 			while (res.next()) {
 				discos.add(base.leerDisco(res.getString(3)));
 			}
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -146,10 +138,9 @@ public class DAOPedidoImp implements DAOPedido {
 	public ArrayList<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException {
 		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 		
-		try {
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+				.prepareStatement("SELECT * FROM Pedido WHERE Pedido.NIFCliente = ?");) {
 		
-		PreparedStatement sql = TiendaDatabase.getConexion()
-				.prepareStatement("SELECT * FROM Pedido WHERE Pedido.NIFCliente = ?");
 		
 		sql.setString(1, usuario.getNif());
 		ResultSet resPedidos = sql.executeQuery();
@@ -171,11 +162,11 @@ public class DAOPedidoImp implements DAOPedido {
 						resDiscos.getFloat(9), resDiscos.getFloat(10), resDiscos.getFloat(11), null, 
 						new OfertaDisco(resDiscos.getInt(12)), resDiscos.getString(13), resDiscos.getInt(14)));
 			}
-			
+			resDiscos.close();
 			pedidos.add(new Pedido(resPedidos.getInt(1), discos, usuario.getNif(), TipoRecogida.valueOf(resPedidos.getString(3)), resPedidos.getInt(4)));
 			
 		}
-		TiendaDatabase.getConexion().close();
+		resPedidos.close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -184,15 +175,14 @@ public class DAOPedidoImp implements DAOPedido {
 	}
 	
 	public void finalizarPedido(Pedido pedido) throws TiendaDatabaseException {
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("UPDATE Pedido SET Finalizado = 1 WHERE idPedido = ?");
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("UPDATE Pedido SET Finalizado = 1 WHERE idPedido = ?");) {
+			
 			
 			sql.setInt(1, pedido.getId());
 			
 			sql.executeUpdate();
 			
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -203,9 +193,9 @@ public class DAOPedidoImp implements DAOPedido {
 	public ArrayList<Pedido> verTodosPedidosParaVentas() throws TiendaDatabaseException
 	{
 		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
-		try {
-			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Pedido WHERE Finalizado='1'");
+		try(PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Pedido WHERE Finalizado='1'");) {
+			
 			
 			ResultSet rs = sql.executeQuery();
 			while(rs.next())
@@ -213,7 +203,7 @@ public class DAOPedidoImp implements DAOPedido {
 				pedidos.add(new Pedido(rs.getInt(1),rs.getString(2),
 						TipoRecogida.valueOf(rs.getString(3))));
 			}
-			TiendaDatabase.getConexion().close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -224,9 +214,9 @@ public class DAOPedidoImp implements DAOPedido {
 	 *  	  / NO SE UTILIZA /
 	 ************************************/
 	public void addProductoPedido(Disco disco, Pedido pedido) throws TiendaDatabaseException {
-		try {
-			PreparedStatement producto = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
+		try(PreparedStatement producto = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");) {
+			
 
 			producto.setInt(1, pedido.getId());
 			producto.setString(2, pedido.getCliente());
@@ -234,7 +224,6 @@ public class DAOPedidoImp implements DAOPedido {
 			producto.setString(4, pedido.getTipoRecogida().toString());
 
 			producto.executeUpdate();
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -243,11 +232,11 @@ public class DAOPedidoImp implements DAOPedido {
 
 	public void actualizarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException {
 
-		try {
-			PreparedStatement actualizar = TiendaDatabase.getConexion()
+		try(PreparedStatement actualizar = TiendaDatabase.getConexion()
 					.prepareStatement("UPDATE Pedido SET idPedido = ?" + ",NIFCliente = ? "
 							+ ",tituloDisco = ? ,Tipo = ?"
-							+ "	WHERE idPedido = ?");
+							+ "	WHERE idPedido = ?");) {
+			
 
 			for (Disco disco : nuevo.getDiscos()) {
 				actualizar.setInt(1, nuevo.getId());
@@ -259,7 +248,6 @@ public class DAOPedidoImp implements DAOPedido {
 				
 				actualizar.executeQuery();
 			}
-			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}

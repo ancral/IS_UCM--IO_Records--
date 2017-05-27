@@ -4,6 +4,10 @@ import javax.swing.UIManager;
 
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.pedido.DAOPedido;
+import es.ucm.fdi.is.pedido.DAOPedidoImp;
+import es.ucm.fdi.is.pedido.Pedido;
+import es.ucm.fdi.is.pedido.TipoRecogida;
 import es.ucm.fdi.is.view.TiendaView;
 import es.ucm.fdi.is.view.Utilidades;
 
@@ -25,7 +29,7 @@ public class CargandoLauncher {
 			}
 			screen.setProgress("Cargando: " + i/5, i);
 		}
-		splashScreenDestruct();
+		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			public void run() {
@@ -33,6 +37,8 @@ public class CargandoLauncher {
 				TiendaView.getTiendaView();
 			}
 		});
+
+		splashScreenDestruct();
 	}
 
 	private void splashScreenDestruct() {
