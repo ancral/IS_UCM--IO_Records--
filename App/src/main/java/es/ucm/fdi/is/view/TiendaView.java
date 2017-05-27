@@ -11,11 +11,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import es.ucm.fdi.is.dao.TiendaDatabase;
+import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
@@ -106,6 +110,31 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		this.setLocationRelativeTo(null); // centra la ventana
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		this.addWindowListener(new WindowListener() {
+
+			public void windowActivated(WindowEvent arg0) {}
+
+			public void windowClosed(WindowEvent arg0) {}
+
+			public void windowClosing(WindowEvent arg0) {
+				System.out.println("Cerrando base de datos...");
+				try {
+					TiendaDatabase.cerrar();
+				} catch (TiendaDatabaseException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+			public void windowDeactivated(WindowEvent arg0) {}
+
+			public void windowDeiconified(WindowEvent arg0) {}
+
+			public void windowIconified(WindowEvent arg0) {}
+
+			public void windowOpened(WindowEvent arg0) {}
+			
+		});
 	}
 
 	public void notify(final Notificacion notificacion) {
