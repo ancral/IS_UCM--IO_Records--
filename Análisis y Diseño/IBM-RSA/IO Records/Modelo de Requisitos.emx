@@ -8531,6 +8531,7 @@
       <ownedAttribute xmi:id="__RCJUCEnEeeLl787TrceWw" name="Valoración" visibility="private"/>
       <ownedAttribute xmi:id="_DBx3ECEoEeeLl787TrceWw" name="Precio compra" visibility="private"/>
       <ownedAttribute xmi:id="_F6QgECEoEeeLl787TrceWw" name="Precio venta" visibility="private"/>
+      <ownedOperation xmi:id="_G1y2oEFmEee_3caZHKrLOw" name="Disco"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_RT-KUCEoEeeLl787TrceWw" name="Oferta">
       <ownedAttribute xmi:id="_R4OG4CEoEeeLl787TrceWw" name="Código oferta" visibility="private"/>
