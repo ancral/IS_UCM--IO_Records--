@@ -11,7 +11,17 @@ public class MenuSuperior extends JMenuBar {
 
 	private static final long serialVersionUID = 6629207966576815877L;
 	
-	public MenuSuperior(final JFrame window) {
+	private static MenuSuperior menuSuperior = null;
+	
+	public static MenuSuperior getMenuSuperior(JFrame window) {
+		if (menuSuperior == null) {
+			menuSuperior = new MenuSuperior(window);
+		}
+		
+		return menuSuperior;
+	}
+	
+	private MenuSuperior(final JFrame window) {
 		this.setBackground(new Color(76, 79, 127));
 		
 		JMenu ayuda = new JMenu("Ayuda");
@@ -42,7 +52,7 @@ public class MenuSuperior extends JMenuBar {
 		this.add(ayuda);
 	}
 	
-private class AcercaTienda extends JDialog {
+	private class AcercaTienda extends JDialog {
 		
 		private static final long serialVersionUID = -5345963891956226804L;
 		private String about1 = "Esta es una aplicación programada en Java para la asignatura de Ingeniería del Software.";

@@ -72,7 +72,7 @@ public class TiendaView extends JFrame implements TiendaObserver {
 		/* ------------------------------------------------
 		 * MENÚ SUPERIOR
 		 * ------------------------------------------------ */
-		this.setJMenuBar(new MenuSuperior(this));
+		this.setJMenuBar(MenuSuperior.getMenuSuperior(this));
 
 		/* ------------------------------------------------
 		 * TOOLBAR DE LA VENTANA
