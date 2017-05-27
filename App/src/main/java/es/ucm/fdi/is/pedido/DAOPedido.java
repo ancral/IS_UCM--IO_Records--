@@ -18,6 +18,6 @@ public interface DAOPedido {
 	public ArrayList<Pedido> verPedidosUsuario(Usuario usuario) throws TiendaDatabaseException;
 	public void addProductoPedido(Disco disco, Pedido pedido) throws TiendaDatabaseException;
 	public void actualizarPedido(Pedido antiguo, Pedido nuevo) throws TiendaDatabaseException;
-	public List<Pedido> verTodosPedidosParaVentas() throws TiendaDatabaseException;
+	public ArrayList<Pedido> verTodosPedidosParaVentas() throws TiendaDatabaseException;
 	
 }

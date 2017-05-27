@@ -158,7 +158,31 @@ public class DAOUsuarioImp implements DAOUsuario {
 		}
 
 	}
+	
+	public Usuario devolverUsuario(String id) throws TiendaDatabaseException
+	{
+		Usuario usuario = null;
+		try {
+			PreparedStatement buscarUsuario = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Usuario WHERE NIF = ?");
+			
+			buscarUsuario.setString(1, id);
 
+			ResultSet rs = buscarUsuario.executeQuery();
+			
+			if(rs.next())
+			{
+				//usuario = new Cliente();
+			}
+			
+			rs.close();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+		return usuario;
+	}
+	
 	public void actualizarUsuario(Usuario antiguo, Usuario nuevo,
 			Empleado empleadoNuevo,
 			Cliente clienteNuevo) throws TiendaDatabaseException {

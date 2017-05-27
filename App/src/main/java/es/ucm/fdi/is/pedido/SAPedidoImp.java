@@ -9,6 +9,10 @@ import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.NotificacionMensaje;
 import es.ucm.fdi.is.mvc.TiendaObserver;
+import es.ucm.fdi.is.usuario.Cliente;
+import es.ucm.fdi.is.usuario.DAOUsuario;
+import es.ucm.fdi.is.usuario.DAOUsuarioImp;
+import es.ucm.fdi.is.usuario.Empleado;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class SAPedidoImp implements SAPedido {
@@ -69,7 +73,8 @@ public class SAPedidoImp implements SAPedido {
 	public void finalizarPedido(Pedido pedido, Usuario usuario) throws TiendaDatabaseException {
 		dao.finalizarPedido(pedido);
 		pedido.setFinalizado(1);
-		dao.verPedidosUsuario(usuario).add(pedido);
+		usuario.getPedidos().add(pedido);
+		verTodosPedidosParaVentas();
 		this.notifyAll(new Notificacion(NotificacionMensaje.CARRITO_FINALIZADO, null, usuario));
 	}
 
@@ -78,16 +83,13 @@ public class SAPedidoImp implements SAPedido {
 	}
 
 	public void eliminar(Pedido pedido, Usuario usu) throws TiendaDatabaseException  {
+		dao.verPedidosUsuario(usu);
 		dao.eliminarPedido(pedido); // Se elimina de la base de datos el pedido
-		dao.verPedidosUsuario(usu).remove(pedido); // Eliminamos el pedido de la lista que mantiene el usuario
+		usu.getPedidos().remove(pedido); // Eliminamos el pedido de la lista que mantiene el usuario
+		verTodosPedidosParaVentas();
 		this.notifyAll(new Notificacion(NotificacionMensaje.PEDIDO_ELIMINADO, null, usu));
 	}
 	
-	public void eliminarDesdePanel(Pedido pedido, Usuario usu) throws TiendaDatabaseException  {
-		dao.eliminarPedido(pedido); // Se elimina de la base de datos el pedido
-		dao.verPedidosUsuario(usu).remove(pedido); // Eliminamos el pedido de la lista que mantiene el usuario
-		this.notifyAll(new Notificacion(NotificacionMensaje.CARRITO_FINALIZADO_PANEL, null, usu));
-	}
 	
 	public void addObverser(TiendaObserver observer) {
 		observers.add(observer);

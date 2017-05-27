@@ -20,5 +20,4 @@ public interface SAPedido extends TiendaObservable {
 	public void eliminar(Pedido pedido, Usuario usuario) throws TiendaDatabaseException;
 	public void notifyAll(Notificacion notificacion);
 	public void verTodosPedidosParaVentas() throws TiendaDatabaseException;
-	public void eliminarDesdePanel(Pedido pedido, Usuario usuario) throws TiendaDatabaseException;
 }

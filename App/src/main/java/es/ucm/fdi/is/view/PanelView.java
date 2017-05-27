@@ -100,7 +100,6 @@ public class PanelView extends JDialog implements TiendaObserver {
 			estadoT.add(pedidoEstado);
 			contenedor.add(estadoT);
 			
-			System.out.println(finalizado);
 			
 			JPanel estado = new JPanel(new FlowLayout());
 			estado.add(new JLabel(Utilidades.createImage("iconos/espera.png", 16, 16)));
@@ -115,8 +114,7 @@ public class PanelView extends JDialog implements TiendaObserver {
 				public void actionPerformed(ActionEvent e) {
 					aceptar.setText("Aceptado");
 					aceptar.setEnabled(false);
-					control.finalizarPedido(p, new Cliente(p.getCliente()));
-					control.eliminarPedidoPanel(p, new Cliente(p.getCliente()));
+					//control.eliminarPedido(p, p.ge);
 					setFinal(true);
 				}
 			});
@@ -234,7 +232,6 @@ public class PanelView extends JDialog implements TiendaObserver {
 		
 		this.contenedorPedidos.removeAll();
 		this.contenedorPedidos.repaint();
-		this.contenedorPedidos.revalidate();
 		
 		GridLayout pedidosLy = new GridLayout(2, 3, 20, 20);
 		this.contenedorPedidos.setLayout(pedidosLy);
@@ -245,8 +242,6 @@ public class PanelView extends JDialog implements TiendaObserver {
 		while(it.hasNext()){
 			Pedido p = (Pedido) it.next();
 			this.contenedorPedidos.add(new Pedidos(p));
-
-			this.contenedorPedidos.repaint();
 		}
 	}
 	
@@ -254,7 +249,7 @@ public class PanelView extends JDialog implements TiendaObserver {
 	
 	public void notify(Notificacion notificacion) {
 		switch (notificacion.getNotificacion()) {
-
+		case CARRITO_FINALIZADO:
 		case LEER_TODOSPEDIDOS:
 			insertar(notificacion.getDiscosOpedido());
 			this.pack();

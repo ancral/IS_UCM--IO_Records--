@@ -31,14 +31,16 @@ public class DAOPedidoImp implements DAOPedido {
 
 	public void crearPedido(Pedido pedido) throws TiendaDatabaseException {
 		try {
-			PreparedStatement sql = TiendaDatabase.getConexion().prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
+			PreparedStatement sql = TiendaDatabase.getConexion()
+					.prepareStatement("INSERT INTO Pedido VALUES (?,?,?,?)");
 
 			sql.setInt(1, pedido.getId());
 			sql.setString(2, pedido.getCliente());
 			sql.setString(3, pedido.getTipoRecogida().toString());
-			sql.setInt(4, pedido.getFinalizado());
+			sql.setInt(4, 0);
 
 			sql.executeUpdate();
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -53,7 +55,7 @@ public class DAOPedidoImp implements DAOPedido {
 			sql.setString(2, disco.getTitulo());
 			
 			sql.executeUpdate();
-			
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -74,7 +76,7 @@ public class DAOPedidoImp implements DAOPedido {
 			ResultSet res = sql.executeQuery();
 			
 			existe = res.next();
-			
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -91,7 +93,7 @@ public class DAOPedidoImp implements DAOPedido {
 			sql.setString(2, disco.getTitulo());
 			
 			sql.executeUpdate();
-			
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -113,6 +115,7 @@ public class DAOPedidoImp implements DAOPedido {
 			borrar.setInt(1, pedido.getId());
 
 			borrar.executeUpdate();
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -132,7 +135,7 @@ public class DAOPedidoImp implements DAOPedido {
 			while (res.next()) {
 				discos.add(base.leerDisco(res.getString(3)));
 			}
-
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -172,9 +175,9 @@ public class DAOPedidoImp implements DAOPedido {
 			pedidos.add(new Pedido(resPedidos.getInt(1), discos, usuario.getNif(), TipoRecogida.valueOf(resPedidos.getString(3)), resPedidos.getInt(4)));
 			
 		}
-		
+		TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
-			
+			throw new TiendaDatabaseException(e.getMessage());
 		}
 	
 		return pedidos;
@@ -187,7 +190,9 @@ public class DAOPedidoImp implements DAOPedido {
 			
 			sql.setInt(1, pedido.getId());
 			
-			sql.executeUpdate();			
+			sql.executeUpdate();
+			
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -195,12 +200,12 @@ public class DAOPedidoImp implements DAOPedido {
 		
 	}
 	
-	public List<Pedido> verTodosPedidosParaVentas() throws TiendaDatabaseException
+	public ArrayList<Pedido> verTodosPedidosParaVentas() throws TiendaDatabaseException
 	{
-		List<Pedido> pedidos = new ArrayList<Pedido>();
+		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
 		try {
 			PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Pedido WHERE Finalizado='0'");
+					.prepareStatement("SELECT * FROM Pedido WHERE Finalizado='1'");
 			
 			ResultSet rs = sql.executeQuery();
 			while(rs.next())
@@ -208,6 +213,7 @@ public class DAOPedidoImp implements DAOPedido {
 				pedidos.add(new Pedido(rs.getInt(1),rs.getString(2),
 						TipoRecogida.valueOf(rs.getString(3))));
 			}
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -228,6 +234,7 @@ public class DAOPedidoImp implements DAOPedido {
 			producto.setString(4, pedido.getTipoRecogida().toString());
 
 			producto.executeUpdate();
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
@@ -252,6 +259,7 @@ public class DAOPedidoImp implements DAOPedido {
 				
 				actualizar.executeQuery();
 			}
+			TiendaDatabase.getConexion().close();
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}

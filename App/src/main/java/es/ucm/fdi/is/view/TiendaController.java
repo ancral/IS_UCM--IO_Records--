@@ -107,13 +107,6 @@ public class TiendaController {
 		}
 	}
 	
-	public void eliminarPedidoPanel(Pedido ped, Usuario usu) {
-		try {
-			pedido.eliminarDesdePanel(ped, usu);
-		} catch (TiendaDatabaseException e) {
-			System.out.println(e.getMessage());
-		}
-	}
 	
 	public void addObserver(TiendaObserver observer) {
 		disco.addObverser(observer);

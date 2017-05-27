@@ -50,6 +50,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	private JLabel precioDisco;
 	
 	private static DiscoController discoController = DiscoController.getDiscoController();
+	private static TiendaController control = TiendaController.getTiendaController();
 	
 	private DiscoView(TiendaView view, CatalogoDiscos catalogo, Disco disco) {
 		super("I/O Records > Ventana de disco");
