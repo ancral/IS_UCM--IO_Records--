@@ -31,9 +31,6 @@ public class DiscoView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = -5306391966978836217L;
 	
-	
-	private static DiscoView discoView = null;
-	
 	/**
 	 * Referencia a la vista del catálogo para poder hacerlo visible al
 	 * accionar el botón de regresar
@@ -51,7 +48,7 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	
 	private static DiscoController discoController = DiscoController.getDiscoController();
 	
-	private DiscoView(TiendaView view, CatalogoDiscos catalogo, Disco disco) {
+	public DiscoView(TiendaView view, CatalogoDiscos catalogo, Disco disco) {
 		super("I/O Records > Ventana de disco");
 		this.tiendaView = view;
 		this.disco = disco;
@@ -59,10 +56,6 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		discoController.addObserver(catalogo);
 
 		initGUI();
-	}
-	
-	public static DiscoView getDiscoView(TiendaView view, CatalogoDiscos catalogo, Disco disco) {
-		return new DiscoView(view, catalogo, disco);
 	}
 	
 	private void initGUI() {
@@ -110,10 +103,15 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		modificar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (DiscoView.this.tiendaView.usuarioSesion == null)
+				if (DiscoView.this.tiendaView.usuarioSesion == null) {
 					LoginView.getLoginView().setVisible(true);
-				else
+				}
+				else if (DiscoView.this.tiendaView.usuarioSesion.isEmpleado()){
 					new ModificarDisco();
+				}
+				else {
+					mostrarMensajeError();
+				}
 			}
 			
 		});
@@ -124,6 +122,24 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		// ----------------------------------------------
 		JButton descatalogar = new JButton(Utilidades.createImage("iconos/borrar.png", 32, 32));
 		descatalogar.setToolTipText("Descatalogar disco del catálogo");
+		
+		descatalogar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (DiscoView.this.tiendaView.usuarioSesion == null) {
+					LoginView.getLoginView().setVisible(true);
+				}
+				else if (DiscoView.this.tiendaView.usuarioSesion.isEmpleado()){
+					// TODO: Implementar descatalogar disco
+				}
+				else {
+					mostrarMensajeError();
+				}
+			}
+			
+		});
+		
 		botonesLine.add(descatalogar);
 		
 		// BOTÓN PARA PONER OFERTA
@@ -134,14 +150,18 @@ public class DiscoView extends JFrame implements TiendaObserver {
 		oferta.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (DiscoView.this.tiendaView.usuarioSesion == null)
+				if (DiscoView.this.tiendaView.usuarioSesion == null) {
 					LoginView.getLoginView().setVisible(true);
-				else {
+				}
+				else if (DiscoView.this.tiendaView.usuarioSesion.isEmpleado()){
 					String ofertaIn = 
 							JOptionPane.showInputDialog(DiscoView.this, 
 									"Introduce la oferta para este disco", "Añadir oferta a disco",
 									JOptionPane.QUESTION_MESSAGE);
 					System.out.println(ofertaIn); // TODO: test
+				}
+				else {
+					mostrarMensajeError();
 				}
 			}
 			
@@ -593,6 +613,11 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			this.setVisible(true);
 			
 		}
+	}
+	
+	private void mostrarMensajeError() {
+		JOptionPane.showMessageDialog(DiscoView.this, "Con tu cuenta de cliente no puedes hacer uso de esta función"
+				, "Privilegios insuficientes", JOptionPane.ERROR_MESSAGE);
 	}
 
 }

@@ -44,6 +44,7 @@ public class DAOUsuarioImp implements DAOUsuario {
 				usuarioSesion.setNombre(res.getString(3));
 				usuarioSesion.setDireccion(res.getString(4));
 				usuarioSesion.setFechaNacimiento(res.getDate(5));
+				usuarioSesion.setTipo(TipoUsuario.valueOf(res.getString(6).toUpperCase()));
 				
 				res.close();
 				

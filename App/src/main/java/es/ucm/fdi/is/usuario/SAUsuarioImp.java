@@ -47,6 +47,8 @@ public class SAUsuarioImp implements SAUsuario {
 	
 	public void asignarNuevoId(Usuario usuario) throws TiendaDatabaseException {
 		dao.nuevoIdPedidoUsuario(usuario);
+		/* Creamos el pedido en la base de datos */
+		daoPedido.crearPedido(usuario.getPedido());
 		this.notifyAll(new Notificacion(NotificacionMensaje.NUEVO_ID_PEDIDO, null, usuario));
 	}
 

@@ -7,9 +7,10 @@ import es.ucm.fdi.is.disco.SADisco;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.pedido.Pedido;
 import es.ucm.fdi.is.pedido.SAPedido;
-import es.ucm.fdi.is.usuario.Empleado;
 import es.ucm.fdi.is.usuario.SAUsuario;
 import es.ucm.fdi.is.usuario.Usuario;
+import es.ucm.fdi.is.venta.SAVenta;
+import es.ucm.fdi.is.venta.Venta;
 
 public class TiendaController {
 	
@@ -20,6 +21,7 @@ public class TiendaController {
 	private static SADisco disco = FactoriaSA.getFactoria().generaSADisco();
 	private static SAPedido pedido = FactoriaSA.getFactoria().generaSAPedido();
 	private static SAUsuario usuario = FactoriaSA.getFactoria().generaSAUsuario();
+	private static SAVenta venta = FactoriaSA.getFactoria().generaSAVenta();
 	
 	public static TiendaController getTiendaController() {
 		if (tiendaController == null)
@@ -102,6 +104,14 @@ public class TiendaController {
 	public void eliminarPedido(Pedido ped, Usuario usu) {
 		try {
 			pedido.eliminar(ped, usu);
+		} catch (TiendaDatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void aceptarVenta(Venta ven, Pedido ped) {
+		try {
+			venta.aceptarVentaPedido(ven, ped);
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}

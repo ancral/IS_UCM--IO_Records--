@@ -13,7 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -23,7 +22,6 @@ import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
-import es.ucm.fdi.is.pedido.Pedido;
 import es.ucm.fdi.is.usuario.Usuario;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -34,6 +32,7 @@ import tray.notification.NotificationType;
 import tray.notification.TrayNotification;
 
 
+@SuppressWarnings("restriction")
 public class TiendaView extends JFrame implements TiendaObserver {
 
 	private static final long serialVersionUID = 5963169495489228054L;
@@ -258,10 +257,16 @@ public class TiendaView extends JFrame implements TiendaObserver {
 					 * Para acceder al panel hay que iniciar sesión
 					 */
 					
-					if (TiendaView.this.usuarioSesion == null)
+					if (TiendaView.this.usuarioSesion == null) {
 						LoginView.getLoginView().setVisible(true);
-					else
+					}
+					else if (TiendaView.this.usuarioSesion.isEmpleado()) {
 						PanelView.getPanelView(TiendaView.this).setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(TiendaView.this, "Con tu cuenta de cliente no puedes acceder al panel del empleado"
+								, "Privilegios insuficientes", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 			});

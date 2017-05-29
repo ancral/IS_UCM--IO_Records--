@@ -9,10 +9,6 @@ import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.NotificacionMensaje;
 import es.ucm.fdi.is.mvc.TiendaObserver;
-import es.ucm.fdi.is.usuario.Cliente;
-import es.ucm.fdi.is.usuario.DAOUsuario;
-import es.ucm.fdi.is.usuario.DAOUsuarioImp;
-import es.ucm.fdi.is.usuario.Empleado;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class SAPedidoImp implements SAPedido {

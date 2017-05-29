@@ -9,7 +9,6 @@ import java.util.List;
 import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabase;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
-
 import es.ucm.fdi.is.disco.DAODisco;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
@@ -193,20 +192,43 @@ public class DAOPedidoImp implements DAOPedido {
 	public ArrayList<Pedido> verTodosPedidosParaVentas() throws TiendaDatabaseException
 	{
 		ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
-		try(PreparedStatement sql = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Pedido WHERE Finalizado='1'");) {
+		ArrayList<Disco> discos = new ArrayList<Disco>();
+		
+		try (PreparedStatement sqlPedidos = TiendaDatabase.getConexion()
+				.prepareStatement("SELECT * FROM Pedido WHERE Finalizado = '1'")) {
 			
+			ResultSet resPedidos = sqlPedidos.executeQuery();
 			
-			ResultSet rs = sql.executeQuery();
-			while(rs.next())
-			{
-				pedidos.add(new Pedido(rs.getInt(1),rs.getString(2),
-						TipoRecogida.valueOf(rs.getString(3))));
+			/* Leemos todos los pedidos finalizados */
+			while (resPedidos.next()) {
+				
+				try (PreparedStatement sqlDiscos = TiendaDatabase.getConexion()
+						.prepareStatement("SELECT * FROM DiscosPedido WHERE idPedido = ?")) {
+					
+					sqlDiscos.setInt(1, resPedidos.getInt(1));
+					
+					ResultSet resDiscos = sqlDiscos.executeQuery();
+								
+					/* Leemos todos los discos de ese pedido */
+					while (resDiscos.next()) {
+						discos.add(FactoriaIntegracion.getFactoria()
+								.generaDAODisco().leerDisco(resDiscos.getString(2)));
+					}
+					
+					resDiscos.close();
+				}
+				
+				pedidos.add(new Pedido(resPedidos.getInt(1), discos, resPedidos.getString(2)
+						, TipoRecogida.valueOf(resPedidos.getString(3).toUpperCase())
+						, resPedidos.getInt(4)));
 			}
-			rs.close();
-		} catch (SQLException e) {
+			
+			resPedidos.close();
+			
+		} catch(SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
+		
 		return pedidos;
 	}
 	

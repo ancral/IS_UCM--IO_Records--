@@ -2,8 +2,6 @@ package es.ucm.fdi.is.mvc;
 
 import java.util.ArrayList;
 
-import es.ucm.fdi.is.disco.Disco;
-import es.ucm.fdi.is.pedido.Pedido;
 import es.ucm.fdi.is.usuario.Usuario;
 
 public class Notificacion {

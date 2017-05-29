@@ -20,7 +20,8 @@ public enum NotificacionMensaje {
 	BORRADO_CARRITO,
 	CARRITO_FINALIZADO,
 	NUEVO_ID_PEDIDO,
-	PEDIDO_ELIMINADO;
+	PEDIDO_ELIMINADO,
+	NUEVA_VENTA;
 	
 	private String mensaje;
 	

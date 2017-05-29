@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.is.disco.Disco;
-import es.ucm.fdi.is.usuario.Usuario;
+import es.ucm.fdi.is.view.Utilidades;
 
 public class Pedido {
 	
@@ -69,8 +69,13 @@ public class Pedido {
 	}
 	
 	public Float precioTotal() {
-		return null;
-		// TODO: Implementar
+		Float precio = new Float(0);
+		
+		for (Disco disco : this.discos) {
+			precio += disco.getPrecioVenta();
+		}
+		
+		return Utilidades.round(precio, 2); // Redondeamos a dos decimales
 	}
 
 }

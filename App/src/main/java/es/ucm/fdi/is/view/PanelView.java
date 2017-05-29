@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,26 +19,28 @@ import es.ucm.fdi.is.disco.Valoracion;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.pedido.Pedido;
-import es.ucm.fdi.is.pedido.TipoRecogida;
-import es.ucm.fdi.is.usuario.Cliente;
-import es.ucm.fdi.is.usuario.Usuario;
+import es.ucm.fdi.is.venta.Venta;
 
 public class PanelView extends JDialog implements TiendaObserver {
 
 	private static final long serialVersionUID = -1880613885872636597L;
+	
 	private static TiendaController control = TiendaController.getTiendaController();
 	private static PanelView panelView = null;
+	private TiendaView tiendaView;
 	private JPanel contenedorPedidos = new JPanel();
 	
-	public static PanelView getPanelView(JFrame window){
+	public static PanelView getPanelView(TiendaView tiendaView){
 		if (panelView == null)
-			panelView = new PanelView(window);
+			panelView = new PanelView(tiendaView);
 		
 		return panelView;
 	}
 
-	private PanelView(JFrame window) {
-		super(window, "Panel del empleado", true);
+	private PanelView(TiendaView tiendaView) {
+		super(tiendaView, "Panel del empleado", true);
+		
+		this.tiendaView = tiendaView;
 		
 		control.addObserver(this);
 		control.buscarTodosPedidos();
@@ -114,7 +117,12 @@ public class PanelView extends JDialog implements TiendaObserver {
 				public void actionPerformed(ActionEvent e) {
 					aceptar.setText("Aceptado");
 					aceptar.setEnabled(false);
-					//control.eliminarPedido(p, p.ge);
+					
+					/* Creamos la venta */
+					Venta ven = new Venta(p.getId(), PanelView.this.tiendaView.usuarioSesion, p.precioTotal()
+							, p.getId(), new Date(11/11/1111));
+					
+					control.aceptarVenta(ven, p);
 					setFinal(true);
 				}
 			});
@@ -249,7 +257,6 @@ public class PanelView extends JDialog implements TiendaObserver {
 	
 	public void notify(Notificacion notificacion) {
 		switch (notificacion.getNotificacion()) {
-		case CARRITO_FINALIZADO:
 		case LEER_TODOSPEDIDOS:
 			insertar(notificacion.getDiscosOpedido());
 			this.pack();

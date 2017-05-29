@@ -125,6 +125,7 @@ public class CarritoView extends JDialog implements TiendaObserver {
 							, "Error al finalizar pedido", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
+					System.out.println("Precio pedido " + pedido.precioTotal());
 					tiendaController.finalizarPedido(CarritoView.this.pedido, tiendaView.usuarioSesion);
 				}
 				CarritoView.this.setVisible(false); // Ocultamos la ventana

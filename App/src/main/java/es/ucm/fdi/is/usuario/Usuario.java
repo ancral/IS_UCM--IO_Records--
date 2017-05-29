@@ -27,9 +27,13 @@ public abstract class Usuario {
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.fechaNacimiento = fechaNacimiento;
-		this.tipo = (this.tipo != null) ? TipoUsuario.CLIENTE_EMPLEADO : tipo;
+		this.tipo = tipo;
 		this.pedidos = pedidos;
 		this.pedidoActual = pedidoActual;
+	}
+	
+	public boolean isEmpleado() {
+		return this.tipo == TipoUsuario.EMPLEADO;
 	}
 	
 	public String getNif() {

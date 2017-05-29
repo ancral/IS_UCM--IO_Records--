@@ -23,16 +23,16 @@ public class DAOVentaImp implements DAOVenta {
 
 	public void crearVenta(Venta venta) throws TiendaDatabaseException {
 		try(PreparedStatement crearVenta = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Venta (?,?,?,?,?)");) {
+					.prepareStatement("INSERT INTO Venta VALUES (?,?,?,?,?)");) {
 			
 			
-			crearVenta.setString(1, venta.getId());
+			crearVenta.setInt(1, venta.getId());
 			crearVenta.setDate(2, venta.getFecha());
-			crearVenta.setString(3, venta.getIdPedido());
+			crearVenta.setInt(3, venta.getIdPedido());
 			crearVenta.setString(4, venta.getEmpleado().getNif());
-			crearVenta.setFloat(5, venta.calcularPrecio());
+			crearVenta.setFloat(5, venta.getPrecio());
 			
-			crearVenta.executeQuery();
+			crearVenta.executeUpdate();
 			
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
@@ -47,13 +47,13 @@ public class DAOVentaImp implements DAOVenta {
 							+ "PrecioTotal = ? WHERE idVenta = ?");) {
 			
 			
-			actualizarVenta.setString(1, nueva.getId());
+			actualizarVenta.setInt(1, nueva.getId());
 			actualizarVenta.setDate(2, nueva.getFecha());
-			actualizarVenta.setString(3, nueva.getIdPedido());
+			actualizarVenta.setInt(3, nueva.getIdPedido());
 			actualizarVenta.setString(4, nueva.getEmpleado().getNif());
-			actualizarVenta.setFloat(5, nueva.calcularPrecio());
+			actualizarVenta.setFloat(5, nueva.getPrecio());
 			
-			actualizarVenta.setString(6, antigua.getId());
+			actualizarVenta.setInt(6, antigua.getId());
 			
 			actualizarVenta.executeQuery();
 			
@@ -67,7 +67,7 @@ public class DAOVentaImp implements DAOVenta {
 					.prepareStatement("DELETE FROM Venta WHERE idVenta = ?");) {
 			
 			
-			borrarVenta.setString(1, venta.getId());
+			borrarVenta.setInt(1, venta.getId());
 			
 			borrarVenta.executeQuery();
 			
@@ -88,8 +88,8 @@ public class DAOVentaImp implements DAOVenta {
 			ResultSet res = verVenta.executeQuery();
 			
 			while(res.next()){
-				verVentas.add(new Venta(res.getString(1), new Empleado(res.getString(4)),
-						res.getFloat(5), res.getString(3), res.getDate(2)));	
+				verVentas.add(new Venta(res.getInt(1), new Empleado(res.getString(4)),
+						res.getFloat(5), res.getInt(3), res.getDate(2)));	
 			}
 			res.close();
 		} catch (SQLException e) {

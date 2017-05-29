@@ -2,18 +2,18 @@ package es.ucm.fdi.is.venta;
 
 import java.sql.Date;
 
-import es.ucm.fdi.is.usuario.Empleado;
+import es.ucm.fdi.is.usuario.Usuario;
 
 public class Venta {
 	
-	private String identificador;
-	private Empleado empleado;
+	private int identificador;
+	private Usuario empleado;
 	private Float precioTotal;
-	private String idPedido;
+	private int idPedido;
 	private Date fechaVenta;
 	
-	public Venta(String identificador, Empleado empleado, Float precioTotal
-			, String idPedido, Date fechaVenta) {
+	public Venta(int identificador, Usuario empleado, Float precioTotal
+			, int idPedido, Date fechaVenta) {
 		this.identificador = identificador;
 		this.empleado = empleado;
 		this.precioTotal = precioTotal;
@@ -21,7 +21,7 @@ public class Venta {
 		this.fechaVenta = fechaVenta;
 	}
 	
-	public String getId() {
+	public int getId() {
 		return this.identificador;
 	}
 	
@@ -30,18 +30,17 @@ public class Venta {
 		return this.fechaVenta;
 	}
 	
-	public String getIdPedido()
+	public int getIdPedido()
 	{
 		return this.idPedido;
 	}
 	
-	public Empleado getEmpleado() {
+	public Usuario getEmpleado() {
 		return this.empleado;
 	}
 	
-	public Float calcularPrecio() {
+	public Float getPrecio() {
 		return this.precioTotal;
-		// TODO: Implementar
 	}
 
 }
