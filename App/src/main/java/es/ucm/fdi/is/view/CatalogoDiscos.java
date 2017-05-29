@@ -22,6 +22,8 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 	private static CatalogoDiscos catalogoDiscos = null;
 
 	private static TiendaController control = TiendaController.getTiendaController();
+	private static DiscoController discoControl = DiscoController.getDiscoController();
+	
 	private TiendaView tienda;
 	private JPanel catalogo;
 
@@ -38,6 +40,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 	private CatalogoDiscos(TiendaView tienda) {
 		this.tienda = tienda;
 		control.addObserver(this);
+		discoControl.addObserver(this);
 
 		catalogo = new JPanel();
 		tamanyoCatalogo = 0;
@@ -128,6 +131,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 			break;
 			
 		case DISCO_ACTUALIZADO:
+		case DISCO_CREADO:
 			TiendaController.getTiendaController().leerTodoCatalogo();
 			break;
 

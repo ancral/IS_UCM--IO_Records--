@@ -1,7 +1,9 @@
 package es.ucm.fdi.is.view;
 
 import es.ucm.fdi.is.appservice.FactoriaSA;
+import es.ucm.fdi.is.dao.FactoriaIntegracion;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
+import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.usuario.SAUsuario;
 
@@ -31,6 +33,10 @@ public class LoginController {
 			 */
 			
 			modelo.iniciarSesion(usuario, claveString);
+			
+			if (FactoriaIntegracion.getFactoria().generaDAODisco().existeDisco(new Disco("Lemgonade")))
+				System.out.println("Existe");
+				
 			
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());

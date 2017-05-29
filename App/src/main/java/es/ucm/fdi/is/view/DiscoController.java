@@ -27,6 +27,14 @@ public class DiscoController {
 	private DiscoController() {}
 	
 	
+	public void crearDisco(Disco dis) {
+		try {
+			disco.crearDisco(dis);
+		} catch (TiendaDatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+		
 	/**
 	 * Actualiza un disco antiguo por uno nuevo dado
 	 * 

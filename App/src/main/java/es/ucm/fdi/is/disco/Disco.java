@@ -1,6 +1,6 @@
 package es.ucm.fdi.is.disco;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class Disco {

@@ -25,15 +25,15 @@ public class DAODiscoImp implements DAODisco {
 	}
 
 	public void crearDisco(Disco disco) throws TiendaDatabaseException {
-		// TODO Auto-generated method stub
+		
 		try (PreparedStatement sql = TiendaDatabase.getConexion()
-				.prepareStatement("INSERT OR IGNORE INTO Disco (?,?,?,?,?,?,?,?,?,?,?,?)");
+				.prepareStatement("INSERT OR IGNORE INTO Disco VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 				PreparedStatement sqlCanciones = TiendaDatabase.getConexion()
-						.prepareStatement("INSERT OR IGNORE INTO ListaCanciones (?,?)");) {
+						.prepareStatement("INSERT OR IGNORE INTO ListaCanciones VALUES (?,?)");) {
 
 			sql.setString(1, disco.getTitulo());
 			sql.setString(2, disco.getAutor());
-			sql.setDate(3, (Date) disco.getFechaSalida());
+			sql.setDate(3, disco.getFechaSalida());
 			sql.setString(4, disco.getSello());
 			sql.setString(5, disco.getGenero().toString());
 			sql.setInt(6, disco.getDuracion());
@@ -46,12 +46,13 @@ public class DAODiscoImp implements DAODisco {
 
 			for (Cancion c : disco.getListaCanciones()) {
 				sqlCanciones.setString(1, disco.getTitulo());
-				sqlCanciones.setString(3, c.toString());
+				sqlCanciones.setString(2, c.toString());
+				sqlCanciones.executeUpdate();
 			}
 
-			sql.executeQuery();
+			sql.executeUpdate();
 		} catch (SQLException e) {
-
+			throw new TiendaDatabaseException(e.getMessage());
 		}
 	}
 
@@ -273,22 +274,25 @@ public class DAODiscoImp implements DAODisco {
 
 		boolean existir = false;
 
-		try(PreparedStatement existe = TiendaDatabase.getConexion()
-					.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");) {
-
+		try {
+			PreparedStatement existe = TiendaDatabase.getConexion()
+					.prepareStatement("SELECT * FROM Disco WHERE Titulo = ?");
 			
-
-			existe.setString(1, disco.getTitulo().toLowerCase());
+			existe.setString(1, disco.getTitulo());
 
 			ResultSet res = existe.executeQuery();
 
-			existir = res.first();
+			if (res.next()) {
+				existir = true;
+			}
 			
 			res.close();
+			existe.close();
+			
 		} catch (SQLException e) {
 			throw new TiendaDatabaseException(e.getMessage());
 		}
-
+		
 		return existir;
 	}
 
