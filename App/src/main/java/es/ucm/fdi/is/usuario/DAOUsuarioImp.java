@@ -90,18 +90,19 @@ public class DAOUsuarioImp implements DAOUsuario {
 
 	public void crearUsuario(Usuario usuario, Empleado empleado, Cliente cliente) throws TiendaDatabaseException {
 		try(PreparedStatement crearUsuario = TiendaDatabase.getConexion()
-					.prepareStatement("INSERT INTO Usuario (?,?,?,?,?)");) {
+					.prepareStatement("INSERT INTO Usuario VALUES (?,?,?,?,?,?)");) {
 			
 			crearUsuario.setString(1, usuario.getNif());
 			crearUsuario.setString(2, usuario.getClave());
 			crearUsuario.setString(3, usuario.getNombre());
 			crearUsuario.setString(4, usuario.getDireccion());
 			crearUsuario.setDate(5, usuario.getFechaNacimiento());
-
-			crearUsuario.executeQuery();
+			crearUsuario.setString(6, usuario.getTipo().toString());
+			
+			crearUsuario.executeUpdate();
 			if (empleado != null) {
 				try(PreparedStatement crearEmpleado = TiendaDatabase.getConexion()
-						.prepareStatement("INSERT INTO Empleado (?,?,?,?)");)
+						.prepareStatement("INSERT INTO Empleado VALUES (?,?,?,?)");)
 				{
 
 					crearEmpleado.setString(1, usuario.getNif());
@@ -109,18 +110,18 @@ public class DAOUsuarioImp implements DAOUsuario {
 					crearEmpleado.setFloat(3, empleado.getSalario());
 					crearEmpleado.setDate(4, empleado.getAntiguedad());
 
-					crearEmpleado.executeQuery();
+					crearEmpleado.executeUpdate();
 				}
 
 			} else if (cliente != null) {
 				try(PreparedStatement creaCliente = TiendaDatabase.getConexion()
-						.prepareStatement("INSERT INTO Empleado (?,?)");)
+						.prepareStatement("INSERT INTO Cliente VALUES (?,?)");)
 				{
 
 					creaCliente.setString(1, usuario.getNif());
 					creaCliente.setString(2, cliente.getTipoCliente().toString());
 
-					creaCliente.executeQuery();
+					creaCliente.executeUpdate();
 				}
 			}
 

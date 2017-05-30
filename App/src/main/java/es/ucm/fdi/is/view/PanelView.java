@@ -8,11 +8,16 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import javax.swing.*;
@@ -25,6 +30,12 @@ import es.ucm.fdi.is.disco.Valoracion;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.pedido.Pedido;
+import es.ucm.fdi.is.usuario.Cliente;
+import es.ucm.fdi.is.usuario.Empleado;
+import es.ucm.fdi.is.usuario.RangoEmpleado;
+import es.ucm.fdi.is.usuario.TipoCliente;
+import es.ucm.fdi.is.usuario.TipoUsuario;
+import es.ucm.fdi.is.usuario.Usuario;
 import es.ucm.fdi.is.venta.Venta;
 
 public class PanelView extends JDialog implements TiendaObserver {
@@ -33,6 +44,7 @@ public class PanelView extends JDialog implements TiendaObserver {
 
 	private static TiendaController control = TiendaController.getTiendaController();
 	private static DiscoController discoControl = DiscoController.getDiscoController();
+	private static UsuarioController usuarioControl = UsuarioController.getDiscoController();
 
 	private static PanelView panelView = null;
 	private TiendaView tiendaView;
@@ -70,7 +82,8 @@ public class PanelView extends JDialog implements TiendaObserver {
 
 		tabs.addTab("Pedidos pendientes", Utilidades.createImage("iconos/pedidos.png", 32, 32), contenedorPedidos);
 		tabs.addTab("Añadir disco", Utilidades.createImage("iconos/categorias.png", 32, 32), new InsertarDisco());
-
+		tabs.addTab("Crear usuario", Utilidades.createImage("iconos/adduser.png", 32, 32),new CrearUsuario());
+		
 		this.setContentPane(contenedor);
 		this.pack();
 		this.setResizable(false);
@@ -129,7 +142,7 @@ public class PanelView extends JDialog implements TiendaObserver {
 
 					/* Creamos la venta */
 					Venta ven = new Venta(p.getId(), PanelView.this.tiendaView.usuarioSesion, p.precioTotal()
-							, p.getId(), new Date(11/11/1111));
+							, p.getId(), new Date(Calendar.getInstance().getTime().getTime()));
 
 					control.aceptarVenta(ven, p);
 					setFinal(true);
@@ -145,7 +158,161 @@ public class PanelView extends JDialog implements TiendaObserver {
 			this.finalizado = f;
 		}
 	}
+	private class CrearUsuario extends JPanel {
 
+		private static final long serialVersionUID = -4801841185819443964L;
+
+		public CrearUsuario() {
+			BoxLayout contenedorLy = new BoxLayout(this, BoxLayout.Y_AXIS);
+			this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+			this.setLayout(contenedorLy);
+
+			JPanel modificar = new JPanel();
+			FlowLayout modificarLy = new FlowLayout();
+			modificar.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+			modificar.setLayout(modificarLy);
+
+			
+			JPanel panel = new JPanel();
+			panel.setBorder(BorderFactory.createTitledBorder("Crear nuevo usuario"));
+			BoxLayout panelLY = new BoxLayout(panel, BoxLayout.Y_AXIS);
+			panel.setLayout(panelLY);
+
+			JPanel id = new JPanel(new FlowLayout());
+			id.add(new JLabel("ID: "));
+			final JTextField idF = new JTextField(30);
+			id.add(idF);
+
+			panel.add(id);
+
+			JPanel nombre = new JPanel(new FlowLayout());
+			nombre.add(new JLabel("Nombre: "));
+			final JTextField nombreF = new JTextField(15);
+			nombre.add(nombreF);
+
+			panel.add(nombre);
+
+
+			JPanel direccion = new JPanel(new FlowLayout());
+			direccion.add(new JLabel("Direccion: "));
+			final JTextField direccionF = new JTextField(15);
+			direccion.add(direccionF);
+
+			panel.add(direccion);
+
+			JPanel fecha = new JPanel(new FlowLayout());
+			fecha.add(new JLabel("Fecha de nacimiento: "));
+			final JTextField fechaF = new JTextField(10);
+			fecha.add(fechaF);
+			fecha.add(new JLabel("AAAA-MM-DD"));
+
+			panel.add(fecha);
+			
+
+			JPanel tipo = new JPanel(new FlowLayout());
+			tipo.add(new JLabel("Tipo usuario: "));
+			final JComboBox<TipoUsuario> tipoComboBox = new JComboBox<TipoUsuario>(TipoUsuario.values());
+			tipo.add(tipoComboBox);
+
+			panel.add(tipo);
+
+			modificar.add(panel);
+
+			this.add(modificar);
+
+			JPanel guardarPan = new JPanel();
+			JButton crear = new JButton("Crear", Utilidades.createImage("iconos/save.png", 18, 18));
+
+			crear.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent arg0) {
+
+					try {
+
+						String id = idF.getText();
+						String nombre = nombreF.getText();
+						String fecha = fechaF.getText();
+						String direccion = direccionF.getText();
+						TipoUsuario tipo = TipoUsuario.valueOf(tipoComboBox.getSelectedItem().toString().toUpperCase());
+						
+
+						if (id.isEmpty() || nombre.isEmpty() || fecha.isEmpty() || direccion.isEmpty()) {
+							JOptionPane.showMessageDialog(PanelView.this, "¡No puedes dejar campos vacíos!"
+									, "Error al crear un nuevo usuario", JOptionPane.ERROR_MESSAGE);
+						}
+
+						else {
+
+
+							DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+							Date fechaDate = new Date(formato.parse(fecha).getTime());
+							Usuario nuevoUsuario = null;
+							
+							///-------------------------------------------
+							
+							
+							if(tipo.toString().equalsIgnoreCase("Cliente"))
+							{
+								//Un nuevo cliente tendra como TipoCliente: nuevo
+								
+								nuevoUsuario =  new Cliente(id, (new Generador().next()), nombre,
+										direccion, fechaDate, TipoCliente.NUEVO, new ArrayList<Pedido>(), null);
+								
+							}else if (tipo.toString().equalsIgnoreCase("Empleado"))
+							{
+								//Un nuevo empleado empieza como tecnico en la empresa
+								
+								//Al registrar un nuevo empleado, no se le pone un salario. Eso se ajustaria despues del registro
+								
+								//La fecha de antiguedad empezara desde el momento en que se registre este empleado
+								
+								Date fechaActual = new Date(Calendar.getInstance().getTime().getTime());
+								
+								nuevoUsuario =  new Empleado(id, (new Generador().next()), nombre,
+										direccion, fechaDate, RangoEmpleado.TECNICO, 0.0f,
+										fechaActual, 
+										new ArrayList<Pedido>(), null);
+							}else
+							{
+								//Lo mismo que con Empleado, pero cambiado el tipo de Usuario
+								
+								Date fechaActual = new Date(Calendar.getInstance().getTime().getTime());
+								
+								nuevoUsuario =  new Empleado(id, (new Generador().next()), nombre,
+										direccion, fechaDate, RangoEmpleado.TECNICO, 0.0f,
+										fechaActual, 
+										new ArrayList<Pedido>(), null);
+								
+								nuevoUsuario.setTipo(TipoUsuario.CLIENTE_EMPLEADO);
+							}
+							
+							usuarioControl.crearUsuario(nuevoUsuario);
+
+						}
+
+					} catch (ParseException e) {
+						JOptionPane.showMessageDialog(PanelView.this, "¡Fecha de nacimiento incorrecta!"
+								+ " Ejemplo: 05-06-1995"
+								, "Error al crear un usuario", JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}
+			});
+			
+			crear.setPreferredSize(new Dimension(200, 30));
+			guardarPan.add(crear);
+			this.add(guardarPan);
+		}
+	}
+	
+	public final class Generador {
+	    private SecureRandom random = new SecureRandom();
+
+	    public String next() {
+	        return new BigInteger(130, random).toString(15);
+	    }
+	}
+	
 	private class InsertarDisco extends JPanel {
 
 		private static final long serialVersionUID = -4720947553669859763L;

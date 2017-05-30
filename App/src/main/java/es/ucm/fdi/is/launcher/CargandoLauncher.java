@@ -7,6 +7,12 @@ import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.view.TiendaView;
 import es.ucm.fdi.is.view.Utilidades;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
@@ -27,6 +33,9 @@ public class CargandoLauncher {
 			screen.setProgress("Cargando: " + i/5, i);
 		}
 		
+		java.sql.Date ourJavaDateObject = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		System.out.println(ourJavaDateObject);
+		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			public void run() {
@@ -34,7 +43,8 @@ public class CargandoLauncher {
 				TiendaView.getTiendaView();
 			}
 		});
-
+		
+		
 		splashScreenDestruct();
 	}
 

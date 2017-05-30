@@ -52,8 +52,18 @@ public class SAUsuarioImp implements SAUsuario {
 		this.notifyAll(new Notificacion(NotificacionMensaje.NUEVO_ID_PEDIDO, null, usuario));
 	}
 
-	public void darseAlta(Usuario usuario) {
-		//dao.crearUsuario(usuario, null, null);
+	public void darseAlta(Usuario usuario) throws TiendaDatabaseException{
+		
+		if(usuario.getTipo().toString().equalsIgnoreCase("Cliente"))
+		{
+			dao.crearUsuario(usuario, null, (Cliente) usuario);
+		}else if(usuario.getTipo().toString().equalsIgnoreCase("Empleado"))
+		{
+			dao.crearUsuario(usuario, (Empleado) usuario, null);
+		}else if(usuario.getTipo().toString().equalsIgnoreCase("Cliente_Empleado"))
+		{
+			dao.crearUsuario(usuario, (Empleado) usuario, (Cliente) usuario);
+		}
 	}
 
 	public void darseBaja(Usuario usuario) {
