@@ -5746,7 +5746,7 @@
     <packagedElement xmi:type="uml:SendOperationEvent" xmi:id="_MLfMIEFqEee_3caZHKrLOw" name="SendOperationEvent34" operation="_BZTN4DGxEeeOeu86Xaunkw"/>
     <packagedElement xmi:type="uml:ReceiveOperationEvent" xmi:id="_MLfzMEFqEee_3caZHKrLOw" name="ReceiveOperationEvent32" operation="_BZTN4DGxEeeOeu86Xaunkw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_HF9aoCDaEeer_5bbyBksIQ" name="Integración">
+  <packagedElement xmi:type="uml:Package" xmi:id="_HF9aoCDaEeer_5bbyBksIQ" name="Integración" clientDependency="_OaNcgESWEeefcbL4AlI4Mw _O3OIoESWEeefcbL4AlI4Mw _eps4AESYEeefcbL4AlI4Mw">
     <eAnnotations xmi:id="_HF-BsCDaEeer_5bbyBksIQ" source="uml2.diagrams">
       <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_RXjmQCDaEeer_5bbyBksIQ" type="Class" name="D. Clases - Integración">
         <children xmi:type="umlnotation:UMLShape" xmi:id="_MalOMDGqEeeOeu86Xaunkw" element="_TYsCEDGlEeeOeu86Xaunkw" fontName="Ubuntu" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
@@ -14781,6 +14781,15 @@
     <packagedElement xmi:type="uml:ReceiveOperationEvent" xmi:id="_uH8G0UJXEee_3caZHKrLOw" name="ReceiveOperationEvent39" operation="_rmCyYDGvEeeOeu86Xaunkw"/>
     <packagedElement xmi:type="uml:SendOperationEvent" xmi:id="_euaT4EJeEee_3caZHKrLOw" name="SendOperationEvent41" operation="_euZs0EJeEee_3caZHKrLOw"/>
     <packagedElement xmi:type="uml:ReceiveOperationEvent" xmi:id="_euaT4UJeEee_3caZHKrLOw" name="ReceiveOperationEvent40" operation="_euZs0EJeEee_3caZHKrLOw"/>
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_OaNcgESWEeefcbL4AlI4Mw" client="_HF9aoCDaEeer_5bbyBksIQ">
+      <supplier xmi:type="uml:Artifact" href="Modelo%20de%20Despliegue.emx#_IuBVwESWEeefcbL4AlI4Mw?Modelo%20de%20Despliegue/usuarios.sql?"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_O3OIoESWEeefcbL4AlI4Mw" client="_HF9aoCDaEeer_5bbyBksIQ">
+      <supplier xmi:type="uml:Artifact" href="Modelo%20de%20Despliegue.emx#_8zI4IESVEeefcbL4AlI4Mw?Modelo%20de%20Despliegue/compras.sql?"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_eps4AESYEeefcbL4AlI4Mw" client="_HF9aoCDaEeer_5bbyBksIQ">
+      <supplier xmi:type="uml:Artifact" href="Modelo%20de%20Despliegue.emx#_ZLimMESYEeefcbL4AlI4Mw?Modelo%20de%20Despliegue/SQLite%20driver%203.16.1?"/>
+    </packagedElement>
   </packagedElement>
   <profileApplication xmi:id="_8UUdBCDZEeer_5bbyBksIQ">
     <eAnnotations xmi:id="_8UUdBSDZEeer_5bbyBksIQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
