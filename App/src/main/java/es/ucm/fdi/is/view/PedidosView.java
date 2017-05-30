@@ -139,7 +139,7 @@ public class PedidosView extends JDialog implements TiendaObserver {
 		while (pedidoIt.hasNext()) {
 			Pedido ped = pedidoIt.next();
 			
-			if (ped.getFinalizado() == 1) {
+			if (ped.getFinalizado() == Pedido.FINALIZADO) {
 				contenedorPedidos.add(new PedidoInfo(ped));
 			}
 		}

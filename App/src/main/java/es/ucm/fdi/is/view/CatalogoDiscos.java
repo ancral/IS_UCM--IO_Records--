@@ -117,7 +117,11 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 				});
 
 				tamanyoCatalogo++;
-				catalogo.add(car);
+				
+				// Solamente mostramos los discos que esten EN STOCK
+				if (disco.getDescatalogado() != Disco.DESCATALOGADO) {
+					catalogo.add(car);
+				}
 			}
 		}
 	}

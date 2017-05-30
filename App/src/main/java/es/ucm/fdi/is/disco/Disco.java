@@ -5,6 +5,9 @@ import java.util.List;
 
 public class Disco {
 	
+	public static final int DESCATALOGADO = 1;
+	public static final int EN_STOCK = 0;
+	
 	private String titulo;
 	private String autor;
 	private Date fechaSalida;
@@ -19,6 +22,7 @@ public class Disco {
 	private int numVotaciones;
 	private Float valoracionesTotal = new Float(0);
 	private String caratula;
+	private int descatalogado;
 	
 	/* Constructora con oferta */
 	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
@@ -28,6 +32,14 @@ public class Disco {
 		this(titulo, autor, fechaSalida, sello, genero, duracion, valoracion, precioCompra, precioVenta, listaCanciones, caratula);
 		this.oferta = oferta;
 		this.numVotaciones = numVotaciones;
+	}
+	
+	public Disco(String titulo, String autor, Date fechaSalida, String sello, GeneroDisco genero, Integer duracion,
+			Float valoracion, Float precioCompra, Float precioVenta, List<Cancion> listaCanciones, OfertaDisco oferta, String caratula
+			, int numVotaciones, int descatalogado) {
+
+		this(titulo, autor, fechaSalida, sello, genero, duracion, valoracion, precioCompra, precioVenta, listaCanciones, oferta, caratula, numVotaciones);
+		this.descatalogado = descatalogado;
 	}
 	
 	
@@ -48,6 +60,7 @@ public class Disco {
 		this.numVotaciones = copia.getNumVotaciones();
 		this.valoracionesTotal = copia.getValoracionTotal();
 		this.caratula = copia.getCaratula();
+		this.descatalogado = copia.getDescatalogado();
 	}
 	
 	/* Constructora sin oferta */
@@ -68,6 +81,7 @@ public class Disco {
 		this.setListaCanciones(listaCanciones);
 		this.setOferta(null);
 		this.caratula = caratula;
+		this.descatalogado = EN_STOCK;
 
 	}
 	
@@ -86,6 +100,7 @@ public class Disco {
 		this.setPrecioVenta(antiguo.getPrecioVenta());
 		this.setListaCanciones(antiguo.getListaCanciones());
 		this.setOferta(oferta);
+		this.setDescatalogado(antiguo.getDescatalogado());
 
 	}
 
@@ -103,6 +118,7 @@ public class Disco {
 		this.setPrecioVenta(antiguo.getPrecioVenta());
 		this.setListaCanciones(antiguo.getListaCanciones());
 		this.setOferta(oferta);
+		this.setDescatalogado(antiguo.getDescatalogado());
 	}
 	
 	public Disco(String titulo)
@@ -217,6 +233,14 @@ public class Disco {
 	
 	public String getCaratula() {
 		return this.caratula;
+	}
+	
+	public int getDescatalogado() {
+		return this.descatalogado;
+	}
+	
+	public void setDescatalogado(int descatalogado) {
+		this.descatalogado = descatalogado;
 	}
 	
 

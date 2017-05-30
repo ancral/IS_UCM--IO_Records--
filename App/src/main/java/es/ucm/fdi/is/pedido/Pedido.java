@@ -8,6 +8,9 @@ import es.ucm.fdi.is.view.Utilidades;
 
 public class Pedido {
 	
+	public static final int FINALIZADO = 1;
+	public static final int NO_FINALIZADO = 0;
+	
 	private int identificador;
 	private List<Disco> discos;
 	private String idCliente;
