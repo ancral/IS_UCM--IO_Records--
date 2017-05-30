@@ -27,6 +27,11 @@ public class DiscoController {
 	private DiscoController() {}
 	
 	
+	/**
+	 * Crea un disco nuevo en el sistema de persistencia y lo añade al catálogo
+	 * 
+	 * @param dis Disco nuevo
+	 */
 	public void crearDisco(Disco dis) {
 		try {
 			disco.crearDisco(dis);
@@ -75,6 +80,19 @@ public class DiscoController {
 	public void eliminarDiscoPedido(Pedido ped, Disco disco, Usuario usuario) {
 		try {
 			pedido.eliminarDiscoPedido(ped, disco, usuario);
+		} catch (TiendaDatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Modifica a DESCATALOGADO el atributo de disponibilidad (descatalogado)
+	 * 
+	 * @param dis Disco que se va a descatalogar
+	 */
+	public void descatalogarDisco(Disco dis) {
+		try {
+			disco.descatalogarDisco(dis);
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}

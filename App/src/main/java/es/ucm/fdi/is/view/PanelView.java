@@ -363,6 +363,11 @@ public class PanelView extends JDialog implements TiendaObserver {
 					, "Añadido al catálogo", JOptionPane.INFORMATION_MESSAGE);
 
 			break;
+			
+		case DISCO_CREADO_EXISTE:
+			JOptionPane.showMessageDialog(PanelView.this, "¡Ese disco ya está en el catálogo!"
+					, "Error al crear disco", JOptionPane.ERROR_MESSAGE);
+			break;
 		default:
 			break;
 

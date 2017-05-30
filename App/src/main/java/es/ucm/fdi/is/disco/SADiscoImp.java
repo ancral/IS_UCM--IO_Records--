@@ -41,7 +41,7 @@ public class SADiscoImp implements SADisco {
 	}
 
 	public void descatalogarDisco(Disco disco) throws TiendaDatabaseException {
-		dao.borrarDisco(disco);
+		dao.descatalogarDisco(disco);
 		notifyAll(new Notificacion(NotificacionMensaje.DISCO_BORRADO));
 	}
 

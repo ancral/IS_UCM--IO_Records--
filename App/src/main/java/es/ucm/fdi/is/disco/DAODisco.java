@@ -13,4 +13,6 @@ public interface DAODisco {
 	public void borrarDisco(Disco disco) throws TiendaDatabaseException;
 	public List<Disco> leerPorGenero(GeneroDisco genero) throws TiendaDatabaseException;
 	public boolean existeDisco(Disco disco) throws TiendaDatabaseException;
+	public void descatalogarDisco(Disco disco) throws TiendaDatabaseException;
+	
 }

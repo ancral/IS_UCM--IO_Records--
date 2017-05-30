@@ -297,5 +297,19 @@ public class DAODiscoImp implements DAODisco {
 		
 		return existir;
 	}
+	
+	public void descatalogarDisco(Disco disco) throws TiendaDatabaseException {
+		try (PreparedStatement sql = TiendaDatabase.getConexion()
+				.prepareStatement("UPDATE Disco SET Descatalogado = 1 "
+						+ "WHERE Titulo = ?");) {
+			
+			sql.setString(1, disco.getTitulo());
+			
+			sql.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new TiendaDatabaseException(e.getMessage());
+		}
+	}
 
 }

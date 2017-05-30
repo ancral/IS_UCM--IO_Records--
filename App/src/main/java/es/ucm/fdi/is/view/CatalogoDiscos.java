@@ -136,6 +136,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 			
 		case DISCO_ACTUALIZADO:
 		case DISCO_CREADO:
+		case DISCO_BORRADO:
 			TiendaController.getTiendaController().leerTodoCatalogo();
 			break;
 

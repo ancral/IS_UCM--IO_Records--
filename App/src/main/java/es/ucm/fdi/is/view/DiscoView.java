@@ -127,13 +127,27 @@ public class DiscoView extends JFrame implements TiendaObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
 				if (DiscoView.this.tiendaView.usuarioSesion == null) {
 					LoginView.getLoginView().setVisible(true);
 				}
+				
 				else if (DiscoView.this.tiendaView.usuarioSesion.isEmpleado()){
-					// TODO: Implementar descatalogar disco
+					String message = "¿Está seguro de que quiere descatalogar el disco?";
+					String title = "Descatalogar disco";
+					
+					/* ¿Seguro que quieres descatalogar? */
+					int delete = 
+							JOptionPane.showConfirmDialog(
+									null, message, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					
+					if (delete == JOptionPane.OK_OPTION) {
+						discoController.descatalogarDisco(DiscoView.this.disco);
+					}
+					
 				}
 				else {
+					// El usuario no tiene privilegios suficientes
 					mostrarMensajeError();
 				}
 			}
@@ -246,6 +260,11 @@ public class DiscoView extends JFrame implements TiendaObserver {
 			});
 			*/
 			
+			break;
+			
+		case DISCO_BORRADO:
+			this.setVisible(false);
+			this.tiendaView.setVisible(true);
 			break;
 			
 			default:
