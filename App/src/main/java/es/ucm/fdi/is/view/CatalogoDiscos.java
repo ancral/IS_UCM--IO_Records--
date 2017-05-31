@@ -47,7 +47,7 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 
 		catalogo.setBackground(new Color(190, 190, 242));
 		this.setViewportView(catalogo);
-		this.setPreferredSize(new Dimension(700, 440));
+		this.setPreferredSize(new Dimension(705, 440));
 		this.getVerticalScrollBar().setUnitIncrement(16); // aumenta la velocidad de barra de scroll
 
 		control.leerTodoCatalogo();
@@ -74,8 +74,8 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 	{
 
 		//Calculamos el ajuste del layout y a su vez el reajuste del tamaño de las caratulas
-		int columnas = (arrayList.size() < 3) ? 2 : (arrayList.size()%3==0) ? (arrayList.size() / 3) 
-				: (arrayList.size() / 3)+1;
+		int columnas = 3; /*(arrayList.size() < 3) ? 2 : (arrayList.size()%3==0) ? (arrayList.size() / 3) 
+				: (arrayList.size() / 3)+2;*/
 
 		int filas = (columnas < 3) ? 1 :(arrayList.size()%3==0) ? (arrayList.size() / columnas) 
 				: (arrayList.size() / columnas)+1;
@@ -84,7 +84,8 @@ public class CatalogoDiscos extends JScrollPane implements TiendaObserver {
 		catalogo.setLayout(catalogoLayout);
 
 		Iterator<?> discosIt = arrayList.iterator();
-
+		
+		
 		//Tenemos que poner (&& discosIt.hasNext()), para que ponga la fila restante que faltase
 		for (int i = 0; i < filas && discosIt.hasNext(); i++) {
 			for (int j = 0; j < columnas && discosIt.hasNext(); j++) {

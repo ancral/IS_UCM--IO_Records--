@@ -21,6 +21,7 @@ public class Caratula extends JLabel {
 		// Si el catálogo tiene menos de 3 filas el borde rompe la estética
 		if (filas >= 3)
 			this.setBorder(BorderFactory.createMatteBorder(2, 2, 4, 2, Color.GRAY));
+		
 	}
 	
 	public Disco getDisco() {
