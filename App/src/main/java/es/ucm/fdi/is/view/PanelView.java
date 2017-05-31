@@ -248,12 +248,14 @@ public class PanelView extends JDialog implements TiendaObserver {
 							
 							///-------------------------------------------
 							
+							String clave = new Generador().next();
+							
 							
 							if(tipo.toString().equalsIgnoreCase("Cliente"))
 							{
 								//Un nuevo cliente tendra como TipoCliente: nuevo
 								
-								nuevoUsuario =  new Cliente(id, (new Generador().next()), nombre,
+								nuevoUsuario =  new Cliente(id, clave, nombre,
 										direccion, fechaDate, TipoCliente.NUEVO, new ArrayList<Pedido>(), null);
 								
 							}else if (tipo.toString().equalsIgnoreCase("Empleado"))
@@ -266,7 +268,7 @@ public class PanelView extends JDialog implements TiendaObserver {
 								
 								Date fechaActual = new Date(Calendar.getInstance().getTime().getTime());
 								
-								nuevoUsuario =  new Empleado(id, (new Generador().next()), nombre,
+								nuevoUsuario =  new Empleado(id, clave, nombre,
 										direccion, fechaDate, RangoEmpleado.TECNICO, 0.0f,
 										fechaActual, 
 										new ArrayList<Pedido>(), null);
@@ -276,7 +278,7 @@ public class PanelView extends JDialog implements TiendaObserver {
 								
 								Date fechaActual = new Date(Calendar.getInstance().getTime().getTime());
 								
-								nuevoUsuario =  new Empleado(id, (new Generador().next()), nombre,
+								nuevoUsuario =  new Empleado(id, clave, nombre,
 										direccion, fechaDate, RangoEmpleado.TECNICO, 0.0f,
 										fechaActual, 
 										new ArrayList<Pedido>(), null);
@@ -286,11 +288,15 @@ public class PanelView extends JDialog implements TiendaObserver {
 							
 							usuarioControl.crearUsuario(nuevoUsuario);
 
+							JOptionPane.showMessageDialog(PanelView.this, "Contraseña aleatoriamente generada para " + nombre
+									+ ": " + clave
+									, "Nuevo usuario creado", JOptionPane.INFORMATION_MESSAGE);
 						}
+						
 
 					} catch (ParseException e) {
 						JOptionPane.showMessageDialog(PanelView.this, "¡Fecha de nacimiento incorrecta!"
-								+ " Ejemplo: 05-06-1995"
+								+ " Ejemplo: 1995-03-25"
 								, "Error al crear un usuario", JOptionPane.ERROR_MESSAGE);
 					}
 					
