@@ -2,11 +2,7 @@ package es.ucm.fdi.is.view;
 
 import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
-import es.ucm.fdi.is.disco.Disco;
-import es.ucm.fdi.is.disco.SADisco;
 import es.ucm.fdi.is.mvc.TiendaObserver;
-import es.ucm.fdi.is.pedido.Pedido;
-import es.ucm.fdi.is.pedido.SAPedido;
 import es.ucm.fdi.is.usuario.SAUsuario;
 import es.ucm.fdi.is.usuario.Usuario;
 

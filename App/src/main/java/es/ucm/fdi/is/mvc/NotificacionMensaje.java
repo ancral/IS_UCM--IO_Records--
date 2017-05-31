@@ -21,7 +21,8 @@ public enum NotificacionMensaje {
 	CARRITO_FINALIZADO,
 	NUEVO_ID_PEDIDO,
 	PEDIDO_ELIMINADO,
-	NUEVA_VENTA;
+	NUEVA_VENTA,
+	NUEVO_PRECIO_DISCO;
 	
 	private String mensaje;
 	

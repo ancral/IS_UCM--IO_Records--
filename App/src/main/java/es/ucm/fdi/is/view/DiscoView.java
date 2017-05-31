@@ -16,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import es.ucm.fdi.is.disco.Cancion;
 import es.ucm.fdi.is.disco.Disco;
 import es.ucm.fdi.is.disco.GeneroDisco;
+import es.ucm.fdi.is.disco.OfertaDisco;
 import es.ucm.fdi.is.disco.Valoracion;
 import es.ucm.fdi.is.mvc.Notificacion;
 import es.ucm.fdi.is.mvc.TiendaObserver;
@@ -170,9 +171,17 @@ public class DiscoView extends JFrame implements TiendaObserver {
 				else if (DiscoView.this.tiendaView.usuarioSesion.isEmpleado()){
 					String ofertaIn = 
 							JOptionPane.showInputDialog(DiscoView.this, 
-									"Introduce la oferta para este disco", "Añadir oferta a disco",
+									"Introduce el porcentaje de descuento para este disco", "Añadir oferta a disco",
 									JOptionPane.QUESTION_MESSAGE);
-					System.out.println(ofertaIn); // TODO: test
+						
+					try {
+						OfertaDisco oferta = new OfertaDisco(Integer.parseInt(ofertaIn));
+						discoController.aplicarOferta(disco, oferta);
+						disco.setPrecioVenta(oferta.precioNuevo(disco));
+					} catch (NumberFormatException ex) {
+						JOptionPane.showMessageDialog(DiscoView.this, "¡Porcentaje de descuento incorrecto! Ejemplo: 20.5"
+								, "Error al aplicar oferta", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				else {
 					mostrarMensajeError();
@@ -229,10 +238,12 @@ public class DiscoView extends JFrame implements TiendaObserver {
 	public void handleEvent(Notificacion notificacion) {
 		switch (notificacion.getNotificacion()) {
 		case DISCO_ACTUALIZADO:
+		case NUEVO_PRECIO_DISCO:
 			DiscoView.this.nombreDisco.setText(disco.getTitulo());
 			DiscoView.this.autorDisco.setText(disco.getAutor());
 			DiscoView.this.generoDisco.setText(disco.getGenero().toString());
 			DiscoView.this.selloDisco.setText(disco.getSello());
+			DiscoView.this.precioDisco.setText(Float.toString(disco.getPrecioVenta()));
 			// DiscoView.this.fechaDisco.setText(disco.getFechaSalida());
 			break;
 			

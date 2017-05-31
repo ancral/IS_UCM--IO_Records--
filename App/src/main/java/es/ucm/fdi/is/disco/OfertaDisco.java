@@ -3,37 +3,33 @@ package es.ucm.fdi.is.disco;
 public class OfertaDisco {
 	
 	private String descripcion;
-	private int porcentajeDescuento;
+	private float porcentajeDescuento;
 	
-	public OfertaDisco(String descripcion, int porcentajeDescuento) {
+	public OfertaDisco(String descripcion, float porcentajeDescuento) {
 		this.descripcion = descripcion;
 		this.porcentajeDescuento = porcentajeDescuento;
 	}
 	
-	public OfertaDisco(int porcentajeDescuento) {
+	public OfertaDisco(float porcentajeDescuento) {
 		this.porcentajeDescuento = porcentajeDescuento;
 		this.descripcion = null;
 	}
 	
 	public Float precioNuevo(Disco disco) {
-		return disco.getPrecioVenta() * (1 - this.porcentajeDescuento);
+		return disco.getPrecioVenta() * (1 - this.porcentajeDescuento / 100);
 	}
 	
 	public String getDescripcion() {
 		return this.descripcion;
 	}
 	
-	public int getPorcentaje()
+	public float getPorcentaje()
 	{
 		return this.porcentajeDescuento;
 	}
 	
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	
-	public void setDescuento(int descuento) {
-		this.porcentajeDescuento = descuento;
 	}
 	
 }

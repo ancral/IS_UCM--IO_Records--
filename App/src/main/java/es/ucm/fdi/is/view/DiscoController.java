@@ -3,6 +3,7 @@ package es.ucm.fdi.is.view;
 import es.ucm.fdi.is.appservice.FactoriaSA;
 import es.ucm.fdi.is.dao.TiendaDatabaseException;
 import es.ucm.fdi.is.disco.Disco;
+import es.ucm.fdi.is.disco.OfertaDisco;
 import es.ucm.fdi.is.disco.SADisco;
 import es.ucm.fdi.is.mvc.TiendaObserver;
 import es.ucm.fdi.is.pedido.Pedido;
@@ -93,6 +94,14 @@ public class DiscoController {
 	public void descatalogarDisco(Disco dis) {
 		try {
 			disco.descatalogarDisco(dis);
+		} catch (TiendaDatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void aplicarOferta(Disco dis, OfertaDisco oferta) {
+		try {
+			disco.crearOferta(dis, oferta);
 		} catch (TiendaDatabaseException e) {
 			System.out.println(e.getMessage());
 		}

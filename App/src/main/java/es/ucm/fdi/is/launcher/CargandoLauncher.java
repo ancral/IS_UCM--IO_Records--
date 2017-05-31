@@ -8,10 +8,6 @@ import es.ucm.fdi.is.view.TiendaView;
 import es.ucm.fdi.is.view.Utilidades;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;

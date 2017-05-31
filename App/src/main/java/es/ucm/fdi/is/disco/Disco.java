@@ -3,6 +3,8 @@ package es.ucm.fdi.is.disco;
 import java.sql.Date;
 import java.util.List;
 
+import es.ucm.fdi.is.view.Utilidades;
+
 public class Disco {
 	
 	public static final int DESCATALOGADO = 1;
@@ -97,7 +99,7 @@ public class Disco {
 		this.setGenero(antiguo.getGenero());
 		this.setDuracion(antiguo.getDuracion());
 		this.setPrecioCompra(antiguo.getPrecioCompra());
-		this.setPrecioVenta(antiguo.getPrecioVenta());
+		this.setPrecioVenta(oferta.precioNuevo(antiguo));
 		this.setListaCanciones(antiguo.getListaCanciones());
 		this.setOferta(oferta);
 		this.setDescatalogado(antiguo.getDescatalogado());
@@ -208,7 +210,7 @@ public class Disco {
 	}
 
 	public Float getPrecioVenta() {
-		return precioVenta;
+		return Utilidades.round(precioVenta, 2);
 	}
 
 	public void setPrecioVenta(Float precioVenta) {

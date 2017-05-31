@@ -60,9 +60,10 @@ public class SADiscoImp implements SADisco {
 	}
 
 	public void crearOferta(Disco disco, OfertaDisco oferta) throws TiendaDatabaseException {
-		Disco discoOferta = new Disco(disco,oferta);
+		Disco discoOferta = new Disco(disco, oferta);
 		
 		dao.actualizarDisco(disco, discoOferta);
+		notifyAll(new Notificacion(NotificacionMensaje.NUEVO_PRECIO_DISCO, null));
 	}
 	
 	public void buscarDisco(String titulo) throws TiendaDatabaseException {

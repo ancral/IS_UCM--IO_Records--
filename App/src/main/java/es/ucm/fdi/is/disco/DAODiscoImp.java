@@ -40,7 +40,7 @@ public class DAODiscoImp implements DAODisco {
 			sql.setString(7, disco.getValoracion().toString());
 			sql.setFloat(8, disco.getPrecioCompra());
 			sql.setFloat(9, disco.getPrecioVenta());
-			sql.setInt(10, disco.getOferta().getPorcentaje());
+			sql.setFloat(10, disco.getOferta().getPorcentaje());
 			sql.setString(11, disco.getCaratula());
 			sql.setInt(12, disco.getNumVotaciones());
 			sql.setInt(13, disco.getDescatalogado());
@@ -97,7 +97,7 @@ public class DAODiscoImp implements DAODisco {
 
 				disco = new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
-						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)), res.getString(11),
+						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getFloat(10)), res.getString(11),
 						res.getInt(12), res.getInt(13));
 			}
 			res.close();
@@ -146,7 +146,7 @@ public class DAODiscoImp implements DAODisco {
 
 				discos.add(new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
-						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)), res.getString(11),
+						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getFloat(10)), res.getString(11),
 						res.getInt(12), res.getInt(13)));
 			}
 			res.close();
@@ -184,7 +184,7 @@ public class DAODiscoImp implements DAODisco {
 			actualizar.setFloat(7, nuevo.getValoracion());
 			actualizar.setFloat(8, nuevo.getPrecioCompra());
 			actualizar.setFloat(9, nuevo.getPrecioVenta());
-			actualizar.setInt(10, nuevo.getOferta().getPorcentaje());
+			actualizar.setFloat(10, nuevo.getOferta().getPorcentaje());
 			actualizar.setString(11, antiguo.getCaratula());
 			actualizar.setInt(12, nuevo.getNumVotaciones());
 			actualizar.setInt(13, nuevo.getDescatalogado());
@@ -261,7 +261,7 @@ public class DAODiscoImp implements DAODisco {
 
 				discos.add(new Disco(res.getString(1), res.getString(2), res.getDate(3), res.getString(4), genero,
 						Integer.valueOf(res.getInt(6)), valoracion, Float.valueOf(res.getFloat(8)),
-						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getInt(10)), res.getString(11),
+						Float.valueOf(res.getFloat(9)), canciones, new OfertaDisco(res.getFloat(10)), res.getString(11),
 						res.getInt(12), res.getInt(13)));
 
 			}
